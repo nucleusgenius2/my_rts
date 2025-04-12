@@ -4,7 +4,7 @@ local unitDef  =  {
 --Внутренние настройки
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
-    ObjectName = "HunterT.s3o",
+    ObjectName = "23.s3o",
     name = "Охотник 2",
     Side = "Vroomers",
     TEDClass = "Vech",
@@ -65,7 +65,6 @@ local unitDef  =  {
 
 
     --Оружие и связанное с ним
-
     NoChaseCategory = "AIR",
 	
     weapons = {
