@@ -1,0 +1,1 @@
+This folder just organizes non-effect based stuff, just only used for organizaton for a widget to work.
