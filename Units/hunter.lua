@@ -41,7 +41,7 @@ local unitDef  =  {
     MaxSlope = 45,
     MaxVelocity = 3.2,
     MaxWaterDepth = 5,
-    MovementClass = "Small Vechicle",
+    MovementClass = "custom",
     TurnRate = 2250,
 
     
@@ -59,8 +59,8 @@ local unitDef  =  {
     
 
     --Hitbox
-    collisionVolumeOffsets    =  "0 -3 0",
-    collisionVolumeScales     =  "15.5 18 36",
+    collisionVolumeOffsets    =  "0 -5 0",
+    collisionVolumeScales     =  "15.5 10 40",
     collisionVolumeType       =  "box",
 
 

@@ -1,10 +1,10 @@
--- Body and gun
+-- тело и оружие
 local Base = piece "Base"
 local Body = piece "Body"
 local Turret = piece "Turret"
 local TurretMGun = piece "TurretMGun"
 local Flare = piece "Flare"
--- Wheels
+-- Колеса
 local Wheel1 = piece "Wheel1"
 local Wheel2 = piece "Wheel2"
 local Wheel3 = piece "Wheel3"

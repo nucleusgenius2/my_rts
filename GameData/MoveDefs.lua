@@ -8,6 +8,13 @@ local moveDefs 	=	 {
 		maxSlope =	40,
 	},
 	{
+    	name =	"custom",
+    	footprintX =	2,
+    	footprintZ =	3.5,
+    	maxWaterDepth =	20,
+    	maxSlope =	40,
+    },
+	{
 		name =	"Large Vechicle",
 		footprintX =	3,
 		footprintZ =	3,
