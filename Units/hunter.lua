@@ -1,19 +1,19 @@
 local unitName  =  "hunter"
 
 local unitDef  =  {
---Internal settings
-BuildPic = "Hunter.png",
+--Внутренние настройки
+    BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
     ObjectName = "HunterT.s3o",
-    name = "Hunter",
+    name = "Охотник 2",
     Side = "Vroomers",
     TEDClass = "Vech",
-    UnitName = "Hunter",
+    UnitName = "Охотник",
     script = "hunterscript.lua",
 	icontype = "raider",
---Unit limitations and properties
+--Ограничения и свойства блока
     BuildTime = 1280,
-    Description = "Fast raider unit.",
+    Description = "Быстрый юнит рейдер.",
     MaxDamage = 320,
     idleTime = 300,
     idleAutoHeal = 5,
@@ -29,11 +29,11 @@ BuildPic = "Hunter.png",
 	},
    },
    corpse = [[hunter_dead]],
---Energy and metal related
+--Энергетика и металлы
     BuildCostEnergy = 75,
     BuildCostMetal = 75,
     BuildTime = 75,
---Pathfinding and related
+--Поиск пути и связанные с ним
     maxAcc = 0.35,
     BrakeRate = 0.1,
     FootprintX = 2,
@@ -45,7 +45,7 @@ BuildPic = "Hunter.png",
     TurnRate = 2250,
 
     
---Abilities
+--Способности
     Builder = 0,
     CanAttack = 1,
     CanGuard = 1,
@@ -58,23 +58,21 @@ BuildPic = "Hunter.png",
     repairable = 1,
     
 
---Hitbox
-collisionVolumeOffsets    =  "0 -3 0",
-collisionVolumeScales     =  "15.5 18 36",
-collisionVolumeType       =  "box",
+    --Hitbox
+    collisionVolumeOffsets    =  "0 -3 0",
+    collisionVolumeScales     =  "15.5 18 36",
+    collisionVolumeType       =  "box",
 
-   
---Weapons and related
-   
+
+    --Оружие и связанное с ним
+
     NoChaseCategory = "AIR",
 	
-weapons = {
-[1]={name  = "MachineGun",
-       turret = true
-	},
-},
-
-
+    weapons = {
+        [1]={name = "MachineGun",
+               turret = true
+        },
+    },
 }
 
 return lowerkeys({ [unitName]  =  unitDef })
