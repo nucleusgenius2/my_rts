@@ -16,12 +16,10 @@ end
 Spring.Utilities = Spring.Utilities or {}
 Spring.Utilities.json = VFS.Include("LuaRules/Utilities/json.lua", nil)
 
--- Здесь инициализируем i18n (обязательно)
 local i18n = VFS.Include("LuaUI/i18nlib/i18n/init.lua", nil)
-
 if not i18n then
-    Spring.Echo("Ошибка: Не удалось загрузить модуль i18n.")
-    return
+  Spring.Echo("Ошибка: Не удалось загрузить модуль i18n.")
+  return
 end
 
 Spring.Echo("i18n модуль загружен успешно.")
@@ -29,17 +27,10 @@ Spring.Echo("i18n модуль загружен успешно.")
 local langValue = "en"
 local langListeners = {}
 
-local translationExtras = {
-  -- units = {"campaign_units", "pw_units"},
-  --interface = {"common", "healthbars", "resbars"},
-}
+local translationExtras = {}
 
--- префиксы файлов в которых ищем перевод
 local translations = {
-  -- units = true,
-  -- epicmenu = true,
   interface = true,
-  -- missions = true,
 }
 
 local function addListener(l, widgetName)
@@ -54,7 +45,7 @@ local function addListener(l, widgetName)
 end
 
 local function loadLocale(i18n, database, locale)
-  local path = "Luaui/Configs/lang/" .. database .. "." .. locale .. ".json"
+  local path = "LuaUi/configs/lang/" .. database .. "." .. locale .. ".json"
   if VFS.FileExists(path, VFS.RAW_FIRST) then
     local json = Spring.Utilities.json
     local lang = json.decode(VFS.LoadFile(path, VFS.RAW_FIRST))
@@ -63,14 +54,14 @@ local function loadLocale(i18n, database, locale)
     i18n.load(t)
     return true
   else
-     Spring.Echo("Не удалось найти файл перевода: " .. path)
+    Spring.Echo("Не удалось найти файл перевода: " .. tostring(path))
   end
   return false
 end
 
 local function fireLangChange()
   for db, trans in pairs(translations) do
-    if not trans.locales[langValue] then
+    if type(trans) == "table" and not trans.locales[langValue] then
       local extras = translationExtras[db]
       if extras then
         for i = 1, #extras do
@@ -80,7 +71,9 @@ local function fireLangChange()
       loadLocale(trans.i18n, db, langValue)
       trans.locales[langValue] = true
     end
-    trans.i18n.setLocale(langValue)
+    if type(trans) == "table" then
+      trans.i18n.setLocale(langValue)
+    end
   end
 
   for w, f in pairs(langListeners) do
@@ -102,11 +95,13 @@ local function lang(newLang)
 end
 
 local function initializeTranslation(database)
+  Spring.Echo("Инициализация базы: " .. tostring(database))
+
   local trans = {
-    i18n = i18n,  -- используем уже загруженный модуль i18n
-    locales = {en = true},
+    i18n = i18n,
+    locales = { en = true },
   }
-   Spring.Echo("Инициализация базы: " .. database)
+
   loadLocale(trans.i18n, database, "en")
 
   local extras = translationExtras[database]
@@ -124,20 +119,17 @@ local function shutdownTranslation(widget_name)
 end
 
 local function Translate(dbKey, text, data, opts)
-  -- Разделяем строку на базу и ключ
-   Spring.Echo("Ключ который передается ",dbKey)
-  local baseName, key = string.match(dbKey, "([%w_]+)%.(.+)")
+  Spring.Echo("Ключ который передается ", dbKey)
 
-  -- Проверка на успешное разделение строки
+  local baseName, key = string.match(dbKey, "([%w_]+)%.(.+)")
   if not baseName or not key then
     Spring.Echo("Ошибка: Невозможно разобрать ключ перевода: " .. tostring(dbKey))
-    return text  -- Возвращаем исходный текст, если не удалось разобрать ключ
+    return text
   end
 
-  -- Проверяем, есть ли такая база и ключ
-  if translations[baseName] and translations[baseName].i18n then
-    -- Если есть база и ключ, пытаемся получить перевод
-    local translatedText = translations[baseName].i18n(key, data, opts)
+  local db = translations[baseName]
+  if db and db.i18n then
+    local translatedText = db.i18n(key, data, opts)
     if translatedText then
       return translatedText
     else
@@ -147,16 +139,23 @@ local function Translate(dbKey, text, data, opts)
     Spring.Echo("Ошибка: Не найдено данных для базы: " .. baseName)
   end
 
-  -- Если ничего не нашли, возвращаем исходный текст
   return text
 end
 
-
-WG.lang = lang  -- функция для смены языка
-WG.InitializeTranslation = initializeTranslation  -- функция для инициализации перевода
-WG.ShutdownTranslation = shutdownTranslation  -- функция для завершения работы с переводами
-WG.Translate = Translate  -- функция для перевода текста
-
-for db in pairs(translations) do
-  translations[db] = initializeTranslation(db)
+-- Инициализация всех баз — избегаем мутации таблицы во время итерации
+do
+  local keys = {}
+  for db, _ in pairs(translations) do
+    table.insert(keys, db)
+  end
+  for _, db in ipairs(keys) do
+    translations[db] = initializeTranslation(db)
+  end
 end
+
+WG.lang = lang
+WG.InitializeTranslation = function(cb, widgetName)
+  addListener(cb, widgetName)
+end
+WG.ShutdownTranslation = shutdownTranslation
+WG.Translate = Translate
