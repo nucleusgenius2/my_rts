@@ -12,11 +12,11 @@ end
 
 local Chili
 local screen0
-local window, quitButton,pauseButton
+local window, quitButton, pauseButton
 local isOpen = false
+local tr  -- Функция для перевода
 
-
---получаем размер окна
+-- Получаем размер окна
 local vsx, vsy = Spring.GetViewGeometry()
 local x = vsx / 2 - 150
 local y = vsy / 2 - 150
@@ -29,11 +29,15 @@ function widget:Initialize()
     return
   end
 
+  -- Инициализируем перевод
+  tr = WG.Translate  -- Используем функцию перевода
+
   screen0 = Chili.Screen0
 
+  -- Создаем окно
   window = Chili.Window:New{
     parent      = screen0,
-    caption     = "Пауза",
+    caption     = tr("pause"),  -- Переводим заголовок
     width       = 300,
     height      = 150,
     x           = x,
@@ -42,46 +46,42 @@ function widget:Initialize()
     resizable   = false,
     visible     = false,
     modal       = true,
-    align="center";
+    align       = "center",
   }
 
-  window:SetVisibility(false) -- закрываем окно по умолчанию
+  window:SetVisibility(false)  -- Закрываем окно по умолчанию
 
+  -- Кнопка выхода
   quitButton = Chili.Button:New{
     parent    = window,
-    caption   = "Выйти из игры",
+    caption   = tr("exit_game"),  -- Переводим текст кнопки
     x         = 40,
     y         = 60,
     width     = 200,
     height    = 40,
     OnClick   = { function()
-      Spring.Echo("лог")
       Spring.SendCommands("quitforce")
-      end
-    },
+    end }
   }
 
+  -- Кнопка паузы
   pauseButton = Chili.Button:New{
     parent    = window,
-    caption   = "Пауза",
+    caption   = tr("pause"),  -- Переводим текст кнопки
     x         = 40,
     y         = 20,
     width     = 200,
     height    = 40,
     OnClick   = { function()
       Spring.SendCommands("pause")
-      Spring.Echo("Пауза переключена")
-    end },
+    end }
   }
-
 end
 
 function widget:KeyPress(key, mods, isRepeat)
-  if key == 27 then -- Esc кнопка
+  if key == 27 then  -- Esc
     isOpen = not isOpen
-    
     if window then
-      Spring.Echo("лог 2")
       window:SetVisibility(isOpen)
     end
     return true

@@ -87,12 +87,12 @@ local function recursiveLoad(currentContext, data)
 local composedKey
 for k,v in pairs(data) do
     composedKey = (currentContext and (currentContext .. '.') or "") .. tostring(k)
-assertPresent('load', composedKey, k)
-assertPresentOrTable('load', composedKey, v)
-if type(v) == 'string' then
-i18n.set(composedKey, v)
-else
-recursiveLoad(composedKey, v)
+    assertPresent('load', composedKey, k)
+    assertPresentOrTable('load', composedKey, v)
+    if type(v) == 'string' then
+    i18n.set(composedKey, v)
+    else
+    recursiveLoad(composedKey, v)
 end
 end
 end
