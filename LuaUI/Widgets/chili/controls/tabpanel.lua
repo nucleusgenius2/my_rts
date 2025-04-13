@@ -3,7 +3,7 @@
 --- TabPanel module
 
 --- TabPanel fields.
--- Inherits from LayoutPanel.
+-- стили табов
 -- @see layoutpanel.LayoutPanel
 -- @table TabPanel
 -- @tparam {tab1,tab2,...} tabs contained in the tab panel, each tab has a .name (string) and a .children field (table of Controls)(default {})
@@ -35,6 +35,7 @@ function TabPanel:New(obj)
 			y = 0,
 			right = 0,
 			height = obj.barHeight,
+			width = 250,
 		}
 	)
   
@@ -49,12 +50,15 @@ function TabPanel:New(obj)
 	obj.tabIndexMapping = {}
 	for i=1, #obj.tabs do
 		local tabName = obj.tabs[i].name	
-		local tabFrame = Control:New {
-			padding = {0, 0, 0, 0},
+		local tabFrame = Panel:New {
 			x = 0,
 			y = 0,
 			right = 0,
 			bottom = 0,
+			padding = {0, 0, 0, 0},
+			backgroundColor = {0.2, 0.2, 0.2, 0.8}, -- фон
+			borderColor     = {1, 1, 1, 1},         -- обводка
+			borderWidth     = 1,
 			children = obj.tabs[i].children
 		}
 		obj.tabIndexMapping[tabName] = tabFrame
@@ -73,14 +77,22 @@ function TabPanel:AddTab(tab, neverSwitchTab)
     local tabbar = self.children[1]
 	local switchToTab = (#tabbar.children == 0) and not neverSwitchTab
     tabbar:AddChild(
-        TabBarItem:New{name = tab.name, caption = tab.caption or tab.name, defaultWidth = tabbar.minItemWidth, defaultHeight = tabbar.minItemHeight} --FIXME: implement an "Add Tab in TabBar too"
+        --TabBarItem:New{name = tab.name, caption = tab.caption or tab.name, defaultWidth = tabbar.minItemWidth, defaultHeight = tabbar.minItemHeight} --FIXME: implement an "Add Tab in TabBar too"
+        TabBarItem:New{
+            name = tab.name,
+            caption = tab.caption or tab.name,
+            defaultHeight = tabbar.minItemHeight
+        }
     )
-    local tabFrame = Control:New {
+	local tabFrame = Panel:New {
         padding = {0, 0, 0, 0},
         x = 0,
         y = 0,
         right = 0,
         bottom = 0,
+		backgroundColor = {0.2, 0.2, 0.2, 0.8}, -- фон
+		borderColor     = {1, 1, 1, 1},         -- обводка
+		borderWidth     = 1,
         children = tab.children
     }
     self.tabIndexMapping[tab.name] = tabFrame

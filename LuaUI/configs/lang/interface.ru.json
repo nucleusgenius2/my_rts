@@ -2,6 +2,8 @@
   "pause": "Пауза",
   "exit_game": "Выйти из игры",
   "menu": "Меню",
-  "change_language" : "ru"
+  "change_language" : "ru",
+  "settings" : "Настройки",
+  "interface_tab" : "Интерфейс"
 }
 

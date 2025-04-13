@@ -2,5 +2,7 @@
   "pause": "Pause",
   "exit_game": "Game exit",
   "menu": "Menu",
-  "change_language" : "en"
+  "change_language" : "en",
+  "settings" : "Settings",
+  "interface_tab" : "Interface 1"
 }
