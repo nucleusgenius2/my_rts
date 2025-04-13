@@ -12,9 +12,9 @@ end
 
 local Chili
 local screen0
-local window, quitButton, pauseButton
+local window, quitButton, pauseButton, languageButton
 local isOpen = false
-local tr  -- Функция для перевода
+local currentLang = "en"  -- Начальный язык
 
 -- Получаем размер окна
 local vsx, vsy = Spring.GetViewGeometry()
@@ -37,7 +37,7 @@ function widget:Initialize()
   -- Создаем окно
   window = Chili.Window:New{
     parent      = screen0,
-    caption     = tr("pause"),  -- Переводим заголовок
+    caption     = tr("interface.menu"),  -- Переводим заголовок
     width       = 300,
     height      = 150,
     x           = x,
@@ -54,7 +54,7 @@ function widget:Initialize()
   -- Кнопка выхода
   quitButton = Chili.Button:New{
     parent    = window,
-    caption   = tr("exit_game"),  -- Переводим текст кнопки
+    caption   = tr("interface.exit_game"),  -- Переводим текст кнопки
     x         = 40,
     y         = 60,
     width     = 200,
@@ -67,7 +67,7 @@ function widget:Initialize()
   -- Кнопка паузы
   pauseButton = Chili.Button:New{
     parent    = window,
-    caption   = tr("pause"),  -- Переводим текст кнопки
+    caption   = tr("interface.pause"),  -- Переводим текст кнопки
     x         = 40,
     y         = 20,
     width     = 200,
@@ -76,8 +76,25 @@ function widget:Initialize()
       Spring.SendCommands("pause")
     end }
   }
+
+  -- Кнопка смены языка
+  languageButton = Chili.Button:New{
+    parent    = window,
+    caption   = tr("interface.change_language"),  -- Переводим текст кнопки
+    x         = 40,
+    y         = 100,  -- Размещаем кнопку под другими кнопками
+    width     = 200,
+    height    = 40,
+    OnClick   = { function()
+      -- Сменить язык
+      currentLang = (currentLang == "en") and "ru" or "en"  -- Переключение между английским и русским
+      WG.lang(currentLang)  -- Изменяем язык
+      -- Мы не вызываем updateTexts, потому что перевод обновится автоматически
+    end }
+  }
 end
 
+-- Обработка нажатия клавиш
 function widget:KeyPress(key, mods, isRepeat)
   if key == 27 then  -- Esc
     isOpen = not isOpen

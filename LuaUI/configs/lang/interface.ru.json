@@ -1,4 +1,6 @@
 {
   "pause": "Pause",
-  "exit_game": "game exit"
+  "exit_game": "Game exit",
+  "menu": "Menu",
+  "change_language" : "en"
 }

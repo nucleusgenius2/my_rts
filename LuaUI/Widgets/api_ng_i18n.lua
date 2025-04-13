@@ -62,8 +62,9 @@ local function loadLocale(i18n, database, locale)
     t[locale] = lang
     i18n.load(t)
     return true
+  else
+     Spring.Echo("Не удалось найти файл перевода: " .. path)
   end
-  Spring.Echo("Cannot load locale \"" .. locale .. "\" for " .. database)
   return false
 end
 
@@ -105,6 +106,7 @@ local function initializeTranslation(database)
     i18n = i18n,  -- используем уже загруженный модуль i18n
     locales = {en = true},
   }
+   Spring.Echo("Инициализация базы: " .. database)
   loadLocale(trans.i18n, database, "en")
 
   local extras = translationExtras[database]
@@ -121,14 +123,39 @@ local function shutdownTranslation(widget_name)
   langListeners[widget_name] = nil
 end
 
-local function Translate(db, text, data, opts)
-  return translations[db].i18n(text, data, opts)
+local function Translate(dbKey, text, data, opts)
+  -- Разделяем строку на базу и ключ
+   Spring.Echo("Ключ который передается ",dbKey)
+  local baseName, key = string.match(dbKey, "([%w_]+)%.(.+)")
+
+  -- Проверка на успешное разделение строки
+  if not baseName or not key then
+    Spring.Echo("Ошибка: Невозможно разобрать ключ перевода: " .. tostring(dbKey))
+    return text  -- Возвращаем исходный текст, если не удалось разобрать ключ
+  end
+
+  -- Проверяем, есть ли такая база и ключ
+  if translations[baseName] and translations[baseName].i18n then
+    -- Если есть база и ключ, пытаемся получить перевод
+    local translatedText = translations[baseName].i18n(key, data, opts)
+    if translatedText then
+      return translatedText
+    else
+      Spring.Echo("Ошибка: Не найден перевод для ключа: " .. key .. " в базе: " .. baseName)
+    end
+  else
+    Spring.Echo("Ошибка: Не найдено данных для базы: " .. baseName)
+  end
+
+  -- Если ничего не нашли, возвращаем исходный текст
+  return text
 end
 
-WG.lang = lang
-WG.InitializeTranslation = addListener
-WG.ShutdownTranslation = shutdownTranslation
-WG.Translate = Translate
+
+WG.lang = lang  -- функция для смены языка
+WG.InitializeTranslation = initializeTranslation  -- функция для инициализации перевода
+WG.ShutdownTranslation = shutdownTranslation  -- функция для завершения работы с переводами
+WG.Translate = Translate  -- функция для перевода текста
 
 for db in pairs(translations) do
   translations[db] = initializeTranslation(db)

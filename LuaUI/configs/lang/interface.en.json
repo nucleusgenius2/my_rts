@@ -1,4 +1,6 @@
 {
   "pause": "Пауза",
-  "exit_game": "Выйти из игры"
+  "exit_game": "Выйти из игры",
+  "menu": "Меню",
+  "change_language" : "ru"
 }
