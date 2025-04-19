@@ -12,7 +12,7 @@ end
 
 local Chili
 local screen0
-local window, quitButton, pauseButton, settingsButton
+local window, quitButton, pauseButton, settingsButton, backButton
 local settingsWindow, tabPanel, languageSelect
 local isOpen = false
 local currentLang = "en"
@@ -41,7 +41,7 @@ function widget:Initialize()
     return
   end
 
-   --глобальное подлючение
+   --глобальное подключение
   tr = function(k) return WG.Translate("interface." .. k) end
   screen0 = Chili.Screen0
 
@@ -72,23 +72,14 @@ function widget:Initialize()
     OnClick = { function() Spring.SendCommands("pause") end }
   }
 
-  --кнопка выхода из игры
-  quitButton = Chili.Button:New{
-    parent  = window,
-    caption = tr("exit_game"),
-    x       = 40,
-    y       = 70,
-    width   = 200,
-    height  = 40,
-    OnClick = { function() Spring.SendCommands("quitforce") end }
-  }
+
 
   --кнопка настроек
   settingsButton = Chili.Button:New{
     parent  = window,
     caption = tr("settings"),
     x       = 40,
-    y       = 120,
+    y       = 70,
     width   = 200,
     height  = 40,
     OnClick = {
@@ -101,12 +92,24 @@ function widget:Initialize()
     }
   }
 
+
+  --кнопка выхода из игры
+  quitButton = Chili.Button:New{
+      parent  = window,
+      caption = tr("exit_game"),
+      x       = 40,
+      y       = 120,
+      width   = 200,
+      height  = 40,
+      OnClick = { function() Spring.SendCommands("quitforce") end }
+  }
+
   -- окно настроек
   settingsWindow = Chili.Window:New{
     parent    = screen0,
     caption   = tr("settings"),
     width     = 500,
-    height    = 300,
+    height    = 340,
     x         = vsx / 2 - 200,
     y         = vsy / 2 - 150,
     draggable = true,
@@ -128,11 +131,13 @@ function widget:Initialize()
   for i, lang in ipairs(languages) do
     table.insert(langNames, lang.name)
     if lang.key == currentLang then
-      selectedIndex = i - 1
+      selectedIndex = i
     end
   end
 
-    languageSelect = Chili.ComboBox:New{
+
+
+  languageSelect = Chili.ComboBox:New{
       parent    = interfaceTab,
       x         = 20,
       y         = 20,
@@ -145,8 +150,8 @@ function widget:Initialize()
           -- Логируем выбранный индекс
           Spring.Echo("Индекс выбранного языка: " .. selectedIndex)
 
-          -- Проверяем, есть ли язык с этим индексом (без +1)
-          local lang = languages[selectedIndex]  -- Индекс без +1, так как у вас правильная индексация
+          -- Проверяем, есть ли язык с этим индексом
+          local lang = languages[selectedIndex]  -- Индекс языка
           if lang then
             Spring.Echo("Выбран язык: " .. lang.key)
             currentLang = lang.key
@@ -157,7 +162,24 @@ function widget:Initialize()
           end
         end
       }
-    }
+  }
+
+
+   -- Кнопка "Назад" для возврата в основное меню из табов
+   backButton = Chili.Button:New{
+        parent  = settingsWindow,
+        caption = tr("back_to_menu") or "Back to Menu 1",
+        x       = 10,
+        y       = 270,
+        width   = 200,
+        height  = 40,
+        OnClick = {
+          function()
+            settingsWindow:SetVisibility(false)  -- Скрываем окно настроек
+            window:SetVisibility(true)           -- Показываем основное окно
+          end
+        }
+   }
 
   -- панель с вкладками (добавляем сразу)
   tabPanel = Chili.TabPanel:New{
@@ -184,6 +206,7 @@ function widget:Initialize()
     if quitButton then quitButton.caption = tr("exit_game") end
     if settingsButton then settingsButton.caption = tr("settings") end
     if settingsWindow then settingsWindow.caption = tr("settings") end
+    if backButton then backButton.caption = tr("back_to_menu") end
     -- tab caption обновится автоматически, если TabPanel реализует перерисовку
     -- Обновляем локализацию caption для вкладок
     if tabPanel and tabPanel.tabs then

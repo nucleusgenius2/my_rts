@@ -12,7 +12,7 @@ TabPanel = LayoutPanel:Inherit{
   classname     = "tabpanel",
   orientation   = "vertical",
   resizeItems   = false,
-  itemPadding   = {0, 0, 0, 0},
+  itemPadding   = {1, 0, 0, 0},
   itemMargin    = {0, 0, 0, 0},
   barHeight     = 40,
   tabs          = {},
@@ -76,6 +76,7 @@ end
 function TabPanel:AddTab(tab, neverSwitchTab)
     local tabbar = self.children[1]
 	local switchToTab = (#tabbar.children == 0) and not neverSwitchTab
+
     tabbar:AddChild(
         --TabBarItem:New{name = tab.name, caption = tab.caption or tab.name, defaultWidth = tabbar.minItemWidth, defaultHeight = tabbar.minItemHeight} --FIXME: implement an "Add Tab in TabBar too"
         TabBarItem:New{

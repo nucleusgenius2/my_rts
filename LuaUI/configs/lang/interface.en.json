@@ -4,5 +4,7 @@
   "menu": "Menu",
   "change_language" : "en",
   "settings" : "Settings",
-  "interface_tab" : "Interface 1"
+  "interface_tab" : "Interface",
+  "back_to_menu" : "Back to Menu"
+
 }

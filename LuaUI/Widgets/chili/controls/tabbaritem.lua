@@ -3,7 +3,7 @@
 TabBarItem = Button:Inherit{
   classname= "tabbaritem",
   caption  = 'tab',
-  height   = "100%",
+  height   = "100%"
 }
 
 local this = TabBarItem

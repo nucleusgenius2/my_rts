@@ -4,6 +4,7 @@
   "menu": "Меню",
   "change_language" : "ru",
   "settings" : "Настройки",
-  "interface_tab" : "Интерфейс"
+  "interface_tab" : "Интерфейс",
+  "back_to_menu" : "Вернуться в меню"
 }
 
