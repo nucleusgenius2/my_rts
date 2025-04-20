@@ -135,6 +135,12 @@ function widget:Initialize()
     end
   end
 
+  -- вкладка звук
+  local soundTab = Chili.Control:New{
+    width  = "100%",
+    height = "100%",
+  }
+
 
 
   languageSelect = Chili.ComboBox:New{
@@ -186,15 +192,19 @@ function widget:Initialize()
     parent  = settingsWindow,
     width   = "100%",
     height  = "100%",
-    tabs    = {
+    tabs = {
       {
         name = "interface",
         caption = tr("interface_tab") or "Интерфейс",
         children = { interfaceTab },
-
+      },
+      {
+        name = "sound",
+        caption = tr("sound_tab") or "Звук",
+        children = { soundTab },
       },
     },
-  }
+  },
 
 
   -- обновление языка
@@ -210,16 +220,13 @@ function widget:Initialize()
     -- tab caption обновится автоматически, если TabPanel реализует перерисовку
     -- Обновляем локализацию caption для вкладок
     if tabPanel and tabPanel.tabs then
-        for i, tab in ipairs(tabPanel.tabs) do
-            if tab.name == "interface" then
-                -- Ищем объект вкладки в TabPanel и обновляем caption
-                local tabBarItem = tabPanel.children[1].children[i]  -- Получаем TabBarItem
-                if tabBarItem then
-                    tabBarItem.caption = tr("interface_tab") or "Интерфейс"  -- Обновляем название вкладки
-                    --Spring.Echo("Обновили вкладку " .. tab.name)
-                end
-            end
+      for i, tab in ipairs(tabPanel.tabs) do
+        local tabBarItem = tabPanel.children[1].children[i]
+        if tabBarItem then
+          local captionKey = tab.name .. "_tab"
+          tabBarItem.caption = tr(captionKey) or tab.caption
         end
+      end
     end
 
     -- Принудительно перерисовать TabPanel, чтобы изменения вступили в силу

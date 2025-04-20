@@ -5,6 +5,7 @@
   "change_language" : "ru",
   "settings" : "Настройки",
   "interface_tab" : "Интерфейс",
-  "back_to_menu" : "Вернуться в меню"
+  "back_to_menu" : "Вернуться в меню",
+  "sound_tab" : "Звук"
 }
 
