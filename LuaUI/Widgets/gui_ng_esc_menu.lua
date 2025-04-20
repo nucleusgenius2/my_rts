@@ -114,11 +114,10 @@ function widget:Initialize()
       height  = 40,
       OnClick = {
         function()
-          --Spring.SendCommands("save")
 
-          local time = os.date("%Y%m%d_%H%M%S")
-         Spring.SendCommands("savegame test_save_name")
-          Spring.Echo("Игра сохранена.")
+        local filename = "save_" .. os.date("%Y%m%d_%H%M%S")
+        --стучим в виджет сейва
+        WG.savegame.SaveGame(filename, "Мой тестовый сейв", true)
 
         end
       }
