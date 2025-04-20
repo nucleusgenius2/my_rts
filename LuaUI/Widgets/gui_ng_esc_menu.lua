@@ -92,13 +92,34 @@ function widget:Initialize()
     }
   }
 
+  -- кнопка сохранения игры (только для одиночной игры)
+  if Spring.GetGameRulesParam("gameMode") ~= "multiplayer" and not Spring.IsReplay() then
+    saveButton = Chili.Button:New{
+      parent  = window,
+      caption = tr("save_game") or "Сохранить игру",
+      x       = 40,
+      y       = 120,
+      width   = 200,
+      height  = 40,
+      OnClick = {
+        function()
+          --Spring.SendCommands("save")
+
+          local time = os.date("%Y%m%d_%H%M%S")
+         Spring.SendCommands("savegame test_save_name")
+          Spring.Echo("Игра сохранена.")
+
+        end
+      }
+    }
+  end
 
   --кнопка выхода из игры
   quitButton = Chili.Button:New{
       parent  = window,
       caption = tr("exit_game"),
       x       = 40,
-      y       = 120,
+      y       = 170,
       width   = 200,
       height  = 40,
       OnClick = { function() Spring.SendCommands("quitforce") end }
