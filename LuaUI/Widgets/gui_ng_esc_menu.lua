@@ -41,8 +41,22 @@ function widget:Initialize()
     return
   end
 
+
+
+   -- Подключаем виджет SettingsManager
+  local SettingsManager = WG.SettingsManager
+
+  -- Загрузка настроек
+  SettingsManager:LoadSettings()
+
+   -- Получаем текущий язык из настроек
+  local currentLang = SettingsManager:Get("language")
+  Spring.Echo("33333333333 ", currentLang)
+
    --глобальное подключение
   tr = function(k) return WG.Translate("interface." .. k) end
+
+
   screen0 = Chili.Screen0
 
   window = Chili.Window:New{
@@ -182,6 +196,12 @@ function widget:Initialize()
           if lang then
             Spring.Echo("Выбран язык: " .. lang.key)
             currentLang = lang.key
+
+            -- Устанавливаем новый язык в SettingsManager
+            SettingsManager:Set("language", lang.key)
+            -- Сохраняем настройки в файл
+            SettingsManager:SaveSettings()
+
             WG.lang(currentLang)
             Spring.Echo("Текущий язык: " .. currentLang)
           else
