@@ -105,6 +105,8 @@ function widget:Initialize()
     }
   }
 
+
+
   -- кнопка сохранения игры (только для одиночной игры)
   if Spring.GetGameRulesParam("gameMode") ~= "multiplayer" and not Spring.IsReplay() then
     saveButton = Chili.Button:New{
@@ -128,6 +130,8 @@ function widget:Initialize()
     }
   end
 
+
+
   --кнопка выхода из игры
   quitButton = Chili.Button:New{
       parent  = window,
@@ -136,6 +140,9 @@ function widget:Initialize()
       y       = 170,
       width   = 200,
       height  = 40,
+      textPadding = {0, 10},
+      valign = "bottom",
+
       OnClick = { function() Spring.SendCommands("quitforce") end }
   }
 
