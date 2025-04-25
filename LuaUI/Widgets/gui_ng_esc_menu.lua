@@ -12,7 +12,7 @@ end
 
 local Chili
 local screen0
-local window, quitButton, pauseButton, settingsButton, backButton
+local window, quitButton, pauseButton, settingsButton, backButton, saveButton
 local settingsWindow, tabPanel, languageSelect
 local isOpen = false
 local currentLang = "en"
@@ -93,6 +93,8 @@ function widget:Initialize()
     y       = 70,
     width   = 200,
     height  = 40,
+    textPadding = {0, 10},
+    valign = "bottom",
     OnClick = {
       function()
         if settingsWindow then
@@ -112,6 +114,8 @@ function widget:Initialize()
       y       = 120,
       width   = 200,
       height  = 40,
+      textPadding = {0, 10},
+      valign = "bottom",
       OnClick = {
         function()
 
@@ -180,6 +184,8 @@ function widget:Initialize()
       y         = 20,
       width     = 200,
       height    = 30,
+      itemHeight = 40,
+      height    = 40,  -- Увеличиваем высоту самого селектора
       items     = langNames,
       selected  = selectedIndex,
       OnSelect  = {
@@ -234,6 +240,7 @@ function widget:Initialize()
         name = "interface",
         caption = tr("interface_tab") or "Интерфейс",
         children = { interfaceTab },
+
       },
       {
         name = "sound",
@@ -251,8 +258,10 @@ function widget:Initialize()
     if window then window.caption = tr("menu") end
     if pauseButton then pauseButton.caption = tr("pause") end
     if quitButton then quitButton.caption = tr("exit_game") end
+    if saveButton then saveButton.caption = tr("save_game") end
     if settingsButton then settingsButton.caption = tr("settings") end
     if settingsWindow then settingsWindow.caption = tr("settings") end
+
     if backButton then backButton.caption = tr("back_to_menu") end
     -- tab caption обновится автоматически, если TabPanel реализует перерисовку
     -- Обновляем локализацию caption для вкладок

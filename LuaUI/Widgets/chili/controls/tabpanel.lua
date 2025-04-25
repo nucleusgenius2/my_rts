@@ -49,18 +49,20 @@ function TabPanel:New(obj)
 	obj:AddChild(obj.currentTab)
 	obj.tabIndexMapping = {}
 	for i=1, #obj.tabs do
-		local tabName = obj.tabs[i].name	
+		local tabName = obj.tabs[i].name
+		--local tabFrame = Control:New {
 		local tabFrame = Panel:New {
 			x = 0,
 			y = 0,
 			right = 0,
 			bottom = 0,
 			padding = {0, 0, 0, 0},
-			backgroundColor = {0.2, 0.2, 0.2, 0.8}, -- фон
+			backgroundColor = {0.8, 0.8, 0.8, 1}, -- фон
 			borderColor     = {1, 1, 1, 1},         -- обводка
 			borderWidth     = 1,
 			children = obj.tabs[i].children
 		}
+		
 		obj.tabIndexMapping[tabName] = tabFrame
 		obj.currentTab:AddChild(tabFrame)
 		if i == 1 then

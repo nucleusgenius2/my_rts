@@ -5,7 +5,8 @@
   "change_language" : "ru",
   "settings" : "Настройки",
   "interface_tab" : "Интерфейс",
-  "back_to_menu" : "Вернуться в меню",
+  "back_to_menu" : "Назад в меню",
+  "save_game" : "Сохранить игру",
   "sound_tab" : "Звук"
 }
 
