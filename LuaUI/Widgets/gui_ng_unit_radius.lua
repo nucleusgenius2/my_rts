@@ -13,7 +13,7 @@
 
 function widget:GetInfo()
    return {
-      name      = "Unit select circle",
+      name      = "NG Unit select circle",
       desc      = "Draws transparent smoothed donuts under friendly and enemy units (using teamcolor)",
       author    = "nucleus genius",
       date      = "12.04.2025",

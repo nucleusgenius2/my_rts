@@ -1,6 +1,6 @@
 function widget:GetInfo()
   return {
-    name      = "settingsManager",
+    name      = "NG settingsManager",
     desc      = "Сохранение настроек в файл",
     author    = "nucleus genius",
     date      = "WIP",

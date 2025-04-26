@@ -1,6 +1,6 @@
 function widget:GetInfo()
   return {
-    name      = "i18n",
+    name      = "NG i18n",
     desc      = "Internationalization library for Spring",
     author    = "gajop banana_Ai",
     date      = "WIP",

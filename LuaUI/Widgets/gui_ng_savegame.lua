@@ -1,6 +1,6 @@
 function widget:GetInfo()
 	return {
-		name = "SaveGame",
+		name = "NG SaveGame",
 		desc = "Нужен для сохранения игр",
         author  = "nucleus genius",
 		date = "2025",

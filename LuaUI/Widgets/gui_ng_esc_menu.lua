@@ -1,6 +1,6 @@
 function widget:GetInfo()
   return {
-    name      = "Pause Menu Modal",
+    name      = "NG Pause Menu Modal",
     desc      = "Показывает модальное окно при нажатии Esc, с кнопкой выхода из игры и настройками",
     author    = "nucleus genius",
     date      = "2025-04-12",
