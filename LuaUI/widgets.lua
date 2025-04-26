@@ -333,6 +333,7 @@ local function GetWidgetInfo(name, mode)
   end
 end
 
+VFS.Include(LUAUI_DIRNAME .. "rml_setup.lua",  nil, VFS.ZIP)
 
 function widgetHandler:Initialize()
   self:LoadConfigData()
@@ -2017,6 +2018,7 @@ function widgetHandler:DownloadProgress(id, downloaded, total)
     w:DownloadProgress(id, downloaded, total)
   end
 end
+
 
 
 --------------------------------------------------------------------------------

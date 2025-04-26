@@ -33,6 +33,7 @@ if (System == nil) then
     WeaponDefs      = WeaponDefs,
     WeaponDefNames  = WeaponDefNames,
 
+	RmlUi = RmlUi,
     --
     -- Custom Constants
     --
