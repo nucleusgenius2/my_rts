@@ -1,68 +1,50 @@
-widget = widget or {}
+if not RmlUi then
+    return
+end
 
 function widget:GetInfo()
-  return {
-    name    = "TestRmlWindow",
-    desc    = "Shows simple RmlUI window on game start",
-    author  = "chatgpt",
-    date    = "2025",
-    license = "GPLv3",
-    layer   = 50,
-    enabled = true,
-  }
+    return {
+        name = "TestRmlWindowModel",
+        desc = "Shows simple RmlUI window with BAR-style model",
+        author = "chatgpt",
+        date = "2025",
+        license = "GPLv3",
+        layer = 50,
+        enabled = true,
+    }
 end
 
-local opened = false
-local tries = 0
-local doc
-
--- Вот тут делаем глобальную функцию!
-_G.ShowTestBlock = function(event)
-    Spring.Echo("ShowTestBlock вызван Rocket напрямую!")
-    if doc then
-        local el = doc:GetElementById("testblock")
-        if el then
-            if el.style.display == "none" then
-                el.style.display = "block"
-            else
-                el.style.display = "none"
-            end
-        end
-    end
-end
+local document
+local main_model_name = "model"
+local init_model = {
+    testblockVisible = false,
+    message = "Hello, find my text in the data model!",
+}
 
 function widget:Initialize()
-    Spring.Echo("инит тест")
-
-    if RmlUi and RmlUi.AddLuaEventFunction then
-        RmlUi.AddLuaEventFunction("ShowTestBlock", _G.ShowTestBlock)
+    widget.rmlContext = RmlUi.GetContext("shared")
+    widget.dm_handle = widget.rmlContext:OpenDataModel(main_model_name, init_model)
+    if not widget.dm_handle then
+        Spring.Echo("RmlUi: Failed to open data model", main_model_name)
+        return
     end
-
-    if opened then return end
-
-    local ctx = RmlUi and RmlUi.GetContext and RmlUi.GetContext("shared")
-    if ctx then
-        Spring.Echo("TestRmlWindow: контекст найден, пробую открыть buildmenu.rml")
-        if ctx.OpenDocument then
-            doc = ctx:OpenDocument(LUAUI_DIRNAME .. "widgets_rml/tets.rml")
-        elseif ctx.LoadDocument then
-            doc = ctx:LoadDocument(LUAUI_DIRNAME .. "widgets_rml/tets.rml")
-        elseif ctx.LoadRml then
-            doc = ctx:LoadRml(LUAUI_DIRNAME .. "widgets_rml/tets.rml")
-        end
-
-        if doc then
-            doc:Show()
-            Spring.Echo("TestRmlWindow: buildmenu.rml открыт!")
-        else
-            Spring.Echo("TestRmlWindow: не могу открыть buildmenu.rml!")
-        end
-        opened = true
-    else
-        tries = tries + 1
-        Spring.Echo("TestRmlWindow: жду контекста, попытка " .. tries)
-        if tries > 50 then opened = true end
+    document = widget.rmlContext:LoadDocument("luaui/widgets_rml/tets.rml", widget)
+    if not document then
+        Spring.Echo("Failed to load document")
+        return
     end
+    document:ReloadStyleSheet()
+    document:Show()
 end
 
--- остальные функции, если нужны...
+_G.ShowTestBlock = function(event)
+  Spring.Echo("обращение из кнопки")
+    -- Используем переменную-флаг в этом скоупе
+   -- widget.testblockVisible = not widget.testblockVisible
+    --widget:OpenDoc(widget.testblockVisible)
+        if widget.dm_handle then
+            widget.dm_handle.testblockVisible = not widget.dm_handle.testblockVisible
+        else
+            Spring.Echo("Нет widget.dm_handle!")
+        end
+end

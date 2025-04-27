@@ -1,11 +1,13 @@
 <rml>
-  <body>
-    <div style="position:absolute; font-size:14px; left:1200px; top:100px; width:100px; height:400px; background:#7778; border:2px solid red; z-index:999999; font-family:FreeSans; color:#000;">
-   2222
-   <div id="showtest" onclick="ShowTestBlock(event)"style="font-family:FreeSans;">Показать TEST-блок</div>
+  <body data-model="model">
+    <div style="position:absolute; left:1200px; top:100px; background:#000;">
+      <div id="showtest" onclick="ShowTestBlock(model)" style="font-family:FreeSans; margin:10px;">
+        Показать TEST-блок
+      </div>
 
-
-      <div id="testblock" style="display:none; font-family:FreeSans; position:absolute; left:200px; top:120px; width:150px; height:60px; background:#fff; border:2px solid red; z-index:999999; color:#000; text-align:center; line-height:60px;">
+            <div style="font-family:FreeSans;">{{   message  }}</div>
+      <div style="font-family:FreeSans;">{{ testblockVisible }}</div>
+      <div id="testblock" data-visible="testblockVisible" style="font-family:FreeSans; margin:10px; border:2px solid red">
         TEST: ты кликнул!
       </div>
     </div>
