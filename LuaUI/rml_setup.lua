@@ -13,6 +13,7 @@ RmlGuard = true
 -- Load fonts
 --RmlUi.LoadFontFace("Fonts/FreeMonoBold.ttf", true)
 --RmlUi.LoadFontFace("Fonts/FreeSansBold.ttf", true)
+RmlUi.LoadFontFace("Fonts/FreeSans.ttf", true)
 RmlUi.LoadFontFace("Fonts/FreeSansBold.otf", true)
 
 
