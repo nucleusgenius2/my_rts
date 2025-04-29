@@ -186,6 +186,7 @@ local callInLists = {
   'GetTooltip',
   'GroupChanged',
   'CommandsChanged',
+  'SelectionChanged',
   'TweakMousePress',
   'TweakMouseWheel',
   'TweakIsAbove',
@@ -1189,13 +1190,73 @@ end
 
 
 function widgetHandler:CommandsChanged()
-  self.inCommandsChanged = true
-  self.customCommands = {}
-  for _,w in ipairs(self.CommandsChangedList) do
-    w:CommandsChanged()
-  end
-  self.inCommandsChanged = false
-  return
+	Spring.Echo("Received CommandsChanged!")
+	if widgetHandler:UpdateSelection() then -- for selectionchanged
+		return -- selection updated, don't call commands changed.
+	end
+	self.inCommandsChanged = true
+	self.customCommands = {}
+	for _, w in ipairs(self.CommandsChangedList) do
+		w:CommandsChanged()
+	end
+	self.inCommandsChanged = false
+end
+
+function widgetHandler:SelectionChanged(selectedUnits, subselection)
+	for _, w in ipairs(self.SelectionChangedList) do
+		-- Do note below means SelectionChanged can return an array to "overwrite" the units to be selected
+		-- It will short circuit commandschanged from being propagated
+		-- Be aware of the implication of this (as well of the possibility of an infinite loop e.g. if a widget always returns non-nil on SelectionChanged())
+		-- A widget returning nil means it accepts the new selection after handling its internal logic
+		local unitArray = w:SelectionChanged(selectedUnits, subselection)
+		if unitArray then
+			Spring.SelectUnitArray(unitArray)
+			return true
+		end
+	end
+	return false
+end
+
+-- local helper (not a real call-in)
+local oldSelection = {}
+function widgetHandler:UpdateSelection()
+	Spring.Echo("Received UpdateSelection!")
+	local changed
+	local newSelection = Spring.GetSelectedUnits()
+	if #newSelection == #oldSelection then
+		for i = 1, #oldSelection do
+			if newSelection[i] ~= oldSelection[i] then -- it seems the order stays
+				changed = true
+				break
+			end
+		end
+	else
+		changed = true
+	end
+	if changed then
+		local subselection = true
+		if #newSelection > #oldSelection then
+			subselection = false
+		else
+			local oldSelectionMap = {}
+			for i = 1, #oldSelection do
+				oldSelectionMap[oldSelection[i]] = true
+			end
+			for i = 1, #newSelection do
+				if not oldSelectionMap[newSelection[i]] then
+					subselection = false
+					break
+				end
+			end
+		end
+		Spring.Echo("Invoking SelectionChanged!")
+		if widgetHandler:SelectionChanged(newSelection, subselection) then
+			-- selection changed, don't set old selection to new selection as it is soon to change.
+			return true
+		end
+	end
+	oldSelection = newSelection
+	return false
 end
 
 
