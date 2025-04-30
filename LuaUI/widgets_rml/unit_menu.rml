@@ -41,6 +41,11 @@
                 <button onclick="BuildUnit({{ testArray[3].id }})">Построить</button>
             </div>
 
+     <div class="actions flex flex-col gap-2 h-10 m-1" style="font-family:FreeSans;">
+                <span data-for="test, i: testArray">name:{{test.name}} index:{{i}}</span>
+            </div>
+
+
         </div> <!-- .build-list -->
 
     </div> <!-- главный внешний блок -->
