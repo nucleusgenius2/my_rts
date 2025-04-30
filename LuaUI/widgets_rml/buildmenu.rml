@@ -1,0 +1,16 @@
+<rml>
+  <body>
+    <div id="buildmenu" class="buildmenu" style="position:absolute; left:100px; top:100px; width:500px; height:400px; background:#444; color:#fff; font-size:15px; z-index:9999; font-family:FreeSans;">
+      <h2 style="color:#fff; font-family:FreeSans;">Build Menu</h2>
+      <p style="color:#fff; font-family:FreeSans;">Build Menu</p>
+      <div id="unitlist" class="unit-list"></div>
+      <div id="pagenav" class="page-nav"></div>
+      <div style="font-family:FreeSans; position:absolute; left:200px; top:120px; width:100px; height:400px; background:#fff; z-index:999999; color:#000;">TEST</div>
+
+
+    </div>
+    <div style="position:absolute; font-size:14px; left:800px; top:120px; width:100px; height:400px; background:#fff; z-index:999999; font-family:FreeSans; color:#000;">
+
+    </div>
+  </body>
+</rml>

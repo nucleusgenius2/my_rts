@@ -1,0 +1,41 @@
+body, .buildmenu, .unit-list, .unit-button, .page-nav, h2 {
+  font-family: "FreeSans Bold", FreeSans, sans-serif;
+}
+
+.buildmenu {
+  background: rgba(20, 20, 30, 0.92);
+  border-radius: 14px;
+  padding: 20px;
+  min-width: 340px;
+  min-height: 400px;
+  position: absolute;
+  left: 48px;
+  top: 180px;
+}
+
+.unit-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.unit-button {
+  width: 86px;
+  height: 76px;
+  background: #222a;
+  border-radius: 7px;
+  color: #eee;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 8px;
+  transition: border 0.2s;
+}
+
+.unit-button:hover {
+  background: #558;
+}
+
+.page-nav {
+  margin-top: 12px;
+  text-align: center;
+}
