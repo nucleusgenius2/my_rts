@@ -1,6 +1,4 @@
 <rml>
-
-
 <body data-model="modelunit">
     <div style="position:absolute; left:1200px; top:100px; background:#222; padding:10px; width:300px; height:400px; z-index:999999;">
 
@@ -13,13 +11,38 @@
         </div>
 
         <div style="font-family:FreeSans; font-size:20px; margin-bottom:10px; color:white;">
-            {{ message }}
-            {{ testArray[1].name }}
-            {{ testArray[2].name }}
-            {{ testArray[3].name }}
+            {{ message }}<br/>
+            {{ testArray[0].name }}
         </div>
 
+        <div class="build-list">
 
-    </div> <!-- ← Закрыли главный внешний div -->
+            <div class="build-option" data-if="testArray[0]">
+                <img src="{{ testArray[0].icon }}" />
+                <span>{{ testArray[0].name }}</span>
+                <button onclick="BuildUnit({{ testArray[0].id }})">Построить</button>
+            </div>
+
+            <div class="build-option" data-if="testArray[1]">
+                <img src="{{ testArray[1].icon }}" />
+                <span>{{ testArray[1].name }}</span>
+                <button onclick="BuildUnit({{ testArray[1].id }})">Построить</button>
+            </div>
+
+            <div class="build-option" data-if="testArray[2]">
+                <img src="{{ testArray[2].icon }}" />
+                <span>{{ testArray[2].name }}</span>
+                <button onclick="BuildUnit({{ testArray[2].id }})">Построить</button>
+            </div>
+
+            <div class="build-option" data-if="testArray[3]">
+                <img src="{{ testArray[3].icon }}" />
+                <span>{{ testArray[3].name }}</span>
+                <button onclick="BuildUnit({{ testArray[3].id }})">Построить</button>
+            </div>
+
+        </div> <!-- .build-list -->
+
+    </div> <!-- главный внешний блок -->
 </body>
 </rml>
