@@ -1,0 +1,25 @@
+<rml>
+
+
+<body data-model="modelunit">
+    <div style="position:absolute; left:1200px; top:100px; background:#222; padding:10px; width:300px; height:400px; z-index:999999;">
+
+        <div id="showtest1" onclick="ShowTestBlock2(modelunit)" style="font-family:FreeSans; margin:10px;">
+            Показать TEST-блок
+        </div>
+
+        <div id="testblock1" data-visible="testblockVisible" style="font-family:FreeSans; margin:10px;">
+            TEST: ты кликнул!
+        </div>
+
+        <div style="font-family:FreeSans; font-size:20px; margin-bottom:10px; color:white;">
+            {{ message }}
+            {{ testArray[1].name }}
+            {{ testArray[2].name }}
+            {{ testArray[3].name }}
+        </div>
+
+
+    </div> <!-- ← Закрыли главный внешний div -->
+</body>
+</rml>
