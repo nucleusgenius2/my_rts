@@ -15,16 +15,49 @@ end
 -- Для отслеживания выделения
 local prevSelection = {}
 
+
+local function BuildUnit(_, currentBuilder, buildDefID)
+    Spring.Echo("build ---" .. buildDefID)
+
+        -- Проверка на currentBuilder
+        if currentBuilder then
+            Spring.Echo("currentBuilder: ", currentBuilder)
+        else
+            Spring.Echo("currentBuilder is nil!")
+        end
+
+
+    if currentBuilder and buildDefID then
+        local x, y, z = Spring.GetCameraPosition()
+    Spring.Echo("build ---" .. buildDefID)
+        -- Получаем координаты мыши
+        local mx, my = Spring.GetMouseState()
+        local type, coords = Spring.TraceScreenRay(mx, my, true)
+
+        if type == "ground" and coords then
+            x, y, z = coords[1], coords[2], coords[3]
+            Spring.Echo("Building unit at: ", x, y, z)
+
+            -- Посылаем команду строительства юнита
+            Spring.GiveOrderToUnit(currentBuilder, -buildDefID, {x, y, z}, {"shift"})
+            Spring.Echo("Build command issued for buildDefID:", buildDefID)
+        else
+            Spring.Echo("Invalid position for building.")
+        end
+    end
+end
+
 local opened = false
 local tries = 0
 local doc, unitlist
 local currentBuilder
 local main_model_name = "modelunit"
 local init_model = {
+    BuildUnit = BuildUnit,
     testArray = {
-            { name = "Item 1", value = 1 },
-            { name = "Item 2", value = 2 },
-            { name = "Item 3", value = 3 },
+            { name = "Item 1", id = 1, builderID = 1 },
+            { name = "Item 2", id = 2, builderID = 1 },
+            { name = "Item 3", id = 3, builderID = 1 },
      },
     message = "тестовое сообщение",
     show = false,
@@ -43,6 +76,7 @@ if RmlUi and RmlUi.SetFunction then
         end
     end)
 end
+
 
 
 
@@ -103,71 +137,59 @@ function widget:Update()
 
         Spring.Echo("[SelectedUnitsRmlModel] SelectionChanged: " .. #selectedUnits .. " юнитов выбрано")
 
-        if dm_handle then
-            -- Берём первого выбранного юнита как "билдера"
-            local builderID = selectedUnits[1]
-            currentBuilder = builderID
+    if dm_handle then
+        -- Берём первого выбранного юнита как "билдера"
+        local builderID = selectedUnits[1]
+        currentBuilder = builderID
 
-            local buildOptions = {}
-            if builderID then
-                local unitDefID = Spring.GetUnitDefID(builderID)
-                local unitDef = UnitDefs[unitDefID]
-                if unitDef and unitDef.buildOptions then
-                    for i = 1, #unitDef.buildOptions do
-                        local buildDefID = unitDef.buildOptions[i]
-                        local buildDef = UnitDefs[buildDefID]
-                        if buildDef then
-                            table.insert(buildOptions, {
-                                name = buildDef.humanName,
-                                id = buildDefID,
-                                icon = "#" .. buildDefID  -- стандарт для BAR
-                            })
-                        end
+        -- buildOptions объект с юнитами которые может построить первый выбранный строитель.
+        local buildOptions = {}
+
+        local unitID = currentBuilder
+        if unitID and Spring.ValidUnitID(unitID) then
+            local unitDefID = Spring.GetUnitDefID(unitID)
+            local unitDef = unitDefID and UnitDefs[unitDefID]
+
+            if unitDef and unitDef.buildOptions then
+                for _, buildDefID in ipairs(unitDef.buildOptions) do
+                    local buildDef = UnitDefs[buildDefID]
+                    if buildDef then
+                        table.insert(buildOptions, {
+                            name = buildDef.humanName or "???",
+                            id = tostring(buildDefID),
+                            icon = "#" .. tostring(buildDefID)
+                        })
                     end
                 end
             end
-
-            -- Передаём в RML (до 10 элементов)
-            dm_handle.message = tostring(#selectedUnits) .. " юнитов выбрано"
-             dm_handle.testArray = {}
-
-
-            -- Только если выбран хотя бы один юнит
-            if #selectedUnits > 0 then
-                local unitID = selectedUnits[1]
-                local unitDefID = Spring.GetUnitDefID(unitID)
-                local unitDef = unitDefID and UnitDefs[unitDefID]
-
-                if unitDef and unitDef.buildOptions then
-                    local buildOptions = {}
-
-                    for _, buildDefID in ipairs(unitDef.buildOptions) do
-                        local buildDef = UnitDefs[buildDefID]
-                        if buildDef then
-                            table.insert(buildOptions, {
-                                name = buildDef.humanName or "???",
-                                id = tostring(buildDefID), -- обязательно строка
-                                icon = "#" .. tostring(buildDefID),
-                            })
-                        end
-                    end
-
-                    -- Передаём не более 10
-                    for i = 1, math.min(10, #buildOptions) do
-                        local key = tostring(i - 1) -- RML использует "0", "1", ...
-                        dm_handle.testArray[key] = buildOptions[i]
-                    end
-                else
-                    Spring.Echo("Выбранный юнит не строитель или buildOptions отсутствует")
-                end
-            else
-                Spring.Echo("Нет выбранных юнитов")
-            end
-
-        else
-            Spring.Echo("Нет widget.dm_handle!")
         end
-    end
+
+        -- Отдаём в RML
+        local rmlData = {}
+
+        for i = 1, #buildOptions do
+            rmlData[i - 1] = {
+                name = buildOptions[i].name,
+                id = buildOptions[i].id,
+                icon = buildOptions[i].icon,
+                builderID = tostring(currentBuilder)
+            }
+        end
+
+        -- Отдаём в RML
+        if #rmlData > 0 then
+            dm_handle.testArray = rmlData
+            Spring.Echo("Отправлены все юниты в RML")
+        else
+            Spring.Echo("Нет доступных buildOptions для отправки.")
+        end
+
+
+      else
+             Spring.Echo("Нет widget.dm_handle!")
+       end
+
+     end
 end
 
 
