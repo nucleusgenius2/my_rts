@@ -15,38 +15,42 @@ end
 -- Для отслеживания выделения
 local prevSelection = {}
 
-
 local function BuildUnit(_, currentBuilder, buildDefID)
     Spring.Echo("build ---" .. buildDefID)
 
-        -- Проверка на currentBuilder
-        if currentBuilder then
-            Spring.Echo("currentBuilder: ", currentBuilder)
-        else
-            Spring.Echo("currentBuilder is nil!")
-        end
+    -- Проверка на currentBuilder
+    if not currentBuilder then
+        Spring.Echo("currentBuilder is nil!")
+        return
+    end
 
+    -- Проверка на buildDefID
+    if not buildDefID then
+        Spring.Echo("buildDefID is nil!")
+        return
+    end
 
-    if currentBuilder and buildDefID then
-        local x, y, z = Spring.GetCameraPosition()
-    Spring.Echo("build ---" .. buildDefID)
-        -- Получаем координаты мыши
-        local mx, my = Spring.GetMouseState()
-        local type, coords = Spring.TraceScreenRay(mx, my, true)
+    -- Получаем координаты мыши
+    local mx, my = Spring.GetMouseState()
+    local type, coords = Spring.TraceScreenRay(mx, my, true)
 
-        if type == "ground" and coords then
-            x, y, z = coords[1], coords[2], coords[3]
-            Spring.Echo("Building unit at: ", x, y, z)
+    -- Проверка, если курсор находится на земле
+    if type == "ground" and coords then
+        local x, y, z = coords[1], coords[2], coords[3]
 
-            -- Посылаем команду строительства юнита
-            Spring.GiveOrderToUnit(currentBuilder, -buildDefID, {x, y, z}, {"shift"})
-            Spring.Echo("Build command issued for buildDefID:", buildDefID)
-        else
-            Spring.Echo("Invalid position for building.")
-        end
+        -- Логирование координат
+        Spring.Echo("Building unit at: ", x, y, z)
+
+        -- Отправляем команду строительства, которая отображает макет
+    Spring.GiveOrderToUnit(currentBuilder, -buildDefID, {x, y, z}, {"alt", "ctrl", "shift", "right"})
+
+        -- Логирование информации о макете
+        Spring.Echo("Build order sent to currentBuilder:", currentBuilder, "for buildDefID:", buildDefID)
+
+    else
+        Spring.Echo("Invalid position for building.")
     end
 end
-
 local opened = false
 local tries = 0
 local doc, unitlist
