@@ -1,11 +1,9 @@
 <rml>
     <head>
-        <meta charset="UTF-8" />
         <link type="text/rcss" href="unit_menu.rcss"/>
     </head>
 
 <body>
-
 
     <div data-model="modelunit" style="position:absolute; left:1200px; top:100px; background:#222; padding:10px; width:300px; height:400px; z-index:999999;">
 
@@ -19,7 +17,6 @@
 
         <div style="font-family:FreeSans; font-size:20px; margin-bottom:10px; color:white;">
             {{ message }}<br/>
-            {{ testArray[0].name }}
         </div>
 
         <div data-if="hasBuilder" class="wrap-tech-level"  style="font-family:FreeSans;" >
@@ -28,17 +25,17 @@
             <div class="tech-icon">2</div>
             <div class="tech-icon">3</div>
         </div>
-
+        <div>icon: {{ testArray[0].icon }}</div>
         <div class="build-list">
 
-    <img src="UnitPics/Cleaver.png" height='64' width='64'/>
+    <img src="/UnitPics/Cleaver.png" height='64' width='64'/>
 
             <div class="actions flex flex-col gap-2 h-10 m-1" style="font-family:FreeSans;">
                 <div data-for="test, i: testArray">
                  <p>{{ test.name }}</p>
                 <p>{{ test.count }}</p>
-            <img src="'{{ test.icon }}'"  height='64' width='64'/> {{ test.icon }}
-      <img src="{{ test.icon }}" height='64' width='64'/>
+                <img data-attr-src="test.icon" height='64' width='64'/>
+                    {{ test.icon }}
 
                     <button style="display:none" data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>
                 </div>

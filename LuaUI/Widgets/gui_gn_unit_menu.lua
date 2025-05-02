@@ -47,6 +47,7 @@ function widget:Initialize()
         return
     end
     document:Show()
+     document:ReloadStyleSheet()
 end
 
 function widget:HideMenu()
@@ -92,17 +93,21 @@ function widget:Update()
             end
 
             local rmlData = {}
-            local index = 0
+            local index = 1
             for unitDefID, count in pairs(unitGroups) do
                 local unitDef = UnitDefs[unitDefID]
                 if unitDef then
+                    local iconUnit = "/UnitPics/" .. unitDef.name .. ".png"
                     rmlData[index] = {
                         name = unitDef.humanName or ("UnitDef " .. unitDefID),
-                        icon = "UnitPics/Cleaver.png", -- можно заменить на unitpics/.. если заработает
+                        icon = iconUnit,
                         id = tostring(unitDefID),
                         count = count,
                         builderID = "N/A"
                     }
+
+                     Spring.Echo(#rmlData)
+                     Spring.Echo("[SelectedUnitsRmlModel] Отправлены данные в RML: " .. tostring(index) .. " типов юнитов")
                     index = index + 1
                 end
             end
