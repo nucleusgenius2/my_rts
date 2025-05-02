@@ -1,5 +1,6 @@
 <rml>
     <head>
+        <meta charset="UTF-8" />
         <link type="text/rcss" href="unit_menu.rcss"/>
     </head>
 
