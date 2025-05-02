@@ -1,1 +1,15 @@
+div {
+    font-family:FreeSans;
+}
 
+.wrap-tech-level {
+    display: flex;
+    flex-direction: column
+}
+
+.tech-icon {
+    border-radius: 3px;
+    background-color: #fff;
+    color:#000;
+    padding:10px;
+}

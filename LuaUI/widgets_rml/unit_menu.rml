@@ -1,5 +1,11 @@
 <rml>
+    <head>
+        <link type="text/rcss" href="unit_menu.rcss"/>
+    </head>
+
 <body>
+
+
     <div data-model="modelunit" style="position:absolute; left:1200px; top:100px; background:#222; padding:10px; width:300px; height:400px; z-index:999999;">
 
         <div id="showtest1" onclick="ShowTestBlock2(modelunit)" style="font-family:FreeSans; margin:10px;">
@@ -15,13 +21,25 @@
             {{ testArray[0].name }}
         </div>
 
+        <div data-if="hasBuilder" class="wrap-tech-level"  style="font-family:FreeSans;" >
+        Строитель есть
+            <div class="tech-icon">1</div>
+            <div class="tech-icon">2</div>
+            <div class="tech-icon">3</div>
+        </div>
+
         <div class="build-list">
+
+    <img src="UnitPics/Cleaver.png" height='64' width='64'/>
 
             <div class="actions flex flex-col gap-2 h-10 m-1" style="font-family:FreeSans;">
                 <div data-for="test, i: testArray">
                  <p>{{ test.name }}</p>
-                   <p>{{ test.id }}</p>
-                    <button data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>
+                <p>{{ test.count }}</p>
+            <img src="'{{ test.icon }}'"  height='64' width='64'/> {{ test.icon }}
+      <img src="{{ test.icon }}" height='64' width='64'/>
+
+                    <button style="display:none" data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>
                 </div>
             </div>
 
