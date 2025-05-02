@@ -50,8 +50,10 @@ YardMap = "oooo oooo oooo oooo",
 --Weapons and related
   explodeAs = [[MediumBuildingExplosion]],
 	selfDestructAs = [[MediumBuildingExplosion]],
-    
 
+   customParams = {
+        techlevel = 2,
+    }
 
 }
 
