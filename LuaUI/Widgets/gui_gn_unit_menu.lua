@@ -12,6 +12,12 @@ function widget:GetInfo()
     }
 end
 
+local prevSelection = {}
+local doc
+local main_model_name = "modelunit"
+local dm_handle
+
+-- 👇 Сохраняем все твои функции
 local function BuildUnit(_, currentBuilder, buildDefID)
     Spring.Echo("build ---" .. buildDefID)
 
@@ -22,16 +28,12 @@ local function BuildUnit(_, currentBuilder, buildDefID)
     end
 end
 
---выделение всех юнитов с данным id
 local function SelectUnitsByDefID(_, unitDefID)
-    local str = tostring(unitDefID)
-    local realID = tonumber(str)
-
+    local realID = tonumber(unitDefID)
     if not realID then
-        Spring.Echo("Invalid unitDefID passed from RML, raw value:", str)
+        Spring.Echo("Invalid unitDefID passed from RML, raw value:", unitDefID)
         return
     end
-
 
     local allUnits = Spring.GetTeamUnits(Spring.GetMyTeamID())
     local toSelect = {}
@@ -45,39 +47,54 @@ local function SelectUnitsByDefID(_, unitDefID)
     Spring.SelectUnitArray(toSelect)
 end
 
-local prevSelection = {}
-local doc, unitlist
-local main_model_name = "modelunit"
+local function RunCommandFromRML(_, cmdID)
+    local selected = Spring.GetSelectedUnits()
+    if #selected == 0 then return end
+
+    local index = Spring.GetCmdDescIndex(cmdID)
+    if not index then
+        Spring.Echo("[RML] Command ID not found in CmdDesc:", cmdID)
+        return
+    end
+
+    -- Просто активируем команду — курсор сменится, игрок укажет точку
+    Spring.SetActiveCommand(index)
+
+    Spring.Echo("[RML] Activated cursor for command ID:", cmdID)
+end
+
+-- 👇 Инициализируем модель
 local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
+    RunCommandFromRML = RunCommandFromRML,
+    BuildUnit = BuildUnit,
+
     message = "тестовое сообщение",
     testArray = {},
+    unitCommands = {},
     hasBuilder = false,
     show = false,
     testblockVisible = false,
 }
-local dm_handle
 
 function widget:Initialize()
+   widgetHandler:ConfigLayoutHandler(widget)
     widget.rmlContext = RmlUi.GetContext("shared")
     dm_handle = widget.rmlContext:OpenDataModel(main_model_name, init_model)
+
     if not dm_handle then
         Spring.Echo("RmlUi: Failed to open data model", main_model_name)
         return
     end
+
     document = widget.rmlContext:LoadDocument("luaui/widgets_rml/unit_menu.rml", widget)
     if not document then
         Spring.Echo("Failed to load document")
         return
     end
-    document:Show()
-     document:ReloadStyleSheet()
-end
 
-function widget:HideMenu()
-    if doc then
-        -- doc:Hide()
-    end
+    document:Show()
+    document:ReloadStyleSheet()
 end
 
 local function sameSelection(a, b)
@@ -86,6 +103,32 @@ local function sameSelection(a, b)
         if a[i] ~= b[i] then return false end
     end
     return true
+end
+
+
+--получения списка команд юнита за исключением строительства
+local function getGroupCommands(selectedUnits)
+    local result = {}
+    if #selectedUnits == 0 then return result end
+
+    local unitID = selectedUnits[1]
+    local cmds = Spring.GetUnitCmdDescs(unitID)
+    if not cmds then return result end
+
+    for _, cmd in ipairs(cmds) do
+        -- фильтруем только НЕ постройки:
+        if cmd.id >= 0 and cmd.name and cmd.name ~= "" and not cmd.disabled and not cmd.hidden then
+            table.insert(result, {
+                id = cmd.id,
+                name = cmd.name,
+                tooltip = cmd.tooltip or "",
+                icon = cmd.texture or "",
+                params = cmd.params or {},
+            })
+        end
+    end
+
+    return result
 end
 
 function widget:Update()
@@ -108,9 +151,7 @@ function widget:Update()
                     local unitDefID = Spring.GetUnitDefID(unitID)
                     local unitDef = unitDefID and UnitDefs[unitDefID]
                     if unitDef then
-                        if unitDef.isBuilder then
-                            hasBuilder = true
-                        end
+                        if unitDef.isBuilder then hasBuilder = true end
                         unitGroups[unitDefID] = (unitGroups[unitDefID] or 0) + 1
                     end
                 end
@@ -129,22 +170,24 @@ function widget:Update()
                         count = count,
                         builderID = "N/A"
                     }
-
-
-                     Spring.Echo("[SelectedUnitsRmlModel] Отправлены данные в RML: " .. tostring(index) .. " типов юнитов")
                     index = index + 1
                 end
             end
 
             dm_handle.testArray = rmlData
             dm_handle.hasBuilder = hasBuilder
-            Spring.Echo("[SelectedUnitsRmlModel] Отправлены данные в RML: " .. tostring(index) .. " типов юнитов")
+            dm_handle.unitCommands = getGroupCommands(selectedUnits)
         else
             Spring.Echo("Нет widget.dm_handle!")
         end
     end
 end
 
+function widget:Shutdown()
+    if document then document:Hide() end
+end
+
+-- Пример ручного триггера через LuaCall
 _G.ShowTestBlock2 = function(event)
     Spring.Echo("button message")
     if dm_handle then
