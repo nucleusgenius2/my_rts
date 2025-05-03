@@ -37,7 +37,8 @@
 
             <!--<img src="/UnitPics/Cleaver.png" height='64' width='64'/>-->
             <div class="column col-2">
-                <div class="wrap-icons-selected-block">
+                <div data-if="!hasBuilder" class="wrap-icons-selected-block">
+
                     <div data-for="test, i: testArray">
                         <div data-event-click="SelectUnitsByDefID(test.id)" class="icon-unit-el">
                             <p class="unit-selected-count"> {{ test.count }}</p>
@@ -47,26 +48,32 @@
                         <!-- <button style="display:none" data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>-->
                     </div>
                 </div>
-            </div>
 
-            <div data-for="cmd, i: buildCommands">
-                <button data-event-click="RunCommandFromRML(cmd.id)">
-                    <img data-attr-src="cmd.icon" width="64" height="64" />
-                    <p>{{ cmd.name }}</p>
-                </button>
-            </div>
+                <div data-if="hasBuilder" class="wrap-icons-selected-block">
+
+                    <div data-for="cmd, i: buildCommands" >
+                        <div data-event-click="RunCommandFromRML(cmd.id)" class="icon-unit-el">
+                           <img data-attr-src="cmd.icon" width="64" height="64" />
+                             {{ cmd.icon }}
+                           <!--<p>{{ cmd.name }}</p>-->
+                       </div>
+                   </div>
+               </div>
+           </div>
 
 
 
-            <div class="column col-3">
-                <div data-if="hasBuilder" class="wrap-tech-level">
-                    <div class="tech-icon">1</div>
-                    <div class="tech-icon">2</div>
-                    <div class="tech-icon">3</div>
-                </div>
-            </div>
 
-        </div> <!-- .build-list -->
+
+           <div class="column col-3">
+               <div data-if="hasBuilder" class="wrap-tech-level">
+                   <div class="tech-icon">1</div>
+                   <div class="tech-icon">2</div>
+                   <div class="tech-icon">3</div>
+               </div>
+           </div>
+
+       </div> <!-- .build-list -->
 
     </div> <!-- главный внешний блок -->
 

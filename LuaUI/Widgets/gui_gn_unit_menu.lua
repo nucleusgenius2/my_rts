@@ -56,14 +56,19 @@ local function getBuildCommands(selectedUnits)
             local unitDef = UnitDefs[buildUnitDefID]
 
             if unitDef then
-                table.insert(result, {
-                    id = cmd.id,
-                    buildDefID = buildUnitDefID,
-                    name = unitDef.humanName or ("Build " .. tostring(buildUnitDefID)),
-                    tooltip = cmd.tooltip or "",
-                    icon = "#" .. buildUnitDefID,  -- это встроенное buildpic отображение
-                    params = cmd.params or {},
-                })
+                  local pic = unitDef.buildPic or ""
+                  if not pic:lower():find("unitpics/") then
+                       pic = "UnitPics/" .. pic
+                  end
+
+                  table.insert(result, {
+                       id = cmd.id,
+                       buildDefID = buildUnitDefID,
+                       name = unitDef.humanName or ("Build " .. tostring(buildUnitDefID)),
+                       tooltip = cmd.tooltip or "",
+                       icon = "/" .. pic, -- важно: путь должен начинаться с "/", т.к. это VFS
+                       params = cmd.params or {},
+                  })
             end
         end
     end
