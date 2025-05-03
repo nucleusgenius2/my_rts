@@ -49,6 +49,14 @@
                 </div>
             </div>
 
+            <div data-for="cmd, i: buildCommands">
+                <button data-event-click="RunCommandFromRML(cmd.id)">
+                    <img data-attr-src="cmd.icon" width="64" height="64" />
+                    <p>{{ cmd.name }}</p>
+                </button>
+            </div>
+
+
 
             <div class="column col-3">
                 <div data-if="hasBuilder" class="wrap-tech-level">

@@ -17,17 +17,9 @@ local doc
 local main_model_name = "modelunit"
 local dm_handle
 
--- 👇 Сохраняем все твои функции
-local function BuildUnit(_, currentBuilder, buildDefID)
-    Spring.Echo("build ---" .. buildDefID)
 
-    if currentBuilder then
-        Spring.Echo("currentBuilder: ", currentBuilder)
-    else
-        Spring.Echo("currentBuilder is nil!")
-    end
-end
 
+--функция которая выбирает юнитов
 local function SelectUnitsByDefID(_, unitDefID)
     local realID = tonumber(unitDefID)
     if not realID then
@@ -47,31 +39,91 @@ local function SelectUnitsByDefID(_, unitDefID)
     Spring.SelectUnitArray(toSelect)
 end
 
-local function RunCommandFromRML(_, cmdID)
-    local selected = Spring.GetSelectedUnits()
-    if #selected == 0 then return end
 
-    local index = Spring.GetCmdDescIndex(cmdID)
-    if not index then
-        Spring.Echo("[RML] Command ID not found in CmdDesc:", cmdID)
-        return
+--получить строительные команды юнита
+local function getBuildCommands(selectedUnits)
+    local result = {}
+    if #selectedUnits == 0 then return result end
+
+    local unitID = selectedUnits[1]
+    local cmds = Spring.GetUnitCmdDescs(unitID)
+    if not cmds then return result end
+
+    for _, cmd in ipairs(cmds) do
+        -- Это команда строительства, если ID < 0
+        if cmd.id < 0 and not cmd.disabled and not cmd.hidden then
+            local buildUnitDefID = -cmd.id
+            local unitDef = UnitDefs[buildUnitDefID]
+
+            if unitDef then
+                table.insert(result, {
+                    id = cmd.id,
+                    buildDefID = buildUnitDefID,
+                    name = unitDef.humanName or ("Build " .. tostring(buildUnitDefID)),
+                    tooltip = cmd.tooltip or "",
+                    icon = "#" .. buildUnitDefID,  -- это встроенное buildpic отображение
+                    params = cmd.params or {},
+                })
+            end
+        end
     end
 
-    -- Просто активируем команду — курсор сменится, игрок укажет точку
-    Spring.SetActiveCommand(index)
-
-    Spring.Echo("[RML] Activated cursor for command ID:", cmdID)
+    return result
 end
+
+
+--получения списка команд юнита за исключением строительства
+local function getGroupCommands(selectedUnits)
+    local result = {}
+    if #selectedUnits == 0 then return result end
+
+    local unitID = selectedUnits[1]
+    local cmds = Spring.GetUnitCmdDescs(unitID)
+    if not cmds then return result end
+
+    for _, cmd in ipairs(cmds) do
+        -- фильтруем только НЕ постройки:
+        if cmd.id >= 0 and cmd.name and cmd.name ~= "" and not cmd.disabled and not cmd.hidden then
+            table.insert(result, {
+                id = cmd.id,
+                name = cmd.name,
+                tooltip = cmd.tooltip or "",
+                icon = cmd.texture or "",
+                params = cmd.params or {},
+            })
+        end
+    end
+
+    return result
+end
+
+--выполнение команд юнитов
+local function RunCommandFromRML(_, cmdID)
+     local selected = Spring.GetSelectedUnits()
+     if #selected == 0 then return end
+
+     local index = Spring.GetCmdDescIndex(cmdID)
+     if not index then
+         Spring.Echo("[RML] Command ID not found in CmdDesc:", cmdID)
+         return
+     end
+
+     -- Просто активируем команду — курсор сменится, игрок укажет точку
+     Spring.SetActiveCommand(index)
+
+     Spring.Echo("[RML] Activated cursor for command ID:", cmdID)
+ end
+
 
 -- 👇 Инициализируем модель
 local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
     RunCommandFromRML = RunCommandFromRML,
-    BuildUnit = BuildUnit,
 
     message = "тестовое сообщение",
     testArray = {},
     unitCommands = {},
+    buildCommands = {},
     hasBuilder = false,
     show = false,
     testblockVisible = false,
@@ -106,30 +158,6 @@ local function sameSelection(a, b)
 end
 
 
---получения списка команд юнита за исключением строительства
-local function getGroupCommands(selectedUnits)
-    local result = {}
-    if #selectedUnits == 0 then return result end
-
-    local unitID = selectedUnits[1]
-    local cmds = Spring.GetUnitCmdDescs(unitID)
-    if not cmds then return result end
-
-    for _, cmd in ipairs(cmds) do
-        -- фильтруем только НЕ постройки:
-        if cmd.id >= 0 and cmd.name and cmd.name ~= "" and not cmd.disabled and not cmd.hidden then
-            table.insert(result, {
-                id = cmd.id,
-                name = cmd.name,
-                tooltip = cmd.tooltip or "",
-                icon = cmd.texture or "",
-                params = cmd.params or {},
-            })
-        end
-    end
-
-    return result
-end
 
 function widget:Update()
     local selectedUnits = Spring.GetSelectedUnits()
@@ -177,6 +205,7 @@ function widget:Update()
             dm_handle.testArray = rmlData
             dm_handle.hasBuilder = hasBuilder
             dm_handle.unitCommands = getGroupCommands(selectedUnits)
+            dm_handle.buildCommands = getBuildCommands(selectedUnits)
         else
             Spring.Echo("Нет widget.dm_handle!")
         end
