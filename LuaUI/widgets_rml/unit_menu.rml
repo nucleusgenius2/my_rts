@@ -3,47 +3,54 @@
         <link type="text/rcss" href="unit_menu.rcss"/>
     </head>
 
-<body>
+    <body style="position: absolute; bottom:0px; left:30%">
 
-    <div data-model="modelunit" style="position:absolute; left:1200px; top:100px; background:#222; padding:10px; width:300px; height:400px; z-index:999999;">
+    <div data-model="modelunit" class="window-wrap-unit-menu">
 
-        <div id="showtest1" onclick="ShowTestBlock2(modelunit)" style="font-family:FreeSans; margin:10px;">
-            Показать TEST-блок
-        </div>
+        <div class="wrap-unit-menu">
 
-        <div id="testblock1" data-visible="testblockVisible" style="font-family:FreeSans; margin:10px;">
-            TEST: ты кликнул!
-        </div>
+            <div class="column col-1">
+                <img src="/LuaUI/images/ui/attack.png" height='64' width='64'/>
+                <!--  <div id="showtest1" onclick="ShowTestBlock2(modelunit)" style="margin:10px;">
+                    Показать TEST-блок
+                </div>
 
-        <div style="font-family:FreeSans; font-size:20px; margin-bottom:10px; color:white;">
-            {{ message }}<br/>
-        </div>
+                <div id="testblock1" data-visible="testblockVisible" style="margin:10px;">
+                    TEST: ты кликнул!
+                </div>
 
-        <div data-if="hasBuilder" class="wrap-tech-level"  style="font-family:FreeSans;" >
-        Строитель есть
-            <div class="tech-icon">1</div>
-            <div class="tech-icon">2</div>
-            <div class="tech-icon">3</div>
-        </div>
-        <div>icon: {{ testArray[0].icon }}</div>
-        <div class="build-list">
+                <div style="font-size:20px; margin-bottom:10px; color:white;">
+                    {{ message }}<br/>
+                </div>-->
+            </div>
 
-    <img src="/UnitPics/Cleaver.png" height='64' width='64'/>
 
-            <div class="actions flex flex-col gap-2 h-10 m-1" style="font-family:FreeSans;">
-                <div data-for="test, i: testArray">
-                 <p>{{ test.name }}</p>
-                <p>{{ test.count }}</p>
-                <img data-attr-src="test.icon" height='64' width='64'/>
-                    {{ test.icon }}
+            <!--<img src="/UnitPics/Cleaver.png" height='64' width='64'/>-->
+            <div class="column col-2">
+                <div class="wrap-icons-selected-block">
+                    <div data-for="test, i: testArray">
+                        <div data-event-click="SelectUnitsByDefID(test.id)" class="icon-unit-el">
+                            <p class="unit-selected-count"> {{ test.count }}</p>
+                            <img data-attr-src="test.icon" class="icon-unit" height='64' width='64'/>
+                         </div>
 
-                    <button style="display:none" data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>
+                        <!-- <button style="display:none" data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>-->
+                    </div>
                 </div>
             </div>
 
 
+            <div class="column col-3">
+                <div data-if="hasBuilder" class="wrap-tech-level">
+                    <div class="tech-icon">1</div>
+                    <div class="tech-icon">2</div>
+                    <div class="tech-icon">3</div>
+                </div>
+            </div>
+
         </div> <!-- .build-list -->
 
     </div> <!-- главный внешний блок -->
-</body>
+
+    </body>
 </rml>

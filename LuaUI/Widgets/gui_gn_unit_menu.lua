@@ -22,10 +22,34 @@ local function BuildUnit(_, currentBuilder, buildDefID)
     end
 end
 
+--выделение всех юнитов с данным id
+local function SelectUnitsByDefID(_, unitDefID)
+    local str = tostring(unitDefID)
+    local realID = tonumber(str)
+
+    if not realID then
+        Spring.Echo("Invalid unitDefID passed from RML, raw value:", str)
+        return
+    end
+
+
+    local allUnits = Spring.GetTeamUnits(Spring.GetMyTeamID())
+    local toSelect = {}
+
+    for _, unitID in ipairs(allUnits) do
+        if Spring.GetUnitDefID(unitID) == realID then
+            table.insert(toSelect, unitID)
+        end
+    end
+
+    Spring.SelectUnitArray(toSelect)
+end
+
 local prevSelection = {}
 local doc, unitlist
 local main_model_name = "modelunit"
 local init_model = {
+    SelectUnitsByDefID = SelectUnitsByDefID,
     message = "тестовое сообщение",
     testArray = {},
     hasBuilder = false,
@@ -101,12 +125,12 @@ function widget:Update()
                     rmlData[index] = {
                         name = unitDef.humanName or ("UnitDef " .. unitDefID),
                         icon = iconUnit,
-                        id = tostring(unitDefID),
+                        id = unitDefID,
                         count = count,
                         builderID = "N/A"
                     }
 
-                     Spring.Echo(#rmlData)
+
                      Spring.Echo("[SelectedUnitsRmlModel] Отправлены данные в RML: " .. tostring(index) .. " типов юнитов")
                     index = index + 1
                 end
