@@ -21,14 +21,14 @@
 -- CtrlPanel Improved with WG tech tier filtering added to original layout
 function widget:GetInfo()
   return {
-    name      = "CtrlPanel Improved",
-    desc      = "Transparent ctrlpanel with WG-based tech tier filtering",
-    author    = "Adonai_Jr, modified",
+    name      = "NG CtrlPanel Improved",
+    desc      = "Custom build menu",
+    author    = "nucleus genius, Adonai_Jr, modified",
     date      = "2025",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
     handler   = true,
-    enabled   = true
+    enabled   = false
   }
 end
 
@@ -75,7 +75,6 @@ local commonConfig = {
 }
 
 local config = {}
-
 local function CustomLayoutHandler(xIcons, yIcons, cmdCount, commands)
   widgetHandler.commands = commands
   widgetHandler:CommandsChanged()
@@ -91,9 +90,17 @@ local function CustomLayoutHandler(xIcons, yIcons, cmdCount, commands)
 
   local ipp = xIcons * yIcons
   local activePage = Spring.GetActivePage()
+
+  -- Разделяем экран на 2 логические области:
+  local halfX = math.floor(xIcons / 2)  -- Левая часть — команды
+  local rightStart = halfX             -- Правая часть — стройки
+
+  local commandPos = 0
+  local buildPos = 0
+
+  -- Иконки навигации (только для стройки)
   local prevCmd, nextCmd = cmdCount - 1, cmdCount - 0
   local prevPos, nextPos = ipp - xIcons, ipp - 1
-
   if prevCmd >= 1 then reTexCmds[prevCmd] = FrameTex end
   if nextCmd >= 1 then reTexCmds[nextCmd] = FrameTex end
 
@@ -106,58 +113,59 @@ local function CustomLayoutHandler(xIcons, yIcons, cmdCount, commands)
     pageNumCmd = cmdCount + 1
   end
 
-  local pos = 0
-  local firstSpecial = xIcons * (yIcons - 1)
-
   for cmdSlot = 1, (cmdCount - 2) do
     local cmd = commands[cmdSlot]
-    if cmd and not cmd.hidden and cmd.id < 0 then
-      local unitDefID = -cmd.id
-      local ud = UnitDefs[unitDefID]
-      local tech = tonumber(ud and ud.customParams and ud.customParams.techlevel) or 1
+    if cmd and not cmd.hidden then
+      if cmd.id < 0 then
+        -- build-команды (юниты)
+        local unitDefID = -cmd.id
+        local ud = UnitDefs[unitDefID]
+        local tech = tonumber(ud and ud.customParams and ud.customParams.techlevel) or 1
 
-      if tech == tierToShow then
-        while math.fmod(pos, ipp) >= firstSpecial do pos = pos + 1 end
+        if tech == tierToShow then
+          local col = buildPos % (xIcons - rightStart)
+          local row = math.floor(buildPos / (xIcons - rightStart))
+          local gridPos = rightStart + col + row * xIcons
 
-        local pageStart = math.floor(ipp * math.floor(pos / ipp))
-        if math.abs(math.fmod(pos, ipp)) < 0.1 then
-          if pageStart > 0 then
-            iconList[prevPos + pageStart] = prevCmd
-            iconList[nextPos + pageStart] = nextCmd
-            if pageNumCmd > 0 then
-              iconList[pageNumPos + pageStart] = pageNumCmd
-            end
-          end
-          if pageStart == ipp then
+          iconList[gridPos] = cmdSlot
+          buildPos = buildPos + 1
+
+          -- Навигация
+          if row == 0 and col == 0 then
             iconList[prevPos] = prevCmd
             iconList[nextPos] = nextCmd
             if pageNumCmd > 0 then
               iconList[pageNumPos] = pageNumCmd
             end
           end
-        end
 
-        iconList[pos] = cmdSlot
-        pos = pos + 1
-
-        if translations then
-          local trans = translations[cmd.id]
-          if trans then
-            reTooltipCmds[cmdSlot] = trans.desc
-            if not trans.params then
-              if cmd.id ~= CMD.STOCKPILE then
-                reNamedCmds[cmdSlot] = trans.name
-              end
-            else
-              local num = tonumber(cmd.params[1])
-              if num then
-                num = num + 1
-                cmd.params[num] = trans.params[num]
-                reParamsCmds[cmdSlot] = cmd.params
+          if translations then
+            local trans = translations[cmd.id]
+            if trans then
+              reTooltipCmds[cmdSlot] = trans.desc
+              if not trans.params then
+                if cmd.id ~= CMD.STOCKPILE then
+                  reNamedCmds[cmdSlot] = trans.name
+                end
+              else
+                local num = tonumber(cmd.params[1])
+                if num then
+                  num = num + 1
+                  cmd.params[num] = trans.params[num]
+                  reParamsCmds[cmdSlot] = cmd.params
+                end
               end
             end
           end
         end
+      elseif cmd.id >= 0 or cmd.type ~= CMDTYPE.ICON_BUILDING then
+        -- обычные команды (двигаться, атаковать и т.п.)
+        local col = commandPos % halfX
+        local row = math.floor(commandPos / halfX)
+        local gridPos = col + row * xIcons
+
+        iconList[gridPos] = cmdSlot
+        commandPos = commandPos + 1
       end
     end
   end
@@ -168,6 +176,7 @@ local function CustomLayoutHandler(xIcons, yIcons, cmdCount, commands)
          reNamedCmds, reTooltipCmds, reParamsCmds,
          iconList
 end
+
 
 function widget:Initialize()
   widgetHandler:DisableWidget("Red Build/Order Menu")
