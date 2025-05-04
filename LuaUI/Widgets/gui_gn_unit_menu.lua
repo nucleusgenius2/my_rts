@@ -116,7 +116,10 @@ local function RunCommandFromRML(_, cmdID)
      -- Просто активируем команду — курсор сменится, игрок укажет точку
      Spring.SetActiveCommand(index)
 
-     Spring.Echo("[RML] Activated cursor for command ID:", cmdID)
+     if dm_handle then
+          Spring.Echo("3333", cmdID)
+          dm_handle.activeCommandID = cmdID
+     end
  end
 
 
@@ -124,7 +127,7 @@ local function RunCommandFromRML(_, cmdID)
 local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
     RunCommandFromRML = RunCommandFromRML,
-
+    activeCommandID = -9999999,
     message = "тестовое сообщение",
     testArray = {},
     unitCommands = {},

@@ -50,11 +50,11 @@
                 </div>
 
                 <div data-if="hasBuilder" class="wrap-icons-selected-block">
-
+                    <!-- здания-->
                     <div data-for="cmd, i: buildCommands" >
-                        <div data-event-click="RunCommandFromRML(cmd.id)" class="icon-unit-el">
-                           <img data-attr-src="cmd.icon" width="64" height="64" />
-                             {{ cmd.icon }}
+                        <div data-event-click="RunCommandFromRML(cmd.id)" class="icon-unit-el" data-class-selected-build="cmd.id == activeCommandID">
+                            <img data-attr-src="cmd.icon" width="64" height="64" />
+                            <div class="effect-h"></div>
                            <!--<p>{{ cmd.name }}</p>-->
                        </div>
                    </div>

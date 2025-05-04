@@ -31,12 +31,15 @@ div {
     flex-direction: row;
 }
 .col-1 {
+    flex-basis: 45%;
     width: 45%;
 }
 .col-2 {
+    flex-basis: 45%;
     width: 45%;
 }
 .col-3 {
+    flex-basis: 10%;
     width: 10%;
 }
 
@@ -72,4 +75,17 @@ div {
     display: flex;
     gap: 5px;
     flex-wrap: wrap;
+}
+
+.selected-build  .effect-h {
+    display: block;
+}
+.effect-h {
+    top:0px;
+    left:0px;
+    height:64px;
+    width: 64px;
+    position: absolute;
+    background-color:#3c99d957;
+    display: none;
 }
