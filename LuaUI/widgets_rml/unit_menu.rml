@@ -3,10 +3,10 @@
         <link type="text/rcss" href="unit_menu.rcss"/>
     </head>
 
-    <body style="position: absolute; bottom:0px; left:30%">
+    <body data-if="show" style="position: absolute; bottom:0px; left:30%">
 
     <div data-model="modelunit" class="window-wrap-unit-menu">
-
+<div data-if="show">22222222222222222222222</div>
         <div class="wrap-unit-menu">
 
             <div class="column col-1">
@@ -39,6 +39,13 @@
                                 <div data-if="cmd.name=='Patrol'">
                                     <img src="/LuaUI/images/ui/patrol.png" height='64' width='64'/>
                                 </div>
+                                <div data-if="cmd.name=='Fight'">
+                                    <img src="/LuaUI/images/ui/fight.png" height='64' width='64'/>
+                                </div>
+                                <div data-if="cmd.name=='Repair'">
+                                    <img src="/LuaUI/images/ui/repair.png" height='64' width='64'/>
+                                </div>
+
 
                                 <p>{{ cmd.name }}</p>
                             </div>
@@ -55,6 +62,7 @@
                         </div>
                     </div>
 
+                </div>
             </div>
 
 
@@ -69,14 +77,14 @@
                          </div>
                     </div>
                 </div>
-
+{{ selectTechLevel }}
                 <div data-if="hasBuilder" class="wrap-icons-selected-block">
                     <!-- здания-->
-                    <div data-for="cmd, i: buildCommands" >
-                        <div data-event-click="RunCommandFromRML(cmd.id)" class="icon-unit-el" data-class-selected-build="cmd.id == activeCommandID">
+                    <div data-for="cmd, i: buildCommands">
+
+                        <div data-if="(cmd.techlevel==engineerTechLevel && selectTechLevel==0) || (selectTechLevel > 0 && selectTechLevel==cmd.techlevel)" data-event-click="RunCommandFromRML(cmd.id)" class="icon-unit-el" data-class-selected-build="cmd.id == activeCommandID">
                             <img data-attr-src="cmd.icon" width="64" height="64" />
-                            <div class="effect-h"></div>
-                           <!--<p>{{ cmd.name }}</p>-->
+                            <div  class="effect-h"></div>
                        </div>
                    </div>
                </div>
@@ -86,15 +94,15 @@
 
            <div class="column col-3">
                <div data-if="hasBuilder" class="wrap-tech-level">
-                   <div class="tech-icon">1</div>
-                   <div class="tech-icon">2</div>
-                   <div class="tech-icon">3</div>
+                   <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 1)">1</div>
+                   <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 2)">2</div>
+                   <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 3)">3</div>
                </div>
            </div>
 
-       </div> <!-- .build-list -->
+       </div>
 
-    </div> <!-- главный внешний блок -->
+    </div>
 
     </body>
 </rml>
