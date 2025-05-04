@@ -108,7 +108,7 @@ local function getGroupCommands(selectedUnits)
                 isStateCommand = isState,
                 stateIndex = stateIndex,
                 stateLabels = stateLabels,
-                stateLabelText = labelText, -- 👈 для безопасного отображения
+                stateLabelText = labelText,
             })
         end
     end
@@ -126,7 +126,7 @@ local function RunCommandFromRML(_, cmdID)
         for _, cmd in ipairs(cmdDescs or {}) do
             if cmd.id == cmdID then
                 if #cmd.params > 1 then
-                    -- state-команда (команды  стублером, но уже уехали в другую функциию)
+                    -- state-команда (команды  с тублером, но уже уехали в другую функциию)
                     local cur = cmd.params[1]
                     local total = #cmd.params - 1
                     local nextState = (cur + 1) % total
@@ -222,6 +222,16 @@ end
 function widget:Update()
     --получение выбранных юнитов
     local selectedUnits = Spring.GetSelectedUnits()
+
+    -- показ юнит меню
+    if dm_handle then
+        if(#selectedUnits > 0) then
+            document:Show()
+        else
+             document:Hide()
+        end
+
+    end
 
     if not sameSelection(selectedUnits, prevSelection) then
         prevSelection = {}
