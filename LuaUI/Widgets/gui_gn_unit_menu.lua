@@ -16,7 +16,7 @@ local prevSelection = {}
 local doc
 local main_model_name = "modelunit"
 local dm_handle
-
+local engineerTechLevel = 1
 
 --функция которая выбирает юнитов
 local function SelectUnitsByDefID(_, unitDefID)
@@ -60,6 +60,10 @@ local function getBuildCommands(selectedUnits)
                        pic = "UnitPics/" .. pic
                   end
 
+                  --получаем techlevel или по умолчанию 1
+                  local techlevel = tonumber(unitDef.customParams and unitDef.customParams.techlevel) or 1
+
+
                   table.insert(result, {
                        id = cmd.id,
                        buildDefID = buildUnitDefID,
@@ -67,6 +71,7 @@ local function getBuildCommands(selectedUnits)
                        tooltip = cmd.tooltip or "",
                        icon = "/" .. pic, -- важно: путь должен начинаться с "/", т.к. это VFS
                        params = cmd.params or {},
+                       techlevel = techlevel,
                   })
             end
         end
@@ -136,6 +141,10 @@ local function RunCommandFromRML(_, cmdID)
     end
 
 
+     if dm_handle then
+            --id выбранного нит на стройку
+           dm_handle.activeCommandID = cmdID
+     end
 end
 
 --комады с тумблером
@@ -157,7 +166,7 @@ local function ToggleStateCommand(_, cmdID)
         end
     end
 
-    -- 🔁 Ждём один кадр, чтобы `cmd.params` успели обновиться
+    -- Ждём один кадр, чтобы `cmd.params` успели обновиться
     widget.waitingCmdUpdate = cmdID
 end
 
@@ -166,19 +175,18 @@ end
 
 
 
--- 👇 Инициализируем модель
+-- Инициализируем модель
 local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
     RunCommandFromRML = RunCommandFromRML,
-    activeCommandID = -9999999,
-    message = "тестовое сообщение",
+    activeCommandID = -9999999, --здание которое выбрали для постройки
     testArray = {},
     unitCommands = {},
     buildCommands = {},
     hasBuilder = false,
     show = false,
-    testblockVisible = false,
-    ToggleStateCommand = ToggleStateCommand,s
+    ToggleStateCommand = ToggleStateCommand,
+    engineerTechLevel = 1
 }
 
 function widget:Initialize()
@@ -232,7 +240,14 @@ function widget:Update()
                     local unitDefID = Spring.GetUnitDefID(unitID)
                     local unitDef = unitDefID and UnitDefs[unitDefID]
                     if unitDef then
-                        if unitDef.isBuilder then hasBuilder = true end
+                        if unitDef.isBuilder then
+                        hasBuilder = true end
+
+                        -- сразу получаем уровень технологии у первого билдера
+                        if engineerTechLevel == 1 and unitDef.customParams and unitDef.customParams.techlevel then
+                            engineerTechLevel = tonumber(unitDef.customParams.techlevel) or 1
+                        end
+
                         unitGroups[unitDefID] = (unitGroups[unitDefID] or 0) + 1
                     end
                 end
@@ -259,6 +274,7 @@ function widget:Update()
             dm_handle.hasBuilder = hasBuilder
             dm_handle.unitCommands = getGroupCommands(selectedUnits)
             dm_handle.buildCommands = getBuildCommands(selectedUnits)
+            dm_handle.engineerTechLevel = engineerTechLevel
         else
             Spring.Echo("Нет widget.dm_handle!")
         end
@@ -275,20 +291,4 @@ end
 
 function widget:Shutdown()
     if document then document:Hide() end
-end
-
--- Пример ручного триггера через LuaCall
-_G.ShowTestBlock2 = function(event)
-    Spring.Echo("button message")
-    if dm_handle then
-        dm_handle.message = "т3333333333333333"
-        dm_handle.testblockVisible = not dm_handle.testblockVisible
-        dm_handle.testArray = {
-            { name = "22222", value = 1 },
-            { name = "3333", value = 2 },
-            { name = "4444", value = 3 },
-        }
-    else
-        Spring.Echo("Нет widget.dm_handle!")
-    end
 end
