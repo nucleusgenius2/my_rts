@@ -89,3 +89,30 @@ div {
     background-color:#3c99d957;
     display: none;
 }
+.commands-container {
+    width: 100%
+}
+
+.command-state-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #2a2a2a;
+    color: #fff;
+    padding: 8px 14px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+.command-state-button:hover {
+    background-color: #444;
+}
+.command-state-button img {
+    width: 20px;
+    height: 20px;
+}
+.command-state-button span {
+    font-weight: bold;
+}

@@ -10,9 +10,7 @@
         <div class="wrap-unit-menu">
 
             <div class="column col-1">
-                <div class="wrap-command-panel">
-                    <img src="/LuaUI/images/ui/attack.png" height='64' width='64'/>
-                </div>
+
                 <!--  <div id="showtest1" onclick="ShowTestBlock2(modelunit)" style="margin:10px;">
                     Показать TEST-блок
                 </div>
@@ -24,13 +22,38 @@
                 <div style="font-size:20px; margin-bottom:10px; color:white;">
                     {{ message }}<br/>
                 </div>-->
-                <div class="commands-container">
-                    <div data-for="cmd, i: unitCommands">
-                        <button data-event-click="RunCommandFromRML(cmd.id)">
-                            <p>{{ cmd.name }}</p>
-                        </button>
+                <div class="wrap-command-panel">
+                    <div class="commands-container">
+                        <div data-for="cmd, i: unitCommands">
+
+                            <div data-event-click="RunCommandFromRML(cmd.id)">
+                                <div data-if="cmd.name=='Attack'">
+                                    <img src="/LuaUI/images/ui/attack.png" height='64' width='64'/>
+                                </div>
+                                <div data-if="cmd.name=='Stop'">
+                                    <img src="/LuaUI/images/ui/stop.png" height='64' width='64'/>
+                                </div>
+                                <div data-if="cmd.name=='Move'">
+                                    <img src="/LuaUI/images/ui/move.png" height='64' width='64'/>
+                                </div>
+                                <div data-if="cmd.name=='Patrol'">
+                                    <img src="/LuaUI/images/ui/patrol.png" height='64' width='64'/>
+                                </div>
+
+                                <p>{{ cmd.name }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <!-- стат команды -->
+                    <div class="commands-container">
+                        <div data-for="cmd, i: unitCommands" data-if="cmd.isStateCommand">
+                            {{  cmd.name  }}
+                            <div class="command-state-button"  data-event-click="RunCommandFromRML(cmd.id)">
+                                <span>{{ cmd.stateLabelText }}</span>
+
+                            </div>
+                        </div>
+                    </div>
 
             </div>
 
@@ -38,14 +61,12 @@
             <!--<img src="/UnitPics/Cleaver.png" height='64' width='64'/>-->
             <div class="column col-2">
                 <div data-if="!hasBuilder" class="wrap-icons-selected-block">
-
+                    <!-- выбранные юниты-->
                     <div data-for="test, i: testArray">
                         <div data-event-click="SelectUnitsByDefID(test.id)" class="icon-unit-el">
                             <p class="unit-selected-count"> {{ test.count }}</p>
                             <img data-attr-src="test.icon" class="icon-unit" height='64' width='64'/>
                          </div>
-
-                        <!-- <button style="display:none" data-event-click="BuildUnit(test.builderID, test.id)">Построить</button>-->
                     </div>
                 </div>
 
@@ -60,8 +81,6 @@
                    </div>
                </div>
            </div>
-
-
 
 
 

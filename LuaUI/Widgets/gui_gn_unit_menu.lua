@@ -18,7 +18,6 @@ local main_model_name = "modelunit"
 local dm_handle
 
 
-
 --функция которая выбирает юнитов
 local function SelectUnitsByDefID(_, unitDefID)
     local realID = tonumber(unitDefID)
@@ -86,15 +85,25 @@ local function getGroupCommands(selectedUnits)
     local cmds = Spring.GetUnitCmdDescs(unitID)
     if not cmds then return result end
 
-    for _, cmd in ipairs(cmds) do
-        -- фильтруем только НЕ постройки:
+   for _, cmd in ipairs(cmds) do
+         -- фильтр что это не постройка
         if cmd.id >= 0 and cmd.name and cmd.name ~= "" and not cmd.disabled and not cmd.hidden then
+            local isState = #cmd.params > 1
+            local stateLabels = isState and { unpack(cmd.params, 2) } or nil
+            local stateIndex = isState and tonumber(cmd.params[1]) + 1 or nil
+
+            local labelText = isState and stateLabels[stateIndex] or cmd.name
+
             table.insert(result, {
                 id = cmd.id,
                 name = cmd.name,
                 tooltip = cmd.tooltip or "",
                 icon = cmd.texture or "",
                 params = cmd.params or {},
+                isStateCommand = isState,
+                stateIndex = stateIndex,
+                stateLabels = stateLabels,
+                stateLabelText = labelText, -- 👈 для безопасного отображения
             })
         end
     end
@@ -104,23 +113,57 @@ end
 
 --выполнение команд юнитов
 local function RunCommandFromRML(_, cmdID)
-     local selected = Spring.GetSelectedUnits()
-     if #selected == 0 then return end
+    local selected = Spring.GetSelectedUnits()
+    if #selected == 0 then return end
 
-     local index = Spring.GetCmdDescIndex(cmdID)
-     if not index then
-         Spring.Echo("[RML] Command ID not found in CmdDesc:", cmdID)
-         return
-     end
+    for _, unitID in ipairs(selected) do
+        local cmdDescs = Spring.GetUnitCmdDescs(unitID)
+        for _, cmd in ipairs(cmdDescs or {}) do
+            if cmd.id == cmdID then
+                if #cmd.params > 1 then
+                    -- state-команда (команды  стублером, но уже уехали в другую функциию)
+                    local cur = cmd.params[1]
+                    local total = #cmd.params - 1
+                    local nextState = (cur + 1) % total
+                    Spring.GiveOrderToUnit(unitID, cmdID, { nextState }, {})
+                else
+                    -- обычная команда
+                    Spring.SetActiveCommand(Spring.GetCmdDescIndex(cmdID))
+                end
+                break
+            end
+        end
+    end
 
-     -- Просто активируем команду — курсор сменится, игрок укажет точку
-     Spring.SetActiveCommand(index)
 
-     if dm_handle then
-          Spring.Echo("3333", cmdID)
-          dm_handle.activeCommandID = cmdID
-     end
- end
+end
+
+--комады с тумблером
+local function ToggleStateCommand(_, cmdID)
+    local selected = Spring.GetSelectedUnits()
+    if #selected == 0 then return end
+
+    -- Подаём команду на смену состояния
+    for _, unitID in ipairs(selected) do
+        local cmdDescs = Spring.GetUnitCmdDescs(unitID)
+        for _, cmd in ipairs(cmdDescs or {}) do
+            if cmd.id == cmdID and #cmd.params > 1 then
+                local cur = cmd.params[1]
+                local total = #cmd.params - 1
+                local nextState = (cur + 1) % total
+                Spring.GiveOrderToUnit(unitID, cmdID, { nextState }, {})
+                break
+            end
+        end
+    end
+
+    -- 🔁 Ждём один кадр, чтобы `cmd.params` успели обновиться
+    widget.waitingCmdUpdate = cmdID
+end
+
+
+
+
 
 
 -- 👇 Инициализируем модель
@@ -135,6 +178,7 @@ local init_model = {
     hasBuilder = false,
     show = false,
     testblockVisible = false,
+    ToggleStateCommand = ToggleStateCommand,s
 }
 
 function widget:Initialize()
@@ -168,6 +212,7 @@ end
 
 
 function widget:Update()
+    --получение выбранных юнитов
     local selectedUnits = Spring.GetSelectedUnits()
 
     if not sameSelection(selectedUnits, prevSelection) then
@@ -218,6 +263,14 @@ function widget:Update()
             Spring.Echo("Нет widget.dm_handle!")
         end
     end
+
+
+
+    -- для обновления тугловых команд
+    if dm_handle then
+         dm_handle.unitCommands = getGroupCommands(Spring.GetSelectedUnits())
+    end
+
 end
 
 function widget:Shutdown()
