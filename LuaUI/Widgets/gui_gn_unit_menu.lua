@@ -3,8 +3,8 @@ widget = widget or {}
 function widget:GetInfo()
     return {
         name = "Selected Units RML Model",
-        desc = "Uses a data model for unit selections with RmlUi",
-        author = "nucleus_genius & chatgpt",
+        desc = "RmlUi unit menu",
+        author = "nucleus_genius",
         date = "2025",
         license = "GNU GPL, v2 or later",
         layer = 0,
@@ -171,7 +171,14 @@ local function ToggleStateCommand(_, cmdID)
 end
 
 
+--смена тех уровня
+local function ChangeTexLevel(_, engineerTechLevel, selectedLevel)
+    if engineerTechLevel >= selectedLevel then
+         dm_handle.selectTechLevel = selectedLevel
+    end
 
+    dm_handle.selectTechLevel = selectedLevel -- пока что переключаем тех левел без проверок
+end
 
 
 
@@ -179,6 +186,7 @@ end
 local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
     RunCommandFromRML = RunCommandFromRML,
+    ChangeTexLevel = ChangeTexLevel,
     activeCommandID = -9999999, --здание которое выбрали для постройки
     testArray = {},
     unitCommands = {},
@@ -186,7 +194,8 @@ local init_model = {
     hasBuilder = false,
     show = false,
     ToggleStateCommand = ToggleStateCommand,
-    engineerTechLevel = 1
+    engineerTechLevel = 1, -- тех левел инжа
+    selectTechLevel = 0
 }
 
 function widget:Initialize()
