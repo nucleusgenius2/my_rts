@@ -68,7 +68,7 @@
 
             <!--<img src="/UnitPics/Cleaver.png" height='64' width='64'/>-->
             <div class="column col-2">
-                <div data-if="!hasBuilder" class="wrap-icons-selected-block">
+                <div data-if="!hasBuilder && !hasLaboratory" class="wrap-icons-selected-block">
                     <!-- выбранные юниты-->
                     <div data-for="test, i: testArray">
                         <div data-event-click="SelectUnitsByDefID(test.id)" class="icon-unit-el">
@@ -76,6 +76,13 @@
                             <img data-attr-src="test.icon" class="icon-unit" height='64' width='64'/>
                          </div>
                     </div>
+                </div>
+
+
+                <div data-if="hasLaboratory" class="wrap-icons-selected-block">
+                    <!-- апгрейды -->
+
+                    <div data-event-click="CallUpgrade('hp_level_1')">Улучшить HP</div>
                 </div>
 {{ selectTechLevel }}
                 <div data-if="hasBuilder" class="wrap-icons-selected-block">

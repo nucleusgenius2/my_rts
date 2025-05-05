@@ -180,6 +180,12 @@ local function ChangeTexLevel(_, engineerTechLevel, selectedLevel)
     dm_handle.selectTechLevel = selectedLevel -- пока что переключаем тех левел без проверок
 end
 
+--отправка данных для апгрейда в гаджет
+local function CallUpgrade(_, upgradeKey)
+    local msg = "upgrade|".. tostring(upgradeKey)
+    Spring.SendLuaRulesMsg(msg)
+end
+
 
 
 -- Инициализируем модель
@@ -187,15 +193,17 @@ local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
     RunCommandFromRML = RunCommandFromRML,
     ChangeTexLevel = ChangeTexLevel,
+    CallUpgrade = CallUpgrade,
     activeCommandID = -9999999, --здание которое выбрали для постройки
     testArray = {},
     unitCommands = {},
     buildCommands = {},
-    hasBuilder = false,
+    hasBuilder = false, -- есть ли инженер
     show = false,
     ToggleStateCommand = ToggleStateCommand,
     engineerTechLevel = 1, -- тех левел инжа
-    selectTechLevel = 0
+    selectTechLevel = 0, -- тех левел который выбрали в меню дял отображения
+    hasLaboratory = false,
 }
 
 function widget:Initialize()
@@ -253,6 +261,7 @@ function widget:Update()
         if dm_handle then
             local unitGroups = {}
             local hasBuilder = false
+            local hasLaboratory = false
 
             for _, unitID in ipairs(selectedUnits) do
                 if Spring.ValidUnitID(unitID) then
@@ -260,11 +269,17 @@ function widget:Update()
                     local unitDef = unitDefID and UnitDefs[unitDefID]
                     if unitDef then
                         if unitDef.isBuilder then
-                        hasBuilder = true end
+                            hasBuilder = true
+                        end
 
                         -- сразу получаем уровень технологии у первого билдера
                         if engineerTechLevel == 1 and unitDef.customParams and unitDef.customParams.techlevel then
                             engineerTechLevel = tonumber(unitDef.customParams.techlevel) or 1
+                        end
+
+                        --проверка что это здание лаборатория
+                        if unitDef.customParams and unitDef.customParams.laboratory then
+                           hasLaboratory = true
                         end
 
                         unitGroups[unitDefID] = (unitGroups[unitDefID] or 0) + 1
@@ -294,6 +309,8 @@ function widget:Update()
             dm_handle.unitCommands = getGroupCommands(selectedUnits)
             dm_handle.buildCommands = getBuildCommands(selectedUnits)
             dm_handle.engineerTechLevel = engineerTechLevel
+            dm_handle.hasLaboratory = hasLaboratory
+
         else
             Spring.Echo("Нет widget.dm_handle!")
         end

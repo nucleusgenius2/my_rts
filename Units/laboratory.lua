@@ -47,6 +47,9 @@ local unitDef  =  {
    explodeAs = [[FusionExplosion]],
    selfDestructAs = [[FusionExplosion]],
 
+   customParams = {
+        laboratory = true;
+   }
 
 
 }
