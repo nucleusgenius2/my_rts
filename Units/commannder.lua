@@ -91,6 +91,7 @@ buildoptions =
 	[[radartower]],
 	[[caretaker]],
 	[[bb]],
+	[[laboratory]],
 	},
 
 --Hitbox
