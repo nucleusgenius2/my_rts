@@ -2,7 +2,7 @@ widget = widget or {}
 
 function widget:GetInfo()
     return {
-        name = "Selected Units RML Model",
+        name = "NG unit menu",
         desc = "RmlUi unit menu",
         author = "nucleus_genius",
         date = "2025",

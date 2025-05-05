@@ -4,7 +4,7 @@ end
 
 function widget:GetInfo()
     return {
-        name = "Rml context manager",
+        name = "NG Rml context manager",
         desc = "This widget is responsible for handling dynamic interactions with Rml contexts.",
         author = "nucleus_genius",
         date = "2025",
