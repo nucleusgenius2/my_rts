@@ -63,13 +63,17 @@ collisionVolumeType       =  "box",
 
 
 
-weapons = {
-[1]={name  = "DualStunMissles",
-       turret = true
-	},
+    weapons = {
+        [1]={name  = "DualStunMissles",
+               turret = true
+            },
 
-	
-},
+
+        },
+
+     customParams = {
+        hp_level_1 = "1"
+     }
 
 }
 

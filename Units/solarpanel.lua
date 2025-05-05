@@ -28,7 +28,7 @@ BuildPic = "Solar Pannel.png",
     BuildCostMetal = 75,
     Buildtime = 75,
 	--2 energy
-    energyMake = 0, 
+    energyMake = 0,
 
 --Size and Abilites
    MaxSlope = 33,
@@ -39,8 +39,8 @@ BuildPic = "Solar Pannel.png",
    CanMove = 0,
    CanPatrol = 0,
    onOffable = 1,
-   activateWhenBuilt = 1, 
-	
+   activateWhenBuilt = 1,
+
 
 --Hitbox
 collisionVolumeOffsets    =  "0 0 0",
@@ -51,9 +51,11 @@ YardMap = "oooo oooo oooo oooo",
   explodeAs = [[MediumBuildingExplosion]],
 	selfDestructAs = [[MediumBuildingExplosion]],
 
-   customParams = {
+     customParams = {
         techlevel = 2,
-    }
+        hp_level_1 = "1"
+     }
+
 
 }
 
