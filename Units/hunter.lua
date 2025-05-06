@@ -4,7 +4,7 @@ local unitDef  =  {
 --Внутренние настройки
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
-    ObjectName = "HunterT.s3o",
+    ObjectName = "tank_1.dae",
     name = "Охотник 2",
     Side = "Vroomers",
     TEDClass = "Vech",
@@ -23,9 +23,9 @@ local unitDef  =  {
     Upright = 0,
 	explodeAs = [[SmallExplosion]],
 	selfDestructAs = [[SmallExplosion]],
-	sfxtypes             = {
-	explosionGenerators = {
-	[[custom:huntermuzzleflash]],
+	sfxtypes = {
+	    explosionGenerators = {
+	    [[custom:huntermuzzleflash]],
 	},
    },
    corpse = [[hunter_dead]],
@@ -72,6 +72,11 @@ local unitDef  =  {
                turret = true
         },
     },
+
+    customParams = {
+        techlevel = 2,
+        modelradius = 20,
+    }
 }
 
 return lowerkeys({ [unitName]  =  unitDef })
