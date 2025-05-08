@@ -1,59 +1,56 @@
--- тело и оружие
-local Base = piece "Base"
-local Body = piece "Body"
-local Turret = piece "Turret"
-local TurretMGun = piece "TurretMGun"
-local Flare = piece "Flare"
+-----------------------------------------------------------------------
+--  Hunter — unit-script (synced)
+-----------------------------------------------------------------------
+local Base        = piece "Base"
+local Body        = piece "Body"
+local Turret      = piece "Turret"
+local TurretMGun  = piece "TurretMGun"
+local Flare       = piece "Flare"
 
-aimSpeed = 4.0
+local AIM_SPEED     = 4.0      -- рад/с
+local RESTORE_DELAY = 2000     -- мс
+local SIG_AIM       = 1
 
--- эффекты
-local huntermuzzleflash = SFX.CEG
-
--- сигналы
-local SIG_AIM = 2
-
-function script.Create()
-end
-
+-----------------------------------------------------------------------
+--  Наведение и огонь
+-----------------------------------------------------------------------
 local function RestoreAfterDelay()
-    Sleep(2000)
-    Turn(Turret, y_axis, 0, aimSpeed)
-    Turn(TurretMGun, x_axis, 0, aimSpeed)
-    WaitForTurn(Turret, y_axis)
-    WaitForTurn(TurretMGun, x_axis)
+    Sleep(RESTORE_DELAY)
+    Turn(Turret,      y_axis, 0, AIM_SPEED)
+    Turn(TurretMGun,  x_axis, 0, AIM_SPEED)
 end
 
----- Aim & Fire weapon
-function script.AimFromWeapon1()
-    return Turret
-end
+function script.AimFromWeapon1()  return Turret end
+function script.QueryWeapon1()    return Flare  end
 
-function script.QueryWeapon1()
-    return Flare
-end
-
-function script.AimWeapon1(heading, pitch)
-    Signal(SIG_AIM)
-    SetSignalMask(SIG_AIM)
-    Turn(Turret, y_axis, heading, aimSpeed)
-    Turn(TurretMGun, x_axis, -pitch, aimSpeed)
+function script.AimWeapon1(h, p)
+    Signal(SIG_AIM);  SetSignalMask(SIG_AIM)
+    Turn(Turret,     y_axis,  h, AIM_SPEED)
+    Turn(TurretMGun, x_axis, -p, AIM_SPEED)
     WaitForTurn(Turret, y_axis)
     StartThread(RestoreAfterDelay)
     return true
 end
 
 function script.FireWeapon1()
-    EmitSfx(Flare, huntermuzzleflash)
+    EmitSfx(Flare, 1024)       -- замените ID, если нужно
 end
 
---- death animation
-function script.Killed(recentDamage, maxHealth, corpsetype)
+-----------------------------------------------------------------------
+--  Гусеницы: шлём команды в unsynced-гаджет
+-----------------------------------------------------------------------
+function script.StartMoving()
+    SendToUnsynced("hunter_track_start", unitID)
+end
+
+function script.StopMoving()
+    SendToUnsynced("hunter_track_stop", unitID)
+end
+
+-----------------------------------------------------------------------
+--  Гибель
+-----------------------------------------------------------------------
+function script.Killed(dmg, maxHealth)
     Explode(Body, SFX.SHATTER)
-    local severity = recentDamage / maxHealth
-    if severity <= 0.33 then
-        return 1
-    else
-        return 2
-    end
+    return (dmg / maxHealth <= 0.33) and 1 or 2
 end
