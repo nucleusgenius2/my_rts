@@ -1,14 +1,14 @@
-#version 120                       // ядро GLSL 1.20
+#version 420 core
 
-attribute vec3 a_vertex;           // то, что Spring передаёт автоматически
-attribute vec2 a_texcoord;
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec2 a_texcoord;
 
-varying   vec2 v_uv;
+uniform mat4 modelViewProjectionMatrix;
+uniform float trackOffset;
 
-uniform float trackOffset;         // смещение, которое пишет виджет
+out vec2 v_uv;
 
-void main()
-{
+void main() {
     v_uv = vec2(mod(a_texcoord.x + trackOffset, 1.0), a_texcoord.y);
-    gl_Position = gl_ModelViewProjectionMatrix * vec4(a_vertex, 1.0);
+    gl_Position = modelViewProjectionMatrix * vec4(a_position, 1.0);
 }
