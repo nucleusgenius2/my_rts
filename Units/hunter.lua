@@ -5,6 +5,8 @@ local unitDef  =  {
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
     ObjectName = "tank_1.dae",
+    --ObjectName = "SciFi_tank_1.s3o",
+
     name = "Охотник 2",
     Side = "Vroomers",
     TEDClass = "Vech",
@@ -44,7 +46,7 @@ local unitDef  =  {
     MovementClass = "custom",
     TurnRate = 2250,
 
-    
+
 --Способности
     Builder = 0,
     CanAttack = 1,
@@ -56,7 +58,7 @@ local unitDef  =  {
     Reclaimable = 1,
     canSelfDestruct = 1,
     repairable = 1,
-    
+
 
     --Hitbox
     collisionVolumeOffsets    =  "0 -5 0",
@@ -66,7 +68,7 @@ local unitDef  =  {
 
     --Оружие и связанное с ним
     NoChaseCategory = "AIR",
-	
+
     weapons = {
         [1]={name = "MachineGun",
                turret = true
@@ -76,6 +78,14 @@ local unitDef  =  {
     customParams = {
         techlevel = 2,
         modelradius = 20,
+
+        trackwidth = 0.22, -- если не указать, будет 0.22 по умолчанию
+        normaltex = "hunter_normal.dds",
+
+          trackshader = 'trackShader',
+          tankvel = 1.0,
+          turnrate = 0.0,
+          trackwidth = 0.5,
     }
 }
 
