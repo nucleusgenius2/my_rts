@@ -80,7 +80,7 @@ local unitDef  =  {
         modelradius = 20,
 
         trackwidth = 0.22, -- если не указать, будет 0.22 по умолчанию
-        normaltex = "hunter_normal.dds",
+        normaltex = "hunter_normal.png",
 
           trackshader = 'trackShader',
           tankvel = 1.0,
