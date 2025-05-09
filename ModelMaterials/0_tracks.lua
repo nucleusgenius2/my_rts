@@ -54,7 +54,7 @@ local materials = {
         ]],
         FRAGMENT_PRE_SHADING = [[
 		// 0.005 scroll ~= 1.25 velocity -> scroll = velocity / 250 = 0.004 x velocity
-		if (tex1c.y <= trackWidth) { // first 56 pixels
+      	if ((1.0 - tex1c.y) <= trackWidth)  { // first 56 pixels
 			tex1c.x += float(simFrame) * (tankVel+turnRate);  // scroll the right part of the texture
 		}
         ]],

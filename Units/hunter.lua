@@ -79,13 +79,13 @@ local unitDef  =  {
         techlevel = 2,
         modelradius = 20,
 
-        trackwidth = 0.22, -- если не указать, будет 0.22 по умолчанию
+        --trackwidth = 0.22, -- если не указать, будет 0.22 по умолчанию
         normaltex = "hunter_normal.png",
 
           trackshader = 'trackShader',
           tankvel = 1.0,
           turnrate = 0.0,
-          trackwidth = 0.5,
+         trackwidth = 0.1
     }
 }
 
