@@ -24,6 +24,7 @@ local configVars = {
   { key = "Shadows",         name = "Тени",                                   type = "bool" },
   { key = "SSAO",            name = "SSAO (окклюзия)",                         type = "bool" },
   { key = "UsePBO",          name = "PBO (только для чтения)",                type = "readonly" },
+  { key = "Fullscreen", name = "Полноэкранный режим", type = "bool" },
   { key = "AllowDeferredMapRendering", name = "Deferred Map Rendering",       type = "bool" },
 }
 
