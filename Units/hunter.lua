@@ -54,7 +54,7 @@ local unitDef  =  {
     CanMove = 1,
     CanPatrol = 1,
     CanStop = 1,
-    LeaveTracks = 0,
+    LeaveTracks = 1,
     Reclaimable = 1,
     canSelfDestruct = 1,
     repairable = 1,
@@ -74,18 +74,17 @@ local unitDef  =  {
                turret = true
         },
     },
-
+   tracktype = "huntertrack",
     customParams = {
         techlevel = 2,
         modelradius = 20,
 
-        --trackwidth = 0.22, -- если не указать, будет 0.22 по умолчанию
-        normaltex = "hunter_normal.png",
-
-          trackshader = 'trackShader',
-          tankvel = 1.0,
-          turnrate = 0.0,
-         trackwidth = 0.1
+        --гусеницы
+         normaltex = "hunter_normal.png",
+         trackshader = 'trackShader',
+         tankvel = 1.0,
+         turnrate = 0.0,
+         trackwidth = 0.1 --процент от верха текстуры
     }
 }
 
