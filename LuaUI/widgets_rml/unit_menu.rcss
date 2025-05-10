@@ -92,19 +92,21 @@ div {
 }
 
 .command-state-button {
+    flex-direction: column;
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #2a2a2a;
+    background-color: #131919;
     color: #fff;
     padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
     transition: background 0.2s, color 0.2s;
+    position: relative;
 }
 .command-state-button:hover {
-    background-color: #444;
+    background-color: #131919;
 }
 .command-state-button img {
     width: 20px;
@@ -112,4 +114,26 @@ div {
 }
 .command-state-button span {
     font-weight: bold;
+}
+.wrap-stat-command {
+    display:flex;
+    gap:10px;
+}
+
+
+.status-block-color-command {
+    display:flex;
+    gap:5px
+
+}
+.status-block-color-command div{
+    width:20px;
+    height:5px;
+    border-width:1px;
+    border-style:solid;
+    border-color:#fff;
+}
+.name-state-command {
+    font-size:13px;
+    font-weight:500;
 }

@@ -34,7 +34,7 @@
                                     <img src="/LuaUI/images/ui/stop.png" height='64' width='64'/>
                                 </div>
                                 <div data-if="cmd.name=='Move'">
-                                    <img src="/LuaUI/images/ui/move.png" height='64' width='64'/>
+                                    <img src="/LuaUI/images/ui/move.png" height='54' width='54'/>
                                 </div>
                                 <div data-if="cmd.name=='Patrol'">
                                     <img src="/LuaUI/images/ui/patrol.png" height='64' width='64'/>
@@ -45,19 +45,55 @@
                                 <div data-if="cmd.name=='Repair'">
                                     <img src="/LuaUI/images/ui/repair.png" height='64' width='64'/>
                                 </div>
+                                <div data-if="cmd.name=='Reclaim'">
+                                    <img src="/LuaUI/images/ui/reclaim.png" height='64' width='64'/>
+                                </div>
+
+                                <div data-if="cmd.name=='Guard'">
+                                    <img src="/LuaUI/images/ui/guard.png" height='64' width='64'/>
+                                </div>
 
 
-                                <p>{{ cmd.name }}</p>
+                                <!--<p>{{ cmd.name }}</p>-->
                             </div>
                         </div>
                     </div>
                     <!-- стат команды -->
-                    <div class="commands-container">
+                    <div class="commands-container wrap-stat-command">
                         <div data-for="cmd, i: unitCommands" data-if="cmd.isStateCommand">
-                            {{  cmd.name  }}
-                            <div class="command-state-button"  data-event-click="RunCommandFromRML(cmd.id)">
-                                <span>{{ cmd.stateLabelText }}</span>
 
+                            <div class="command-state-button"  data-event-click="RunCommandFromRML(cmd.id)">
+                                <div class="name-state-command"> {{  cmd.name  }}</div>
+                                <div>{{ cmd.stateLabelText }}</div>
+                                <div data-if="cmd.name=='Fire state'" class="status-block-color-command">
+                                    <div data-if="cmd.stateLabelText=='Hold fire'" style="background-color: #ea2723"></div>
+                                    <div data-if="cmd.stateLabelText!='Hold fire'"></div>
+
+                                    <div data-if="cmd.stateLabelText=='Return fire'" style="background-color: #f9cb47"></div>
+                                    <div data-if="cmd.stateLabelText!='Return fire'"></div>
+
+                                    <div data-if="cmd.stateLabelText=='Fire at will'" style="background-color: #3cb166"></div>
+                                    <div data-if="cmd.stateLabelText!='Fire at will'"></div>
+                                </div>
+
+                                <div data-if="cmd.name=='Move state'" class="status-block-color-command">
+                                    <div data-if="cmd.stateLabelText=='Hold pos'" style="background-color: #ea2723"></div>
+                                    <div data-if="cmd.stateLabelText!='Hold pos'"></div>
+
+                                    <div data-if="cmd.stateLabelText=='Maneuver'" style="background-color: #f9cb47"></div>
+                                    <div data-if="cmd.stateLabelText!='Maneuver'"></div>
+
+                                    <div data-if="cmd.stateLabelText=='Roam'" style="background-color: #3cb166"></div>
+                                    <div data-if="cmd.stateLabelText!='Roam'"></div>
+                                </div>
+
+                                <div data-if="cmd.name=='Repeat'" class="status-block-color-command">
+                                    <div data-if="cmd.stateLabelText=='Repeat off'" style="background-color: #ea2723"></div>
+                                    <div data-if="cmd.stateLabelText!='Repeat off'"></div>
+
+                                    <div data-if="cmd.stateLabelText=='Repeat on'" style="background-color: #3cb166"></div>
+                                    <div data-if="cmd.stateLabelText!='Repeat on'"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
