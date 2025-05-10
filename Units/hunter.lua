@@ -74,7 +74,14 @@ local unitDef  =  {
                turret = true
         },
     },
+    --для следов
    tracktype = "huntertrack",
+    trackOffset            = 0,
+     trackStrength          = 8,
+     trackStretch           = 1,
+     trackWidth             = 30,
+     turnRate               = 1920,
+
     customParams = {
         techlevel = 2,
         modelradius = 20,
