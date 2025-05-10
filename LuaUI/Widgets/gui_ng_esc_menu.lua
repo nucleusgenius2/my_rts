@@ -50,9 +50,83 @@ function widget:Initialize()
    -- Получаем текущий язык из настроек
   local currentLang = SettingsManager:Get("language")
 
-
    --глобальное подключение
   tr = function(k) return WG.Translate("interface." .. k) end
+
+  --получение конфигураций графики
+ local delayedCommands = {}
+ local controls = {}
+ local configVars = {
+   --{ key = "LuaShaders",      name = "Lua Shaders (требуется перезапуск)",     type = "bool" },
+   { key = "MSAALevel",       name = "MSAA Уровень (перезапуск)",              type = "number" },
+   { key = "GroundDetail",    name = "Детализация земли",                      type = "number" },
+   { key = "ShadowMapSize",   name = "Размер карты теней (перезапуск)",        type = "number" },
+   { key = "Shadows",         name = "Тени",                                   type = "bool" },
+   --{ key = "SSAO",            name = "SSAO (окклюзия)",                         type = "bool" },
+   --{ key = "UsePBO",          name = "PBO (только для чтения)",                type = "readonly" },
+   { key = "Fullscreen", name = "Полноэкранный режим", type = "bool" },
+   --{ key = "AllowDeferredMapRendering", name = "Deferred Map Rendering",       type = "bool" },
+ }
+
+   --вкладка графика
+   local graphicsTab = Chili.Control:New{
+     width  = "100%",
+     height = "100%",
+   }
+
+   for i, var in ipairs(configVars) do
+     local label = Chili.Label:New{
+       parent  = graphicsTab,
+       caption = var.name,
+       width   = "45%",
+       x       = 20,
+       y       = 10 + 35 * (i - 1),
+     }
+
+     local current = Spring.GetConfigInt(var.key, 1)
+     local input
+
+     if var.type == "bool" then
+       input = Chili.Checkbox:New{
+       parent  = graphicsTab,
+       checked = current == 1,
+       x       = "55%",
+       width   = 100,
+       y       = 10 + 35 * (i - 1),
+       OnChange = {
+          function(_, state)
+            local val = state and 1 or 0
+            Spring.SetConfigInt(var.key, val)
+            if var.key == "Shadows" then
+               Spring.SendCommands(val == 1 and "shadows 1" or "shadows 0")
+            elseif var.key == "SSAO" then
+               Spring.SendCommands(val == 1 and "ssao 1" or "ssao 0")
+            end
+          end
+       },
+     }
+
+     else -- number
+       input = Chili.TextBox:New{
+       parent = graphicsTab,
+       text   = tostring(current),
+       x      = "55%",
+       width  = 100,
+       y      = 10 + 35 * (i - 1),
+       OnTextInput = {
+         function(_, val)
+            local num = tonumber(val)
+            if num then
+              Spring.SetConfigInt(var.key, num)
+              if var.key == "GroundDetail" then
+                table.insert(delayedCommands, "GroundDetail " .. num)
+              end
+            end
+         end
+       },
+     }
+    end
+  end
 
   screen0 = Chili.Screen0
 
@@ -185,6 +259,8 @@ function widget:Initialize()
 
 
 
+
+
   languageSelect = Chili.ComboBox:New{
       parent    = interfaceTab,
       x         = 20,
@@ -254,8 +330,11 @@ function widget:Initialize()
         caption = tr("sound_tab") or "Звук",
         children = { soundTab },
       },
+        { name = "graphics",
+        caption = tr("graphics_tab") or "Графика",
+        children = { graphicsTab } },
     },
-  },
+  }
 
 
   -- обновление языка
