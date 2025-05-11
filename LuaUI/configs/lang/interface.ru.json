@@ -7,6 +7,13 @@
   "interface_tab" : "Интерфейс",
   "back_to_menu" : "Назад в меню",
   "save_game" : "Сохранить игру",
-  "sound_tab" : "Звук"
+  "sound_tab" : "Звук",
+  "setting_shadow" : "Тени",
+  "setting_shadow_map_size" : "Размер карты теней (перезапуск)",
+  "land_detailing" : "Детализация земли",
+  "setting_fullscreen" : "Полноэкранный режим",
+  "setting_msaa" : "Сглаживание MSAA (перезапуск)",
+  "graphics_tab" : "Графика"
+
 }
 

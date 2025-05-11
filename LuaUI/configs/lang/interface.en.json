@@ -7,5 +7,11 @@
   "interface_tab" : "Interface",
   "back_to_menu" : "Back to Menu",
   "save_game" : "Save game",
-  "sound_tab" : "Sound"
+  "sound_tab" : "Sound",
+  "setting_shadow" : "Shadow",
+  "setting_shadow_map_size" : "Shadow Map Size (Restart)",
+  "land_detailing" : "Land detailing",
+  "setting_fullscreen" : "Full screen mode",
+  "setting_msaa" : "MSAA Anti-Aliasing (Restart)",
+  "graphics_tab" : "Graphics"
 }

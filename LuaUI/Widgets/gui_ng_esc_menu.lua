@@ -58,14 +58,14 @@ function widget:Initialize()
  local controls = {}
  local configVars = {
    --{ key = "LuaShaders",      name = "Lua Shaders (требуется перезапуск)",     type = "bool" },
-   { key = "MSAALevel",       name = "MSAA Уровень (перезапуск)",              type = "number" },
-   { key = "GroundDetail",    name = "Детализация земли",                      type = "number" },
-   { key = "ShadowMapSize",   name = "Размер карты теней (перезапуск)",        type = "number" },
-   { key = "Shadows",         name = "Тени",                                   type = "bool" },
-   --{ key = "SSAO",            name = "SSAO (окклюзия)",                         type = "bool" },
-   --{ key = "UsePBO",          name = "PBO (только для чтения)",                type = "readonly" },
-   { key = "Fullscreen", name = "Полноэкранный режим", type = "bool" },
-   --{ key = "AllowDeferredMapRendering", name = "Deferred Map Rendering",       type = "bool" },
+   { key = "MSAALevel",       nameKey = "setting_msaa",                        type = "number" },
+   { key = "GroundDetail",    nameKey = "land_detailing",                      type = "number" },
+   { key = "ShadowMapSize",   nameKey = "setting_shadow_map_size",             type = "number" },
+   { key = "Shadows",         nameKey = "setting_shadow",                      type = "bool" },
+   --{ key = "SSAO",            name = "SSAO (окклюзия)",                      type = "bool" },
+   --{ key = "UsePBO",          name = "PBO (только для чтения)",              type = "readonly" },
+   { key = "Fullscreen",      nameKey = "setting_fullscreen",                  type = "bool" },
+   --{ key = "AllowDeferredMapRendering", name = "Deferred Map Rendering",     type = "bool" },
  }
 
    --вкладка графика
@@ -74,15 +74,17 @@ function widget:Initialize()
      height = "100%",
    }
 
+   local labels = {}
    for i, var in ipairs(configVars) do
      local label = Chili.Label:New{
        parent  = graphicsTab,
-       caption = var.name,
+       --caption = var.name,
+       caption = '',
        width   = "45%",
        x       = 20,
        y       = 10 + 35 * (i - 1),
      }
-
+     labels[i] = label
      local current = Spring.GetConfigInt(var.key, 1)
      local input
 
@@ -125,12 +127,12 @@ function widget:Initialize()
          end
        },
      }
-    end
-  end
+      end
+   end
 
-  screen0 = Chili.Screen0
+   screen0 = Chili.Screen0
 
-  window = Chili.Window:New{
+   window = Chili.Window:New{
     parent    = screen0,
     caption   = tr("menu"),
     width     = 300,
@@ -147,20 +149,20 @@ function widget:Initialize()
   window:SetVisibility(false) -- по умолчанию скрыто
 
   --кнопка паузы
-  pauseButton = Chili.Button:New{
-    parent  = window,
-    caption = tr("pause"),
-    x       = 40,
-    y       = 20,
-    width   = 200,
-    height  = 40,
-    OnClick = { function() Spring.SendCommands("pause") end }
-  }
+   pauseButton = Chili.Button:New{
+     parent  = window,
+     caption = tr("pause"),
+     x       = 40,
+     y       = 20,
+     width   = 200,
+     height  = 40,
+     OnClick = { function() Spring.SendCommands("pause") end }
+   }
 
 
 
-  --кнопка настроек
-  settingsButton = Chili.Button:New{
+   --кнопка настроек
+   settingsButton = Chili.Button:New{
     parent  = window,
     caption = tr("settings"),
     x       = 40,
@@ -177,12 +179,12 @@ function widget:Initialize()
         end
       end
     }
-  }
+   }
 
 
 
-  -- кнопка сохранения игры (только для одиночной игры)
-  if Spring.GetGameRulesParam("gameMode") ~= "multiplayer" and not Spring.IsReplay() then
+   -- кнопка сохранения игры (только для одиночной игры)
+   if Spring.GetGameRulesParam("gameMode") ~= "multiplayer" and not Spring.IsReplay() then
     saveButton = Chili.Button:New{
       parent  = window,
       caption = tr("save_game") or "Сохранить игру",
@@ -202,12 +204,12 @@ function widget:Initialize()
         end
       }
     }
-  end
+   end
 
 
 
-  --кнопка выхода из игры
-  quitButton = Chili.Button:New{
+   --кнопка выхода из игры
+   quitButton = Chili.Button:New{
       parent  = window,
       caption = tr("exit_game"),
       x       = 40,
@@ -218,10 +220,10 @@ function widget:Initialize()
       valign = "bottom",
 
       OnClick = { function() Spring.SendCommands("quitforce") end }
-  }
+   }
 
-  -- окно настроек
-  settingsWindow = Chili.Window:New{
+   -- окно настроек
+   settingsWindow = Chili.Window:New{
     parent    = screen0,
     caption   = tr("settings"),
     width     = 500,
@@ -232,7 +234,7 @@ function widget:Initialize()
     resizable = false,
     visible   = false,
     modal     = true,
-  }
+   }
 
   settingsWindow:SetVisibility(false) -- окно настроек скрыто по умолчанию
 
@@ -340,6 +342,12 @@ function widget:Initialize()
   -- обновление языка
   WG.InitializeTranslation(function()
     tr = function(k) return WG.Translate("interface." .. k) end
+
+    for i, var in ipairs(configVars) do
+      if labels[i] and var.nameKey then
+        labels[i]:SetCaption(tr(var.nameKey))
+      end
+    end
 
     if window then window.caption = tr("menu") end
     if pauseButton then pauseButton.caption = tr("pause") end
