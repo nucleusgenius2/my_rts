@@ -315,12 +315,12 @@ function widget:Initialize()
         }
    }
 
-  -- панель с вкладками (добавляем сразу)
-  tabPanel = Chili.TabPanel:New{
-    parent  = settingsWindow,
-    width   = "100%",
-    height  = "100%",
-    tabs = {
+   -- панель с вкладками (добавляем сразу)
+   tabPanel = Chili.TabPanel:New{
+   parent  = settingsWindow,
+   width   = "100%",
+   height  = "100%",
+   tabs = {
       {
         name = "interface",
         caption = tr("interface_tab") or "Интерфейс",
@@ -332,11 +332,13 @@ function widget:Initialize()
         caption = tr("sound_tab") or "Звук",
         children = { soundTab },
       },
-        { name = "graphics",
-        caption = tr("graphics_tab") or "Графика",
-        children = { graphicsTab } },
-    },
-  }
+        {
+          name = "graphics",
+          caption = tr("graphics_tab") or "Графика",
+          children = { graphicsTab }
+        },
+      },
+   }
 
 
   -- обновление языка
