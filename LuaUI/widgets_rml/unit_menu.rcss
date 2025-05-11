@@ -8,7 +8,7 @@ div {
 }
 
 .tech-icon {
-    border-radius: 100%;
+    border-radius: 5px;
     color:#000;
     font-size: 20px;
     padding:10px;
@@ -88,7 +88,8 @@ div {
 }
 
 .commands-container {
-    width: 100%
+    width: 100%;
+    display: flex;
 }
 
 .command-state-button {
@@ -137,3 +138,63 @@ div {
     font-size:13px;
     font-weight:500;
 }
+
+.tooltip-command {
+    display: none;
+    position:absolute;
+    font-size:14px;
+    background-color: #131919;
+    color:#fff;
+    padding:5px;
+    top:-35px;
+    left:0px;
+    right:0px ;
+    margin: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+
+.wrap-icon-command {
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.tooltip-arrow {
+    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    top:-12px;
+    left:0px;
+    right:0px ;
+    margin: auto;
+
+    border-top-width: 6px;
+    border-top-style: solid;
+    border-top-color: #131919;
+
+    border-left-width: 6px;
+    border-left-style: solid;
+    border-left-color: transparent;
+
+    border-right-width: 6px;
+    border-right-style: solid;
+    border-right-color: transparent;
+
+    border-bottom-width: 0px;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+}
+
+.wrap-icon-command:hover .tooltip-command{
+    display: inline-block;
+}
+
+.wrap-icon-command:hover  .tooltip-arrow {
+    display: block;
+}
+
+

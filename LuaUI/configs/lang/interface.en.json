@@ -13,5 +13,13 @@
   "land_detailing" : "Land detailing",
   "setting_fullscreen" : "Full screen mode",
   "setting_msaa" : "MSAA Anti-Aliasing (Restart)",
-  "graphics_tab" : "Graphics"
+  "graphics_tab" : "Graphics",
+  "help_text_attack" : "Attack the target",
+  "help_text_stop" : "Cancel command",
+  "help_text_move" : "Move to the point",
+  "help_text_patrol" : "Patrolling the region",
+  "help_text_fight" : "Move to the area attacking all enemies",
+  "help_text_repair" : "Repair",
+  "help_text_reclaim" : "Reclaim of remains of equipment/stones and trees",
+  "help_text_guard" : "Target protection"
 }

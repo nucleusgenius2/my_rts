@@ -17,6 +17,10 @@ local doc
 local main_model_name = "modelunit"
 local dm_handle
 local engineerTechLevel = 1
+--языковые настройки
+local SettingsManager = WG.SettingsManager
+local currentLang = SettingsManager:Get("language")
+tr = function(k) return WG.Translate("interface." .. k) end
 
 --функция которая выбирает юнитов
 local function SelectUnitsByDefID(_, unitDefID)
@@ -126,7 +130,7 @@ local function RunCommandFromRML(_, cmdID)
         for _, cmd in ipairs(cmdDescs or {}) do
             if cmd.id == cmdID then
                 if #cmd.params > 1 then
-                    -- state-команда (команды  с тублером, но уже уехали в другую функциию)
+                    -- state-команда (команды  с тумблером, но уже уехали в другую функцию)
                     local cur = cmd.params[1]
                     local total = #cmd.params - 1
                     local nextState = (cur + 1) % total
@@ -142,8 +146,8 @@ local function RunCommandFromRML(_, cmdID)
 
 
      if dm_handle then
-            --id выбранного нит на стройку
-           dm_handle.activeCommandID = cmdID
+         --id выбранного нит на стройку
+         dm_handle.activeCommandID = cmdID
      end
 end
 
@@ -204,10 +208,23 @@ local init_model = {
     engineerTechLevel = 1, -- тех левел инжа
     selectTechLevel = 0, -- тех левел который выбрали в меню дял отображения
     hasLaboratory = false,
+    -- Получаем текущий язык из настроек
+    currentLang = currentLang,
+    helpTextAttack = tr("help_text_attack"),
+    helpTextStop = tr("help_text_stop"),
+    helpTextMove = tr("help_text_move"),
+    helpTextPatrol = tr("help_text_patrol"),
+    helpTextRepair = tr("help_text_repair"),
+    helpTextReclaim = tr("help_text_reclaim"),
+    helpTextGuard = tr("help_text_guard"),
+    helpTextFight = tr("help_text_fight"),
 }
 
+
+
 function widget:Initialize()
-   widgetHandler:ConfigLayoutHandler(widget)
+
+    widgetHandler:ConfigLayoutHandler(widget)
     widget.rmlContext = RmlUi.GetContext("shared")
     dm_handle = widget.rmlContext:OpenDataModel(main_model_name, init_model)
 
@@ -245,7 +262,7 @@ function widget:Update()
         if(#selectedUnits > 0) then
             document:Show()
         else
-             document:Hide()
+           document:Hide()
         end
 
     end
@@ -310,6 +327,19 @@ function widget:Update()
             dm_handle.buildCommands = getBuildCommands(selectedUnits)
             dm_handle.engineerTechLevel = engineerTechLevel
             dm_handle.hasLaboratory = hasLaboratory
+
+             --локалиазция описаний
+            dm_handle.currentLang = SettingsManager:Get("language")
+            dm_handle.helpTextAttack = tr("help_text_attack")
+            dm_handle.helpTextStop = tr("help_text_stop")
+            dm_handle.helpTextMove = tr("help_text_move")
+            dm_handle.helpTextPatrol = tr("help_text_patrol")
+            dm_handle.helpTextRepair = tr("help_text_repair")
+            dm_handle.helpTextReclaim = tr("help_text_reclaim")
+            dm_handle.helpTextGuard = tr("help_text_guard")
+            dm_handle.helpTextFight = tr("help_text_fight")
+
+
 
         else
             Spring.Echo("Нет widget.dm_handle!")

@@ -13,7 +13,14 @@
   "land_detailing" : "Детализация земли",
   "setting_fullscreen" : "Полноэкранный режим",
   "setting_msaa" : "Сглаживание MSAA (перезапуск)",
-  "graphics_tab" : "Графика"
-
+  "graphics_tab" : "Графика",
+  "help_text_attack" : "Атака цели",
+  "help_text_stop" : "Отмена приказа",
+  "help_text_move" : "Двигаться в точку",
+  "help_text_patrol" : "Патрулирование региона",
+  "help_text_fight" : "Перемещаться в область атакуя всех врагов",
+  "help_text_repair" : "Ремонт",
+  "help_text_reclaim" : "Сбор останков техники/камней и деревьев",
+  "help_text_guard" : "Сопровождение цели"
 }
 
