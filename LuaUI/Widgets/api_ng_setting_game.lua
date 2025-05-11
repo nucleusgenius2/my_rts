@@ -4,7 +4,7 @@ function widget:GetInfo()
     desc      = "Сохранение настроек в файл",
     author    = "nucleus genius",
     date      = "WIP",
-    license   = "GPLv2",
+    license   = "All rights reserved; no commercial use",
     enabled   = true,
     api       = true,
   }

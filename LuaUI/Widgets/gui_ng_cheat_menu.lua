@@ -4,7 +4,7 @@ function widget:GetInfo()
         desc    = "Chili-меню для создания юнитов по клику",
         author  = "nucleus_genius",
         date    = "2025",
-        license = "GNU GPL v2",
+        license = "All rights reserved; no commercial use",
         layer   = 0,
         enabled = true,
        handler = true,

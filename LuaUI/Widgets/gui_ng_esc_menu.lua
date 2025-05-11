@@ -4,7 +4,7 @@ function widget:GetInfo()
     desc      = "Показывает модальное окно при нажатии Esc, с кнопкой выхода из игры и настройками",
     author    = "nucleus genius",
     date      = "2025-04-12",
-    license   = "GPLv3",
+    license   = "All rights reserved; no commercial use",
     layer     = 0,
     enabled   = true,
   }

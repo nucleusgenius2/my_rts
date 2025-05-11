@@ -4,7 +4,7 @@ function widget:GetInfo()
 		desc = "Нужен для сохранения игр",
         author  = "nucleus genius",
 		date = "2025",
-		license = "GNU GPL v2 or later",
+		license = "All rights reserved; no commercial use",
 		layer = 0,
 		enabled = true,
 	}
