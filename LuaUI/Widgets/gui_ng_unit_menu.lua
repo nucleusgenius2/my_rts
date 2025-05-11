@@ -218,7 +218,14 @@ local init_model = {
     helpTextReclaim = tr("help_text_reclaim"),
     helpTextGuard = tr("help_text_guard"),
     helpTextFight = tr("help_text_fight"),
+    helpTextHoldFire = tr("help_text_hold_fire"),
+    helpTextReturnFire = tr("help_text_return_fire"),
+    helpTextFireAtWill = tr("help_text_fire_at_will"),
+    helpTextFireState = tr("help_text_fire_state"),
+    helpTextMoveState = tr("help_text_move_state"),
+    helpTextRepeatState = tr("help_text_repeat_state"),
 }
+
 
 
 
@@ -338,7 +345,12 @@ function widget:Update()
             dm_handle.helpTextReclaim = tr("help_text_reclaim")
             dm_handle.helpTextGuard = tr("help_text_guard")
             dm_handle.helpTextFight = tr("help_text_fight")
-
+            dm_handle.helpTextHoldFire = tr("help_text_hold_fire")
+            dm_handle.helpTextReturnFire = tr("help_text_return_fire")
+            dm_handle.helpTextFireAtWill = tr("help_text_fire_at_will")
+            dm_handle.helpTextFireState = tr("help_text_fire_state")
+            dm_handle.helpTextMoveState = tr("help_text_move_state")
+            dm_handle.helpTextRepeatState = tr("help_text_repeat_state")
 
 
         else

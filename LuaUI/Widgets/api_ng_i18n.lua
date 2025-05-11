@@ -119,7 +119,7 @@ local function shutdownTranslation(widget_name)
 end
 
 local function Translate(dbKey, text, data, opts)
-  Spring.Echo("Ключ который передается ", dbKey)
+  --Spring.Echo("Ключ который передается ", dbKey)
 
   local baseName, key = string.match(dbKey, "([%w_]+)%.(.+)")
   if not baseName or not key then

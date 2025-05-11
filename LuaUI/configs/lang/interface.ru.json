@@ -21,6 +21,12 @@
   "help_text_fight" : "Перемещаться в область атакуя всех врагов",
   "help_text_repair" : "Ремонт",
   "help_text_reclaim" : "Сбор останков техники/камней и деревьев",
-  "help_text_guard" : "Сопровождение цели"
+  "help_text_guard" : "Сопровождение цели",
+  "help_text_hold_fire" : "Не стрелять",
+  "help_text_return_fire" : "Ответный огонь",
+  "help_text_fire_at_will" : "Стрелять всегда",
+  "help_text_fire_state" : "Статус атаки",
+  "help_text_move_state" : "Статус движения",
+  "help_text_repeat_state" : "Повторение команд"
 }
 
