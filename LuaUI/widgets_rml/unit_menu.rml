@@ -6,7 +6,7 @@
     <body data-if="show" style="position: absolute; bottom:0px; left:30%">
 
     <div data-model="modelunit" class="window-wrap-unit-menu">
-<div data-if="show">22222222222222222222222</div>
+
         <div class="wrap-unit-menu">
 
             <div class="column col-1">
@@ -24,33 +24,66 @@
                 </div>-->
                 <div class="wrap-command-panel">
                     <div class="commands-container">
+                        {{ currentLang  }}111111111111111
                         <div data-for="cmd, i: unitCommands">
 
                             <div data-event-click="RunCommandFromRML(cmd.id)">
-                                <div data-if="cmd.name=='Attack'">
-                                    <img src="/LuaUI/images/ui/attack.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Attack'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:150px;">
+                                        {{ helpTextAttack }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/attack.png" height='54' width='54'/>
                                 </div>
-                                <div data-if="cmd.name=='Stop'">
-                                    <img src="/LuaUI/images/ui/stop.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Stop'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:150px;">
+                                        {{ helpTextStop }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/stop.png" height='54' width='54'/>
                                 </div>
-                                <div data-if="cmd.name=='Move'">
+                                <div data-if="cmd.name=='Move'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:150px;">
+                                        {{ helpTextMove }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
                                     <img src="/LuaUI/images/ui/move.png" height='54' width='54'/>
                                 </div>
-                                <div data-if="cmd.name=='Patrol'">
-                                    <img src="/LuaUI/images/ui/patrol.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Patrol'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:170px;">
+                                        {{ helpTextPatrol }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/patrol.png" height='54' width='54'/>
                                 </div>
-                                <div data-if="cmd.name=='Fight'">
-                                    <img src="/LuaUI/images/ui/fight.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Fight'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:250px; height: 44px; top:-60px">
+                                        {{ helpTextFight }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/fight.png" height='54' width='54'/>
                                 </div>
-                                <div data-if="cmd.name=='Repair'">
-                                    <img src="/LuaUI/images/ui/repair.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Repair'" class="wrap-icon-command">
+                                    <div class="tooltip-command">
+                                        {{ helpTextRepair }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/repair.png" height='54' width='54'/>
                                 </div>
-                                <div data-if="cmd.name=='Reclaim'">
-                                    <img src="/LuaUI/images/ui/reclaim.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Reclaim'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:220px; height: 44px; top:-60px">
+                                        {{ helpTextReclaim }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/reclaim.png" height='54' width='54'/>
                                 </div>
 
-                                <div data-if="cmd.name=='Guard'">
-                                    <img src="/LuaUI/images/ui/guard.png" height='64' width='64'/>
+                                <div data-if="cmd.name=='Guard'" class="wrap-icon-command">
+                                    <div class="tooltip-command" style="width:150px;">
+                                        {{ helpTextGuard }}
+                                    </div>
+                                    <div class="tooltip-arrow"></div>
+                                    <img src="/LuaUI/images/ui/guard.png" height='54' width='54'/>
                                 </div>
 
 
@@ -60,11 +93,33 @@
                     </div>
                     <!-- стат команды -->
                     <div class="commands-container wrap-stat-command">
-                        <div data-for="cmd, i: unitCommands" data-if="cmd.isStateCommand">
+                        <div data-for="cmd, i: unitCommands" data-if="cmd.isStateCommand" style="flex-basis:33.3%">
 
-                            <div class="command-state-button"  data-event-click="RunCommandFromRML(cmd.id)">
+                            <div class="command-state-button wrap-icon-command"  data-event-click="RunCommandFromRML(cmd.id)">
                                 <div class="name-state-command"> {{  cmd.name  }}</div>
-                                <div>{{ cmd.stateLabelText }}</div>
+                                <div class="wrap-icon-command">
+                                    <div data-if="cmd.stateLabelText=='Hold fire'" >
+                                        {{ helpTextHoldFire}}
+                                    </div>
+                                    <div data-if="cmd.stateLabelText=='Return fire'" >
+                                        {{ helpTextReturnFire }}
+                                    </div>
+                                    <div data-if="cmd.stateLabelText=='Fire at will'">
+                                        {{ helpTextFireAtWill }}
+                                    </div>
+
+                                    <div data-if="(cmd.stateLabelText=='Hold fire') || (cmd.stateLabelText=='Return fire') || (cmd.stateLabelText=='Fire at will')"  class="tooltip-command bottom-tooltip">
+                                        {{ helpTextFireState  }}
+                                    </div>
+                                    <div data-if="(cmd.stateLabelText=='Hold pos') || (cmd.stateLabelText=='Maneuver') || (cmd.stateLabelText=='Roam')"  class="tooltip-command bottom-tooltip">
+                                        {{ helpTextMoveState  }}
+                                    </div>
+                                    <div data-if="(cmd.stateLabelText=='Repeat off') || (cmd.stateLabelText=='Repeat on')"  class="tooltip-command bottom-tooltip">
+                                        {{ helpTextRepeatState  }}
+                                    </div>
+                                    <div class="tooltip-arrow bottom-fx"></div>
+                                </div>
+
                                 <div data-if="cmd.name=='Fire state'" class="status-block-color-command">
                                     <div data-if="cmd.stateLabelText=='Hold fire'" style="background-color: #ea2723"></div>
                                     <div data-if="cmd.stateLabelText!='Hold fire'"></div>
