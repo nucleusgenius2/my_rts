@@ -1,7 +1,7 @@
 function widget:GetInfo()
   return {
     name      = "Blueprint Builder",
-    desc      = "Сохраняет и размещает шаблоны зданий",
+    desc      = "Сохраняет и размещает шаблоны зданий под курсором",
     author    = "nucleus_genius",
     date      = "2025-05-13",
     license   = "GPLv2",
@@ -13,7 +13,10 @@ end
 local blueprintFile = LUAUI_DIRNAME .. "Configs/blueprint_data.lua"
 local blueprints = {}
 
--- === Сохранение шаблонов в файл ===
+--------------------------------------------------------------------------------
+-- Вспомогательные функции
+--------------------------------------------------------------------------------
+
 local function SaveToFile()
   local file = io.open(blueprintFile, "w")
   if file then
@@ -25,7 +28,6 @@ local function SaveToFile()
   end
 end
 
--- === Загрузка шаблонов из файла ===
 local function LoadFromFile()
   if VFS.FileExists(blueprintFile) then
     blueprints = VFS.Include(blueprintFile)
@@ -33,7 +35,18 @@ local function LoadFromFile()
   end
 end
 
--- === Сохраняем все здания игрока как шаблон ===
+local function GetMouseWorldPosition()
+  local mx, my = Spring.GetMouseState()
+  local type, p = Spring.TraceScreenRay(mx, my, true, true)
+  if type == "ground" and p then
+    return p[1], p[3]
+  end
+end
+
+--------------------------------------------------------------------------------
+-- Основные функции
+--------------------------------------------------------------------------------
+
 local function SaveBlueprint(name)
   local units = Spring.GetTeamUnits(Spring.GetMyTeamID())
   local blueprint = {}
@@ -51,16 +64,25 @@ local function SaveBlueprint(name)
     end
   end
 
-  blueprints[name] = blueprint
-  SaveToFile()
-  Spring.Echo("[Blueprint Builder] Шаблон '" .. name .. "' сохранён. Всего зданий: " .. #blueprint)
+  if #blueprint > 0 then
+    blueprints[name] = blueprint
+    SaveToFile()
+    Spring.Echo("[Blueprint Builder] Шаблон '" .. name .. "' сохранён. Всего зданий: " .. #blueprint)
+  else
+    Spring.Echo("[Blueprint Builder] Нет зданий для сохранения.")
+  end
 end
 
--- === Размещаем шаблон через строителя ===
-local function PlaceBlueprint(name, offsetX, offsetZ)
+local function PlaceBlueprint(name)
   local blueprint = blueprints[name]
   if not blueprint then
     Spring.Echo("[Blueprint Builder] Шаблон '" .. name .. "' не найден.")
+    return
+  end
+
+  local baseX, baseZ = GetMouseWorldPosition()
+  if not baseX or not baseZ then
+    Spring.Echo("[Blueprint Builder] Не удалось определить позицию курсора.")
     return
   end
 
@@ -79,9 +101,21 @@ local function PlaceBlueprint(name, offsetX, offsetZ)
     end
   end
 
+  -- Центр шаблона
+  local originX, originZ = 0, 0
   for _, unit in ipairs(blueprint) do
-    local x = unit.x + offsetX
-    local z = unit.z + offsetZ
+    originX = originX + unit.x
+    originZ = originZ + unit.z
+  end
+  originX = originX / #blueprint
+  originZ = originZ / #blueprint
+
+  -- Постройка
+  for _, unit in ipairs(blueprint) do
+    local relX = unit.x - originX
+    local relZ = unit.z - originZ
+    local x = baseX + relX
+    local z = baseZ + relZ
     local defID = unit.defID
 
     local cmdIndex = cmdDescMap[defID]
@@ -89,22 +123,24 @@ local function PlaceBlueprint(name, offsetX, offsetZ)
       Spring.SetActiveCommand(cmdIndex)
       Spring.GiveOrder(-defID, {x, 0, z}, {"shift"})
     else
-      Spring.Echo("[Blueprint Builder] Нельзя построить юнит " .. defID .. ": команда не найдена.")
+      Spring.Echo("[Blueprint Builder] Не найдено: " .. defID)
     end
   end
 end
 
--- === Загрузка шаблонов при старте ===
+--------------------------------------------------------------------------------
+-- Интерфейс
+--------------------------------------------------------------------------------
+
 function widget:Initialize()
   LoadFromFile()
 end
 
--- === Управление по клавишам ===
 function widget:KeyPress(key, mods, isRepeat)
   if isRepeat then return end
   if key == string.byte("s") then
     SaveBlueprint("default")
   elseif key == string.byte("b") then
-    PlaceBlueprint("default", 100, 100)
+    PlaceBlueprint("default")
   end
 end
