@@ -50,7 +50,7 @@
                                     <img src="/LuaUI/images/ui/move.png" height='54' width='54'/>
                                 </div>
                                 <div data-if="cmd.name=='Patrol'" class="wrap-icon-command">
-                                    <div class="tooltip-command" style="width:170px;">
+                                    <div class="tooltip-command" style="width:150px; height: 44px; top:-60px">
                                         {{ helpTextPatrol }}
                                     </div>
                                     <div class="tooltip-arrow"></div>
@@ -64,7 +64,7 @@
                                     <img src="/LuaUI/images/ui/fight.png" height='54' width='54'/>
                                 </div>
                                 <div data-if="cmd.name=='Repair'" class="wrap-icon-command">
-                                    <div class="tooltip-command">
+                                    <div class="tooltip-command" style="width:100px;">
                                         {{ helpTextRepair }}
                                     </div>
                                     <div class="tooltip-arrow"></div>
@@ -79,7 +79,7 @@
                                 </div>
 
                                 <div data-if="cmd.name=='Guard'" class="wrap-icon-command">
-                                    <div class="tooltip-command" style="width:150px;">
+                                    <div class="tooltip-command" style="width:150px;  height: 44px; top:-60px">
                                         {{ helpTextGuard }}
                                     </div>
                                     <div class="tooltip-arrow"></div>
@@ -92,30 +92,45 @@
                         </div>
                     </div>
                     <!-- стат команды -->
-                    <div class="commands-container wrap-stat-command">
+                    <div class="commands-container wrap-stat-command" style="min-width: 432px">
                         <div data-for="cmd, i: unitCommands" data-if="cmd.isStateCommand" style="flex-basis:33.3%">
 
                             <div class="command-state-button wrap-icon-command"  data-event-click="RunCommandFromRML(cmd.id)">
-                                <div class="name-state-command"> {{  cmd.name  }}</div>
+                                <!--<div class="name-state-command"> {{  cmd.name  }}</div>-->
                                 <div class="wrap-icon-command">
-                                    <div data-if="cmd.stateLabelText=='Hold fire'" >
+                                    <div data-if="cmd.stateLabelText=='Hold fire'">
                                         {{ helpTextHoldFire}}
                                     </div>
-                                    <div data-if="cmd.stateLabelText=='Return fire'" >
+                                    <div data-if="cmd.stateLabelText=='Return fire'">
                                         {{ helpTextReturnFire }}
                                     </div>
                                     <div data-if="cmd.stateLabelText=='Fire at will'">
                                         {{ helpTextFireAtWill }}
                                     </div>
+                                    <div data-if="cmd.stateLabelText=='Hold pos'">
+                                        {{ helpTextHoldPos }}
+                                    </div>
+                                    <div data-if="cmd.stateLabelText=='Maneuver'">
+                                        {{ helpTextManeuver }}
+                                    </div>
+                                    <div data-if="cmd.stateLabelText=='Roam'">
+                                        {{ helpTextRoam }}
+                                    </div>
+                                    <div data-if="cmd.stateLabelText=='Repeat off'">
+                                        {{ helpTextRepeatOff }}
+                                    </div>
+                                    <div data-if="cmd.stateLabelText=='Repeat on'">
+                                        {{ helpTextRepeatOn }}
+                                    </div>
 
                                     <div data-if="(cmd.stateLabelText=='Hold fire') || (cmd.stateLabelText=='Return fire') || (cmd.stateLabelText=='Fire at will')"  class="tooltip-command bottom-tooltip">
-                                        {{ helpTextFireState  }}
+                                        {{ helpTextFireState }}
                                     </div>
                                     <div data-if="(cmd.stateLabelText=='Hold pos') || (cmd.stateLabelText=='Maneuver') || (cmd.stateLabelText=='Roam')"  class="tooltip-command bottom-tooltip">
-                                        {{ helpTextMoveState  }}
+                                        {{ helpTextMoveState }}
                                     </div>
                                     <div data-if="(cmd.stateLabelText=='Repeat off') || (cmd.stateLabelText=='Repeat on')"  class="tooltip-command bottom-tooltip">
-                                        {{ helpTextRepeatState  }}
+                                        {{ helpTextRepeatState }}
                                     </div>
                                     <div class="tooltip-arrow bottom-fx"></div>
                                 </div>

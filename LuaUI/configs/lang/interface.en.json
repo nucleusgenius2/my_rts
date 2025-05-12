@@ -21,11 +21,16 @@
   "help_text_fight" : "Move to the area attacking all enemies",
   "help_text_repair" : "Repair",
   "help_text_reclaim" : "Reclaim of remains of equipment/stones and trees",
-  "help_text_guard" : "Target protection",
+  "help_text_guard" : "Target protection (escort)",
   "help_text_hold_fire" : "Hold fire",
   "help_text_return_fire" : "Return fire",
   "help_text_fire_at_will" : "Fire at will",
   "help_text_fire_state" : "Fire state",
   "help_text_move_state" : "Move state",
-  "help_text_repeat_state" : "Repeat state"
+  "help_text_repeat_state" : "Repeat state",
+  "help_text_hold_pos" : "Hold Pos",
+  "help_text_maneuver" : "Maneuver",
+  "help_text_roam" : "Roam",
+  "help_text_repeat_off" : "Repeat off",
+  "help_text_repeat_on" : "Repeat on"
 }

@@ -224,6 +224,11 @@ local init_model = {
     helpTextFireState = tr("help_text_fire_state"),
     helpTextMoveState = tr("help_text_move_state"),
     helpTextRepeatState = tr("help_text_repeat_state"),
+    helpTextHoldPos = tr("help_text_hold_pos"),
+    helpTextManeuver = tr("help_text_maneuver"),
+    helpTextRoam = tr("help_text_roam"),
+    helpTextRepeatOff = tr("help_text_repeat_off"),
+    helpTextRepeatOn = tr("help_text_repeat_on")
 }
 
 
@@ -351,6 +356,12 @@ function widget:Update()
             dm_handle.helpTextFireState = tr("help_text_fire_state")
             dm_handle.helpTextMoveState = tr("help_text_move_state")
             dm_handle.helpTextRepeatState = tr("help_text_repeat_state")
+
+            dm_handle.helpTextHoldPos = tr("help_text_hold_pos")
+            dm_handle.helpTextManeuver = tr("help_text_maneuver")
+            dm_handle.helpTextRoam = tr("help_text_roam")
+            dm_handle.helpTextRepeatOff = tr("help_text_repeat_off")
+            dm_handle.helpTextRepeatOn = tr("help_text_repeat_on")
 
 
         else

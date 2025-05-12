@@ -25,8 +25,13 @@
   "help_text_hold_fire" : "Не стрелять",
   "help_text_return_fire" : "Ответный огонь",
   "help_text_fire_at_will" : "Стрелять всегда",
-  "help_text_fire_state" : "Статус атаки",
+  "help_text_fire_state" : "Статус атаки (приор)",
   "help_text_move_state" : "Статус движения",
-  "help_text_repeat_state" : "Повторение команд"
+  "help_text_repeat_state" : "Повторение команд",
+  "help_text_hold_pos" : "Не преследовать",
+  "help_text_maneuver" : "Маневрирование",
+  "help_text_roam" : "Преследование",
+  "help_text_repeat_off" : "Повтор выкл.",
+  "help_text_repeat_on" : "Повтор вкл."
 }
 
