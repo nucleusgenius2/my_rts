@@ -24,7 +24,6 @@
                 </div>-->
                 <div class="wrap-command-panel">
                     <div class="commands-container">
-                        {{ currentLang  }}111111111111111
                         <div data-for="cmd, i: unitCommands">
 
                             <div data-event-click="RunCommandFromRML(cmd.id)">
@@ -85,7 +84,6 @@
                                     <div class="tooltip-arrow"></div>
                                     <img src="/LuaUI/images/ui/guard.png" height='54' width='54'/>
                                 </div>
-
 
                                 <!--<p>{{ cmd.name }}</p>-->
                             </div>
@@ -166,8 +164,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
+                </div>
+                <div data-for="bp, i: bluePrints">
+                    <div data-event-click="CallBluePrint(i)" >
+                        <div> {{ bp.icon }}</div>
+                        <div> {{bp.name }}</div>
+                        <div> {{ bp.techLevel}}</div>
+                    </div>
                 </div>
             </div>
 

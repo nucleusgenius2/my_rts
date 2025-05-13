@@ -10,12 +10,13 @@ function widget:GetInfo()
   }
 end
 
-local maxBlueprints = 20
 local blueprintFile = LUAUI_DIRNAME .. "NgBluePrint.lua"
 local blueprints = {}
+local maxBlueprints = 20
 
 local Chili, screen0
-local window
+local saveWindow
+local pendingBlueprintIndex = nil
 
 --------------------------------------------------------------------------------
 -- Загрузка / сохранение
@@ -25,10 +26,8 @@ local function LoadBlueprints()
   local success, result = pcall(VFS.Include, blueprintFile)
   if success and type(result) == "table" then
     blueprints = result
-    Spring.Echo("[Blueprint Builder] Загружено шаблонов: " .. tostring(#blueprints))
   else
     blueprints = {}
-    Spring.Echo("[Blueprint Builder] Не удалось загрузить шаблоны.")
   end
 end
 
@@ -40,37 +39,33 @@ local function SaveBlueprints()
   end
 
   file:write("return {\n")
-  for _, blueprint in ipairs(blueprints) do
-    file:write(string.format("  { name = %q, buildings = {\n", blueprint.name))
-    for _, b in ipairs(blueprint.buildings) do
+  for _, bp in ipairs(blueprints) do
+    file:write(string.format(
+      "  { name = %q, techLevel = %d, icon = %q, buildings = {\n",
+      bp.name or "Unnamed",
+      tonumber(bp.techLevel) or 1,
+      bp.icon or "default"
+    ))
+    for _, b in ipairs(bp.buildings) do
       file:write(string.format("    { defID = %d, x = %.1f, y = %.1f, z = %.1f },\n", b.defID, b.x, b.y, b.z))
     end
     file:write("  }},\n")
   end
   file:write("}\n")
   file:close()
-  Spring.Echo("[Blueprint Builder] Шаблоны сохранены.")
 end
 
 --------------------------------------------------------------------------------
--- Получение позиции мыши
+-- Сохранение шаблона
 --------------------------------------------------------------------------------
 
-local function GetMouseWorldPosition()
-  local mx, my = Spring.GetMouseState()
-  local type, p = Spring.TraceScreenRay(mx, my, true, true)
-  if type == "ground" and p then
-    return p[1], p[3]
-  end
-end
-
---------------------------------------------------------------------------------
--- Сохранение и размещение
---------------------------------------------------------------------------------
-
-local function SaveBlueprint(name)
+local function SaveBlueprintWithName(name)
   local units = Spring.GetTeamUnits(Spring.GetMyTeamID())
   local buildings = {}
+
+  local maxMetalCost = 0
+  local maxTechLevel = 1
+  local icon = ""
 
   for _, unitID in ipairs(units) do
     if Spring.ValidUnitID(unitID) and not Spring.GetUnitIsDead(unitID) then
@@ -78,8 +73,16 @@ local function SaveBlueprint(name)
       local unitDef = UnitDefs[defID]
       if unitDef and unitDef.isBuilding then
         local x, y, z = Spring.GetUnitPosition(unitID)
-        if x and y and z then
-          table.insert(buildings, {defID = defID, x = x, y = y, z = z})
+        table.insert(buildings, {defID = defID, x = x, y = y, z = z})
+
+        if unitDef.metalCost > maxMetalCost then
+          maxMetalCost = unitDef.metalCost
+          icon = unitDef.iconType or ""
+        end
+
+        local tech = unitDef.customParams and tonumber(unitDef.customParams.techlevel) or 1
+        if tech > maxTechLevel then
+          maxTechLevel = tech
         end
       end
     end
@@ -94,22 +97,62 @@ local function SaveBlueprint(name)
     table.remove(blueprints, 1)
   end
 
-  table.insert(blueprints, {name = name, buildings = buildings})
+  table.insert(blueprints, {
+    name = name,
+    techLevel = maxTechLevel,
+    icon = icon,
+    buildings = buildings
+  })
+
   SaveBlueprints()
-  Spring.Echo(string.format("[Blueprint Builder] Сохранён '%s' (%d зданий)", name, #buildings))
 end
 
-local function PlaceBlueprint(index)
+local function OpenSaveBlueprintWindow()
+  if saveWindow then saveWindow:Dispose() end
+
+  saveWindow = Chili.Window:New{
+    x = '40%',
+    y = '40%',
+    width = 300,
+    height = 150,
+    caption = "Сохранить шаблон",
+    parent = screen0,
+    draggable = true,
+    resizable = false,
+  }
+
+  local editBox = Chili.EditBox:New{
+    text = "Шаблон " .. (#blueprints + 1),
+    width = "100%",
+    height = 30,
+    parent = saveWindow,
+  }
+
+  local saveBtn = Chili.Button:New{
+    caption = "Сохранить",
+    width = "100%",
+    height = 40,
+    y = 40,
+    parent = saveWindow,
+    OnClick = {
+      function()
+        SaveBlueprintWithName(editBox.text)
+        saveWindow:Dispose()
+        saveWindow = nil
+      end
+    }
+  }
+end
+
+--------------------------------------------------------------------------------
+-- Построение шаблона
+--------------------------------------------------------------------------------
+
+local function DoPlaceBlueprint(index, baseX, baseZ)
   local bp = blueprints[index]
   if not bp then return end
 
   local buildings = bp.buildings
-  local baseX, baseZ = GetMouseWorldPosition()
-  if not baseX or not baseZ then
-    Spring.Echo("[Blueprint Builder] Не удалось определить позицию курсора.")
-    return
-  end
-
   local selected = Spring.GetSelectedUnits()
   if #selected == 0 then
     Spring.Echo("[Blueprint Builder] Выберите строителя.")
@@ -148,54 +191,31 @@ local function PlaceBlueprint(index)
   end
 end
 
---------------------------------------------------------------------------------
--- Chili окно
---------------------------------------------------------------------------------
+local function StartPlacement(index)
+  Spring.Echo("[Blueprint Builder] Режим планирования активен для шаблона:", index)
+  pendingBlueprintIndex = tonumber(index)
+end
 
-local function ToggleWindow()
-  if window then
-    window:Dispose()
-    window = nil
-    return
-  end
-
-  window = Chili.Window:New{
-    x = '30%',
-    y = '30%',
-    width = 400,
-    height = 300,
-    caption = "Шаблоны построек",
-    parent = screen0,
-    draggable = true,
-    resizable = false,
-  }
-
-  local stack = Chili.StackPanel:New{
-    orientation = "vertical",
-    width = "100%",
-    height = "100%",
-    padding = {5,5,5,5},
-    itemMargin = {2,2,2,2},
-    parent = window,
-  }
-
-  for i, bp in ipairs(blueprints) do
-    local btn = Chili.Button:New{
-      caption = string.format("%d. %s (%d зданий)", i, bp.name, #bp.buildings),
-      width = "100%",
-      height = 30,
-      OnClick = { function() PlaceBlueprint(i) end },
-    }
-    stack:AddChild(btn)
+function widget:MousePress(x, y, button)
+  if pendingBlueprintIndex then
+    local mx, my = Spring.GetMouseState()
+    local type, pos = Spring.TraceScreenRay(mx, my, true, true)
+    if type == "ground" and pos then
+      DoPlaceBlueprint(pendingBlueprintIndex, pos[1], pos[3])
+      pendingBlueprintIndex = nil
+      return true
+    end
   end
 end
 
 --------------------------------------------------------------------------------
--- Инициализация
+-- Init
 --------------------------------------------------------------------------------
 
 function widget:Initialize()
   LoadBlueprints()
+  Spring.Echo("[Blueprint Builder] blueprints count:", #blueprints)
+
   Chili = WG.Chili
   if not Chili then
     Spring.Echo("[Blueprint Builder] Требуется Chili UI")
@@ -203,19 +223,24 @@ function widget:Initialize()
     return
   end
   screen0 = Chili.Screen0
-end
 
---------------------------------------------------------------------------------
--- Клавиши
---------------------------------------------------------------------------------
+  WG.BlueprintBuilder = {
+    StartPlacement = StartPlacement,
+    SaveNewBlueprint = OpenSaveBlueprintWindow,
+    GetBlueprintList = function() return blueprints end,
+  }
+end
 
 function widget:KeyPress(key, mods, isRepeat)
   if isRepeat then return end
-  if key == string.byte("s") then
-    SaveBlueprint("Шаблон " .. (#blueprints + 1))
-  elseif key == string.byte("b") and mods.shift then
-    ToggleWindow()
-  elseif key == string.byte("b") then
-    PlaceBlueprint(#blueprints) -- последний
+
+  -- Shift + N — открыть/закрыть окно сохранения
+  if key == string.byte("n") and mods.shift then
+    if saveWindow then
+      saveWindow:Dispose()
+      saveWindow = nil
+    else
+      OpenSaveBlueprintWindow()
+    end
   end
 end

@@ -53,7 +53,7 @@ YardMap = "oooo oooo oooo oooo",
 
      customParams = {
         techlevel = 2,
-        hp_level_1 = "1"
+        hp_level_1 = "1" -- от апгрейда
      }
 
 

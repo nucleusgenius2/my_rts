@@ -7,7 +7,7 @@ function widget:GetInfo()
         author = "nucleus_genius",
         date = "2025",
         license = "All rights reserved; no commercial use",
-        layer = 0,
+        layer = 1,
         enabled = true,
     }
 end
@@ -190,7 +190,16 @@ local function CallUpgrade(_, upgradeKey)
     Spring.SendLuaRulesMsg(msg)
 end
 
-
+--вызов блюе принта
+local function CallBluePrint(_, index)
+    index = index + 1
+Spring.Echo("[CallBluePrint] PlaceBlueprint:", index, type(index))
+  if WG.BlueprintBuilder and WG.BlueprintBuilder.StartPlacement then
+    WG.BlueprintBuilder.StartPlacement(index)
+  else
+    Spring.Echo("[CallBluePrint] Не удалось вызвать шаблон, WG.BlueprintBuilder не найден")
+  end
+end
 
 -- Инициализируем модель
 local init_model = {
@@ -228,7 +237,9 @@ local init_model = {
     helpTextManeuver = tr("help_text_maneuver"),
     helpTextRoam = tr("help_text_roam"),
     helpTextRepeatOff = tr("help_text_repeat_off"),
-    helpTextRepeatOn = tr("help_text_repeat_on")
+    helpTextRepeatOn = tr("help_text_repeat_on"),
+    bluePrints = {},
+    CallBluePrint = CallBluePrint
 }
 
 
@@ -363,6 +374,10 @@ function widget:Update()
             dm_handle.helpTextRepeatOff = tr("help_text_repeat_off")
             dm_handle.helpTextRepeatOn = tr("help_text_repeat_on")
 
+            local blueprints = WG.BlueprintBuilder.GetBlueprintList()
+            if #blueprints > 0 then
+              dm_handle.bluePrints = blueprints
+            end
 
         else
             Spring.Echo("Нет widget.dm_handle!")
