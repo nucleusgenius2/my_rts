@@ -165,20 +165,30 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- особые команды-->
-                    <div class="commands-container">
-                        <div data-if="hasBuilder">
-                           <div data-event-click="CallShowTemplate()">шаблоны</div>
-                        </div>
-                    </div>
-
                 </div>
-
-
-
             </div>
 
+            <div class="column col-0">
+                <!-- особые команды-->
+                <div class="commands-container">
+                    <!-- шаблоны -->
+                    <div data-if="hasBuilder" class="spec-button">
+                        <div data-event-click="CallShowTemplate()" class="ng-btn-circle" > <!-- динамо выдача класса -->
+                            <div class="ng-btn-square-1" data-class-active="showTemplate"></div>
+                            <div class="ng-btn-square-2" data-class-active="showTemplate"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- тех уровень-->
+            <div class="column col-0">
+                <div data-if="hasBuilder" class="wrap-tech-level">
+                    <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 1)">1</div>
+                    <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 2)">2</div>
+                    <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 3)">3</div>
+                </div>
+            </div>
 
             <!--<img src="/UnitPics/Cleaver.png" height='64' width='64'/>-->
             <div class="column col-2">
@@ -225,15 +235,6 @@
                 </div>
            </div>
 
-
-
-           <div class="column col-3">
-               <div data-if="hasBuilder" class="wrap-tech-level">
-                   <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 1)">1</div>
-                   <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 2)">2</div>
-                   <div class="tech-icon" data-event-click="ChangeTexLevel(engineerTechLevel, 3)">3</div>
-               </div>
-           </div>
 
        </div>
 

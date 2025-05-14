@@ -36,15 +36,20 @@ div {
     flex-basis: 45%;
     width: 45%;
 }
-.col-3 {
-    flex-basis: 10%;
-    width: 10%;
+.col-0 {
+    flex-basis: 7%;
+    width: 7%;
 }
+.col-tech-level {
+    flex-basis: 3%;
+    width: 3%;
+}
+
 
 .window-wrap-unit-menu {
     position: absolute;
     bottom: 0px;
-    background: #66666678;
+    background: #28282878;
     padding: 10px;
     width: 1000px;
     height: 200px;
@@ -222,4 +227,65 @@ div {
     bottom: -114px;
     min-height:22px;
     height: 44px;
+    z-index: 1;
+}
+.ng-btn-circle {
+    width: 50px;
+    height: 50px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-color: #131919;
+    border-right-color: #131919;
+    border-bottom-color:#131919;
+    border-left-color: #131919;
+    border-radius: 5px;
+    position: relative;
+    background-color: #131919;
+    cursor: pointer;
+    display: flex;
+
+}
+
+.ng-btn-square-1,
+.ng-btn-square-2 {
+    width: 18px;
+    height: 18px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #CECECEFF;
+    border-right-color: #CECECEFF;
+    border-bottom-color: #CECECEFF;
+    border-left-color: #CECECEFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: transparent;
+    margin: 0;
+}
+.active {
+    border-top-color: #29b1bd;
+    border-right-color: #29b1bd;
+    border-bottom-color: #29b1bd;
+    border-left-color: #29b1bd;
+}
+
+.ng-btn-square-1 {
+    margin-top: -15px;
+    margin-left: -15px;
+}
+
+.ng-btn-square-2 {
+    margin-top: -8px;
+    margin-left: -8px;
+}
+.spec-button {
+    margin-bottom:10px;
 }
