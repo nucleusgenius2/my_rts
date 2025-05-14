@@ -20,6 +20,7 @@ local engineerTechLevel = 1
 --языковые настройки
 local SettingsManager = WG.SettingsManager
 local currentLang = SettingsManager:Get("language")
+local showTemplate = false
 tr = function(k) return WG.Translate("interface." .. k) end
 
 --функция которая выбирает юнитов
@@ -192,13 +193,24 @@ end
 
 --вызов блюе принта
 local function CallBluePrint(_, index)
-    index = index + 1
-Spring.Echo("[CallBluePrint] PlaceBlueprint:", index, type(index))
+  index = index + 1
+    --Spring.Echo("[CallBluePrint] PlaceBlueprint:", index, type(index))
   if WG.BlueprintBuilder and WG.BlueprintBuilder.StartPlacement then
     WG.BlueprintBuilder.StartPlacement(index)
   else
     Spring.Echo("[CallBluePrint] Не удалось вызвать шаблон, WG.BlueprintBuilder не найден")
   end
+end
+
+--показ и скрытие списка шаблонов
+local function CallShowTemplate()
+    if showTemplate then
+        showTemplate = false
+        dm_handle.showTemplate = false
+    else
+        showTemplate = true
+        dm_handle.showTemplate = true
+    end
 end
 
 -- Инициализируем модель
@@ -239,7 +251,9 @@ local init_model = {
     helpTextRepeatOff = tr("help_text_repeat_off"),
     helpTextRepeatOn = tr("help_text_repeat_on"),
     bluePrints = {},
-    CallBluePrint = CallBluePrint
+    CallBluePrint = CallBluePrint,
+    CallShowTemplate = CallShowTemplate,
+    showTemplate = false
 }
 
 

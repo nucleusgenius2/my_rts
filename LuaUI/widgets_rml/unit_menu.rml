@@ -164,23 +164,26 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <!-- особые команды-->
+                    <div class="commands-container">
+                        <div data-if="hasBuilder">
+                           <div data-event-click="CallShowTemplate()">шаблоны</div>
+                        </div>
                     </div>
+
                 </div>
-                <div data-for="bp, i: bluePrints">
-                    <div data-event-click="CallBluePrint(i)" >
-                        <div> {{ bp.icon }}</div>
-                        <div> {{bp.name }}</div>
-                        <div> {{ bp.techLevel}}</div>
-                    </div>
-                </div>
+
+
+
             </div>
 
 
             <!--<img src="/UnitPics/Cleaver.png" height='64' width='64'/>-->
             <div class="column col-2">
-                <div data-if="!hasBuilder && !hasLaboratory" class="wrap-icons-selected-block">
-                    <!-- выбранные юниты-->
+                <!-- выбранные юниты-->
+                <div data-if="!hasBuilder && !hasLaboratory && !showTemplate" class="wrap-icons-selected-block">
                     <div data-for="test, i: testArray">
                         <div data-event-click="SelectUnitsByDefID(test.id)" class="icon-unit-el">
                             <p class="unit-selected-count"> {{ test.count }}</p>
@@ -189,15 +192,16 @@
                     </div>
                 </div>
 
-
+                <!-- апгрейды -->
                 <div data-if="hasLaboratory" class="wrap-icons-selected-block">
-                    <!-- апгрейды -->
+
 
                     <div data-event-click="CallUpgrade('hp_level_1')">Улучшить HP</div>
                 </div>
 {{ selectTechLevel }}
-                <div data-if="hasBuilder" class="wrap-icons-selected-block">
-                    <!-- здания-->
+                <!-- здания-->
+                <div data-if="hasBuilder && !showTemplate" class="wrap-icons-selected-block">
+
                     <div data-for="cmd, i: buildCommands">
 
                         <div data-if="(cmd.techlevel==engineerTechLevel && selectTechLevel==0) || (selectTechLevel > 0 && selectTechLevel==cmd.techlevel)" data-event-click="RunCommandFromRML(cmd.id)" class="icon-unit-el" data-class-selected-build="cmd.id == activeCommandID">
@@ -205,7 +209,18 @@
                             <div  class="effect-h"></div>
                        </div>
                    </div>
-               </div>
+                </div>
+
+                <!-- шаблоны-->
+                <div data-if="hasBuilder && showTemplate" class="wrap-icons-selected-block">
+                    <div data-for="bp, i: bluePrints">
+                        <div data-event-click="CallBluePrint(i)" >
+                            <div> {{ bp.icon }}</div>
+                            <div> {{ bp.name }}</div>
+                            <div> {{ bp.techLevel}}</div>
+                        </div>
+                    </div>
+                </div>
            </div>
 
 
