@@ -227,7 +227,7 @@ local init_model = {
     show = false,
     ToggleStateCommand = ToggleStateCommand,
     engineerTechLevel = 1, -- тех левел инжа
-    selectTechLevel = 0, -- тех левел который выбрали в меню дял отображения
+    selectTechLevel = 1, -- тех левел который выбрали в меню для отображения
     hasLaboratory = false,
     -- Получаем текущий язык из настроек
     currentLang = currentLang,

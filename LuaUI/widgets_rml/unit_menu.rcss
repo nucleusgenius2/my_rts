@@ -16,6 +16,10 @@ div {
 .tech-icon:hover{
     background: #fff;
 }
+.tech-icon-active {
+    background: #fff;
+}
+
 .wrap-unit-menu {
     position: relative;
     display: flex;
@@ -288,4 +292,32 @@ div {
 }
 .spec-button {
     margin-bottom:10px;
+}
+
+.wrap-template-icon {
+    display:flex;
+    position: relative;
+    flex-wrap: wrap;
+
+}
+
+.wrap-template-icon:hover .name-template{
+    background-color: #2f2f2f;
+}
+.name-template {
+    position: absolute;
+    background-color: #131919;
+    color:#fff;
+    padding:2px;
+    width:64px;
+    bottom:0px;
+}
+
+.icon-template-el {
+    position: relative;
+    height:64px;
+    width: 64px;
+    max-height:68px;
+    border-radius:4px;
+    overflow: hidden;
 }
