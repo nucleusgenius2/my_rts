@@ -215,7 +215,9 @@
                 <div data-if="hasBuilder && showTemplate" class="wrap-icons-selected-block">
                     <div data-for="bp, i: bluePrints">
                         <div data-event-click="CallBluePrint(i)" >
-                            <div> {{ bp.icon }}</div>
+                            <div>
+                                <img data-attr-src="bp.icon" class="icon-unit" height='64' width='64'/>
+                            </div>
                             <div> {{ bp.name }}</div>
                             <div> {{ bp.techLevel}}</div>
                         </div>

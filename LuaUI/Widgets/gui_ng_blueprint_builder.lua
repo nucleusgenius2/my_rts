@@ -77,7 +77,12 @@ local function SaveBlueprintWithName(name)
 
         if unitDef.metalCost > maxMetalCost then
           maxMetalCost = unitDef.metalCost
-          icon = unitDef.iconType or ""
+
+          local pic = unitDef.buildPic or ""
+          if not pic:lower():find("unitpics/") then
+            pic = "/unitpics/" .. pic
+          end
+          icon = pic
         end
 
         local tech = unitDef.customParams and tonumber(unitDef.customParams.techlevel) or 1
