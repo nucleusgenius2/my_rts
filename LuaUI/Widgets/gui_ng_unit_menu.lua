@@ -204,11 +204,9 @@ end
 
 --показ и скрытие списка шаблонов
 local function CallShowTemplate()
-    if showTemplate then
-        showTemplate = false
+    if dm_handle.showTemplate then
         dm_handle.showTemplate = false
     else
-        showTemplate = true
         dm_handle.showTemplate = true
     end
 end
@@ -253,7 +251,8 @@ local init_model = {
     bluePrints = {},
     CallBluePrint = CallBluePrint,
     CallShowTemplate = CallShowTemplate,
-    showTemplate = false
+    showTemplate = false,
+    hasNonBuilder = false
 }
 
 
@@ -316,6 +315,7 @@ function widget:Update()
             local unitGroups = {}
             local hasBuilder = false
             local hasLaboratory = false
+            local hasNonBuilder = false
 
             for _, unitID in ipairs(selectedUnits) do
                 if Spring.ValidUnitID(unitID) then
@@ -324,6 +324,10 @@ function widget:Update()
                     if unitDef then
                         if unitDef.isBuilder then
                             hasBuilder = true
+                        else
+                            --для ui чтобы удобнее было
+                            dm_handle.showTemplate = false
+                            hasNonBuilder = true
                         end
 
                         -- сразу получаем уровень технологии у первого билдера
@@ -364,6 +368,7 @@ function widget:Update()
             dm_handle.buildCommands = getBuildCommands(selectedUnits)
             dm_handle.engineerTechLevel = engineerTechLevel
             dm_handle.hasLaboratory = hasLaboratory
+            dm_handle.hasNonBuilder = hasNonBuilder
 
              --локалиазция описаний
             dm_handle.currentLang = SettingsManager:Get("language")
@@ -387,6 +392,8 @@ function widget:Update()
             dm_handle.helpTextRoam = tr("help_text_roam")
             dm_handle.helpTextRepeatOff = tr("help_text_repeat_off")
             dm_handle.helpTextRepeatOn = tr("help_text_repeat_on")
+
+
 
             local blueprints = WG.BlueprintBuilder.GetBlueprintList()
             if #blueprints > 0 then

@@ -60,6 +60,11 @@ end
 --------------------------------------------------------------------------------
 
 local function SaveBlueprintWithName(name)
+    if #name > 8 then
+      Spring.Echo("[Blueprint Builder] Название обрезано до 7 символов: " .. string.sub(name, 1, 7))
+      name = string.sub(name, 1, 8)
+    end-- ограничение имени шаблона до 7 символов
+
   local units = Spring.GetTeamUnits(Spring.GetMyTeamID())
   local buildings = {}
 
@@ -201,6 +206,13 @@ local function StartPlacement(index)
   pendingBlueprintIndex = tonumber(index)
 end
 
+local function DeleteBlueprint(index)
+  if not blueprints[index] then return end
+  table.remove(blueprints, index)
+  SaveBlueprints()
+  Spring.Echo("[Blueprint Builder] Шаблон удалён:", index)
+end
+
 function widget:MousePress(x, y, button)
   if pendingBlueprintIndex then
     local mx, my = Spring.GetMouseState()
@@ -232,6 +244,7 @@ function widget:Initialize()
   WG.BlueprintBuilder = {
     StartPlacement = StartPlacement,
     SaveNewBlueprint = OpenSaveBlueprintWindow,
+    DeleteBlueprint = DeleteBlueprint,
     GetBlueprintList = function() return blueprints end,
   }
 end
@@ -239,7 +252,6 @@ end
 function widget:KeyPress(key, mods, isRepeat)
   if isRepeat then return end
 
-  -- Shift + N — открыть/закрыть окно сохранения
   if key == string.byte("n") and mods.shift then
     if saveWindow then
       saveWindow:Dispose()

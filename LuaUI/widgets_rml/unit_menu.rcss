@@ -77,8 +77,8 @@ div {
 
 .wrap-icons-selected-block {
     display: flex;
-    gap: 5px;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .effect-h {
@@ -297,8 +297,7 @@ div {
 .wrap-template-icon {
     display:flex;
     position: relative;
-    flex-wrap: wrap;
-
+    background-color:#000;
 }
 
 .wrap-template-icon:hover .name-template{
@@ -311,6 +310,7 @@ div {
     padding:2px;
     width:64px;
     bottom:0px;
+    overflow: hidden;
 }
 
 .icon-template-el {
@@ -320,4 +320,9 @@ div {
     max-height:68px;
     border-radius:4px;
     overflow: hidden;
+}
+
+.gap-icon {
+    margin-left:5px;
+    margin-bottom:5px;
 }
