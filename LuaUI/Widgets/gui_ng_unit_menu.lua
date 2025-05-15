@@ -268,6 +268,19 @@ local init_model = {
     CallDeleteBluePrint = CallDeleteBluePrint,
     showTemplate = false,
     hasNonBuilder = false,
+    singleUnitInfo = {
+        name = "",
+        description = "",
+        hp = 0,
+        cost = {
+            metal = 0,
+            energy = 0,
+            buildTime = 0,
+        },
+        customParams = {},
+        weapons = {},
+    },
+    oneUnitSelect = false
 }
 
 
@@ -323,6 +336,60 @@ function widget:Update()
         for i = 1, #selectedUnits do
             prevSelection[i] = selectedUnits[i]
         end
+
+        --инфа если один юнит выбранн
+        if #selectedUnits == 1 then
+            local unitID = selectedUnits[1]
+            local unitDefID = Spring.GetUnitDefID(unitID)
+            local unitDef = unitDefID and UnitDefs[unitDefID]
+
+           if unitDef then
+               local _, _, _, maxHealth = Spring.GetUnitHealth(unitID)
+
+               -- Обработка стоимости
+               local cost = {
+                   metal = unitDef.buildCostMetal or unitDef.BuildCostMetal or 0,
+                   energy = unitDef.buildCostEnergy or unitDef.BuildCostEnergy or 0,
+                   buildTime = unitDef.buildTime or unitDef.BuildTime or 0,
+               }
+
+               -- Обработка оружия
+               local weapons = {}
+               if unitDef.weapons then
+                   for _, weapon in ipairs(unitDef.weapons) do
+                       local wd = WeaponDefs[weapon.weaponDef or weapon.name]
+                       if wd then
+                           table.insert(weapons, {
+                               name = wd.description or "Weapon",
+                               damage = wd.damage and wd.damage.default or 0,
+                               range = wd.range or 0,
+                               reload = wd.reload or 0,
+                           })
+                       end
+                   end
+               end
+
+               -- Кастом параметры
+               local customParams = {}
+               for k, v in pairs(unitDef.customParams or {}) do
+                   customParams[k] = v
+               end
+
+               dm_handle.singleUnitInfo = {
+                   name = unitDef.name or unitDef.UnitName,
+                   description = unitDef.description or unitDef.Description,
+                   hp = maxHealth or unitDef.maxDamage or unitDef.MaxDamage or 0,
+                   cost = cost,
+                   customParams = customParams,
+                   weapons = weapons,
+               }
+                dm_handle.oneUnitSelect = true
+           end
+        else
+            dm_handle.oneUnitSelect = false
+            dm_handle.singleUnitInfo = {} -- сбрасываем если не один юнит
+        end
+
 
         Spring.Echo("[SelectedUnitsRmlModel] SelectionChanged: " .. #selectedUnits .. " юнитов выбрано")
 

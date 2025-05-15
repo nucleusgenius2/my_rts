@@ -194,7 +194,7 @@
             <div class="column col-2">
 
                 <!-- выбранные юниты-->
-                <div data-if="(!hasBuilder && !hasLaboratory && !showTemplate) || (hasNonBuilder && !hasLaboratory)" class="wrap-icons-selected-block">
+                <div data-if="(!hasBuilder && !hasLaboratory && !showTemplate && !oneUnitSelect) || (hasNonBuilder && !hasLaboratory && !oneUnitSelect)" class="wrap-icons-selected-block">
                     <div data-for="test, i: testArray">
                         <div data-event-click="SelectUnitsByDefID(test.id)" class="icon-unit-el">
                             <p class="unit-selected-count"> {{ test.count }}</p>
@@ -234,12 +234,21 @@
                         </div>
                     </div>
                 </div>
-           </div>
+
+                <!-- информация о юните, если он выбран один -->
+                <!--  <div data-if="!hasBuilder && oneUnitSelect && hasNonBuilder" class="wrap-icons-selected-block">-->
+                <div data-if="oneUnitSelect" class="wrap-icons-selected-block">
+                   <div> 444444444</div>
+                    <div> {{ singleUnitInfo.name  }}</div>
+                    <div> {{ singleUnitInfo.description }}</div>
+               </div>
+
+          </div>
 
 
-       </div>
+      </div>
 
-    </div>
+   </div>
 
-    </body>
+   </body>
 </rml>
