@@ -326,3 +326,14 @@ div {
     margin-left:5px;
     margin-bottom:5px;
 }
+
+.remove-template {
+    position: absolute;
+    background-color: #131919;
+    color: #b40c0c;
+    padding:2px;
+    width:10px;
+    top:0px;
+    right:0px;
+    font-size:11px;
+}

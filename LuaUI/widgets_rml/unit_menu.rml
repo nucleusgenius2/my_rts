@@ -228,6 +228,7 @@
                             <div class="wrap-template-icon">
                                 <img data-attr-src="bp.icon" class="icon-unit" height='64' width='64'/>
                                 <div class="name-template"> {{ bp.name }}</div>
+                                <div class="remove-template" data-event-click="CallDeleteBluePrint(i)">х</div>
                             </div>
                             <!-- <div> {{ bp.techLevel}}</div>-->
                         </div>

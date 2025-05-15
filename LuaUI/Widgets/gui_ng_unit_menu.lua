@@ -211,6 +211,20 @@ local function CallShowTemplate()
     end
 end
 
+--удаление шаблонов
+local function CallDeleteBluePrint(_, index)
+   index = index + 1
+   if WG.BlueprintBuilder and WG.BlueprintBuilder.DeleteBlueprint then
+       Spring.Echo("удаление")
+       WG.BlueprintBuilder.DeleteBlueprint(index)
+
+       local blueprints = WG.BlueprintBuilder.GetBlueprintList()
+       if #blueprints > 0 then
+           dm_handle.bluePrints = blueprints
+       end
+   end
+end
+
 -- Инициализируем модель
 local init_model = {
     SelectUnitsByDefID = SelectUnitsByDefID,
@@ -251,8 +265,9 @@ local init_model = {
     bluePrints = {},
     CallBluePrint = CallBluePrint,
     CallShowTemplate = CallShowTemplate,
+    CallDeleteBluePrint = CallDeleteBluePrint,
     showTemplate = false,
-    hasNonBuilder = false
+    hasNonBuilder = false,
 }
 
 
