@@ -51,12 +51,12 @@ local unitDef  =  {
 
     weapons = {
         [1]={
-            name  = "TMDLaser", --спец оружие для тмд
+            name  = "TMDLaser", --спец оружие для тмд (HeavyLaser)
             --onlyTargetCategory = [[Tank]],
             turret = true
         },
     },
-    
+
 
 }
 

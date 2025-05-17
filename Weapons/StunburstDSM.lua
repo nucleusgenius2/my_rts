@@ -9,10 +9,10 @@ local weaponDef={
 
     range=270,
     reloadtime=3.25,
-    weaponVelocity=680,
-    startVelocity=280,
+    weaponVelocity=400,
+    startVelocity=150,
     weaponAcceleration=200,
-    flightTime=5,
+    flightTime=8,
     BurnBlow=0,
     FixedLauncher=true,
     dance=0,
@@ -52,8 +52,8 @@ local weaponDef={
 
     targetable = 1, --чтобы работал перехват
     customParams = {
-        cruise_missile = 1,
-        intercepttype = "missile", -- указываем что снаряда перехватываемый
+        --cruise_missile = 1,
+       -- intercepttype = "missile", -- указываем что снаряда перехватываемый
     },
 
     areaOfEffect=3,
