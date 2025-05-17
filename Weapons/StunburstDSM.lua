@@ -49,6 +49,8 @@ local weaponDef={
         default=80,
         heavyarmor=1,
     },
+
+    targetable = 1, --чтобы работал перехват
     customParams = {
         intercepttype = "missile", -- указываем что снаряда перехватываемый
     },
