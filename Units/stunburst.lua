@@ -2,7 +2,7 @@ local unitName  =  "stunburst"
 
 local unitDef  =  {
 --Internal settings
-BuildPic = "Stunburst.png",
+    BuildPic = "Stunburst.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
     ObjectName = "Stunburst.s3o",
     name = "Stunburst",
@@ -11,7 +11,7 @@ BuildPic = "Stunburst.png",
     UnitName = "Stunburst",
     script = "stunburstscript.lua",
 	icontype = "stunburst",
---Unit limitations and properties
+    --Unit limitations and properties
     Description = "Light Scout/Raider Support.",
     MaxDamage = 155,
     idleTime = 150,
@@ -23,11 +23,11 @@ BuildPic = "Stunburst.png",
 	explodeAs = [[StunBurstExplosion]],
 	selfDestructAs = [[StunBurstExplosion]],
 	corpse = [[stunburst_dead]],
---Energy and metal related
+    --Energy and metal related
     BuildCostEnergy = 40,
     BuildCostMetal = 40,
     BuildTime = 40,
---Pathfinding and related
+    --Pathfinding and related
     maxAcc = 0.4,
     BrakeRate = 0.2,
     FootprintX = 2,
@@ -39,7 +39,7 @@ BuildPic = "Stunburst.png",
     TurnRate = 2600,
 
     
---Abilities
+    --Abilities
     Builder = 0,
     CanAttack = 1,
     CanGuard = 1,
@@ -52,28 +52,23 @@ BuildPic = "Stunburst.png",
     repairable = 1,
     
 
---Hitbox
-collisionVolumeOffsets    =  "0 -3 3",
-collisionVolumeScales     =  "15.5 26 26",
-collisionVolumeType       =  "box",
+    --Hitbox
+    collisionVolumeOffsets    =  "0 -3 3",
+    collisionVolumeScales     =  "15.5 26 26",
+    collisionVolumeType       =  "box",
 
    
---Weapons and related
-
-
-
-
+    --Weapons and related
     weapons = {
-        [1]={name  = "DualStunMissles",
-               turret = true
-            },
-
-
+        [1]={
+            name  = "DualStunMissles",
+            turret = true
         },
+    },
 
-     customParams = {
-        hp_level_1 = "1"
-     }
+    customParams = {
+        hp_level_1 = "1",
+    }
 
 }
 
