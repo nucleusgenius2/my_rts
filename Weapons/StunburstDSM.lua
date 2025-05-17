@@ -52,6 +52,7 @@ local weaponDef={
 
     targetable = 1, --чтобы работал перехват
     customParams = {
+        cruise_missile = 1,
         intercepttype = "missile", -- указываем что снаряда перехватываемый
     },
 
