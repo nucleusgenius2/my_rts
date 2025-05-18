@@ -1,6 +1,6 @@
 function widget:GetInfo()
   return {
-    name      = "Blueprint Builder",
+    name      = "NG Blueprint Builder",
     desc      = "Сохраняет и размещает шаблоны зданий под курсором",
     author    = "nucleus_genius",
     date      = "2025-05-13",
