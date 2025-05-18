@@ -28,5 +28,9 @@ local weaponDef = {
 	      stages                  = 20,
 		  separation              = 1,
 		  explosionGenerator = [[custom:hunterflash]],
-		  }
+
+		--  теперь с поддержкой перехвата щитом
+        interceptedByShieldType = 1,
+
+	}
 return lowerkeys({[weaponName] = weaponDef})
