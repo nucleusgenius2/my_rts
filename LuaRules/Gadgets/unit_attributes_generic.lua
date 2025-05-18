@@ -8,7 +8,7 @@ end
 function gadget:GetInfo()
 	return {
 		name      = "Attributes Generic",
-		desc      = "Handles UnitRulesParam attributes in a generic way.",
+		desc      = "гаджет, который вроде как дает бафы юнитам. надо либо использовать либо выкинуть",
 		author    = "GoogleFrog", -- v1 CarReparier & GoogleFrog
 		date      = "2018-11-30", -- v1 2009-11-27
 		license   = "GNU GPL, v2 or later",
