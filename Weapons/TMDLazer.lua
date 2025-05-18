@@ -4,7 +4,7 @@ weaponDef = {
 	weaponType              = "BeamLaser", -- лазер сбивает лучше
 
 	name                    = "TMD Laser Interceptor",
-
+    beamTime = 0.4,
 	interceptor             = 1,
 	coverage                = 800,
 	--stockpile               = true, --ломало сбитие снарядов
@@ -16,11 +16,12 @@ weaponDef = {
 	range                   = 800,
 	reloadtime              = 2.6,
 	turret                  = true,
-	tolerance               = 5000,
-
-	accuracy                = 1000,
-	areaOfEffect            = 50,
-	explosionGenerator      = [[custom:hlthit]],
+	tolerance               = 55000,
+collisionSize = 1,
+	accuracy                = 0, --точность
+	areaOfEffect            = 0, --сплешь
+	--explosionGenerator      = [[custom:hlthit]], --эффект после попадания
+	explosionGenerator      = [[custom:none]], --эффект после попадания
 
 	projectiles             = 1,
 
