@@ -32,5 +32,9 @@
   "help_text_maneuver" : "Maneuver",
   "help_text_roam" : "Roam",
   "help_text_repeat_off" : "Repeat off",
-  "help_text_repeat_on" : "Repeat on"
+  "help_text_repeat_on" : "Repeat on",
+  "unit_menu_text_unit_info" : "Unit Information",
+  "main_text_mass" : "Mass",
+  "main_text_energy" : "Energy",
+  "main_text_build_time" : "Build time"
 }

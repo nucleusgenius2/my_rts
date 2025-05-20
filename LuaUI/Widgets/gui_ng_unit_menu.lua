@@ -262,6 +262,11 @@ local init_model = {
     helpTextRoam = tr("help_text_roam"),
     helpTextRepeatOff = tr("help_text_repeat_off"),
     helpTextRepeatOn = tr("help_text_repeat_on"),
+    menuTextUnitInfo = tr("unit_menu_text_unit_info"),
+    helpTextMass = tr("main_text_mass"),
+    helpTextEnergy = tr("main_text_energy"),
+    helpTextBuildTime = tr("main_text_build_time"),
+
     bluePrints = {},
     CallBluePrint = CallBluePrint,
     CallShowTemplate = CallShowTemplate,
@@ -339,50 +344,24 @@ function widget:Update()
 
         --инфа если один юнит выбранн
         if #selectedUnits == 1 then
+
+
             local unitID = selectedUnits[1]
             local unitDefID = Spring.GetUnitDefID(unitID)
             local unitDef = unitDefID and UnitDefs[unitDefID]
 
+
            if unitDef then
-               local _, _, _, maxHealth = Spring.GetUnitHealth(unitID)
-
-               -- Обработка стоимости
-               local cost = {
-                   metal = unitDef.buildCostMetal or unitDef.BuildCostMetal or 0,
-                   energy = unitDef.buildCostEnergy or unitDef.BuildCostEnergy or 0,
-                   buildTime = unitDef.buildTime or unitDef.BuildTime or 0,
-               }
-
-               -- Обработка оружия
-               local weapons = {}
-               if unitDef.weapons then
-                   for _, weapon in ipairs(unitDef.weapons) do
-                       local wd = WeaponDefs[weapon.weaponDef or weapon.name]
-                       if wd then
-                           table.insert(weapons, {
-                               name = wd.description or "Weapon",
-                               damage = wd.damage and wd.damage.default or 0,
-                               range = wd.range or 0,
-                               reload = wd.reload or 0,
-                           })
-                       end
-                   end
-               end
-
-               -- Кастом параметры
-               local customParams = {}
-               for k, v in pairs(unitDef.customParams or {}) do
-                   customParams[k] = v
-               end
 
                dm_handle.singleUnitInfo = {
                    name = unitDef.name or unitDef.UnitName,
                    description = unitDef.description or unitDef.Description,
-                   hp = maxHealth or unitDef.maxDamage or unitDef.MaxDamage or 0,
-                   cost = cost,
-                   customParams = customParams,
+                   mass = unitDef.customParams.mass,
+                   energy  = unitDef.customParams.energy,
+                   buildtime = unitDef.customParams.buildtime,
                    weapons = weapons,
                }
+                --выбран только один юнит
                 dm_handle.oneUnitSelect = true
            end
         else
@@ -474,6 +453,11 @@ function widget:Update()
             dm_handle.helpTextRoam = tr("help_text_roam")
             dm_handle.helpTextRepeatOff = tr("help_text_repeat_off")
             dm_handle.helpTextRepeatOn = tr("help_text_repeat_on")
+            dm_handle.menuTextUnitInfo = tr("unit_menu_text_unit_info")
+
+            dm_handle.helpTextMass = tr("main_text_mass")
+            dm_handle.helpTextEnergy = tr("main_text_energy")
+            dm_handle.helpTextBuildTime = tr("main_text_build_time")
 
 
 

@@ -32,6 +32,10 @@
   "help_text_maneuver" : "Маневрирование",
   "help_text_roam" : "Преследование",
   "help_text_repeat_off" : "Повтор выкл.",
-  "help_text_repeat_on" : "Повтор вкл."
+  "help_text_repeat_on" : "Повтор вкл.",
+  "unit_menu_text_unit_info" : "Информация о юните",
+  "main_text_mass" : "Масса",
+  "main_text_energy" : "Энергия",
+  "main_text_build_time" : "Время на постройку"
 }
 

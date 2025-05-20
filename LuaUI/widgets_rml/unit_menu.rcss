@@ -58,6 +58,7 @@ div {
     width: 1000px;
     height: 200px;
     z-index: 1;
+    display: flex;
 }
 
 .icon-unit-el {
@@ -142,7 +143,6 @@ div {
     width:20px;
     height:5px;
     border-width:1px;
-    border-style:solid;
     border-color:#fff;
 }
 .name-state-command {
@@ -184,36 +184,28 @@ div {
     margin: auto;
 
     border-top-width: 6px;
-    border-top-style: solid;
     border-top-color: #131919;
 
     border-left-width: 6px;
-    border-left-style: solid;
     border-left-color: transparent;
 
     border-right-width: 6px;
-    border-right-style: solid;
     border-right-color: transparent;
 
     border-bottom-width: 0px;
-    border-bottom-style: solid;
     border-bottom-color: transparent;
 }
 .bottom-fx {
     border-top-width: 0px;
-    border-top-style: solid;
     border-top-color: transparent;
 
     border-left-width: 6px;
-    border-left-style: solid;
     border-left-color: transparent;
 
     border-right-width: 6px;
-    border-right-style: solid;
     border-right-color: transparent;
 
     border-bottom-width: 6px;
-    border-bottom-style: solid;
     border-bottom-color: #131919;
     bottom: -77px;
 }
@@ -260,10 +252,6 @@ div {
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
     border-top-color: #CECECEFF;
     border-right-color: #CECECEFF;
     border-bottom-color: #CECECEFF;
@@ -336,4 +324,38 @@ div {
     top:0px;
     right:0px;
     font-size:11px;
+}
+
+.header-1 {
+    font-size:15px;
+}
+
+.unit-info-block-1 {
+    display: flex;
+    flex-direction: column;
+}
+.background-1 {
+    background-color: #131919;
+    border-radius: 5px;
+    padding:10px
+}
+
+.mass-text {
+    color:#3cb166;
+}
+
+.energy-text {
+    color:#f9cb47;
+}
+
+.build-time-text {
+    color: #c4bfbf;
+}
+
+.font-size-1 {
+    font-size:13px;
+}
+
+.font-size-2 {
+    font-size:14px;
 }

@@ -237,10 +237,31 @@
 
                 <!-- информация о юните, если он выбран один -->
                 <!--  <div data-if="!hasBuilder && oneUnitSelect && hasNonBuilder" class="wrap-icons-selected-block">-->
-                <div data-if="oneUnitSelect" class="wrap-icons-selected-block">
-                   <div> 444444444</div>
-                    <div> {{ singleUnitInfo.name  }}</div>
-                    <div> {{ singleUnitInfo.description }}</div>
+                <div data-if="oneUnitSelect" class="wrap-icons-selected-block background-1" style="width:80%">
+                    <div>
+                        <div class="header-1">{{ menuTextUnitInfo }}:</div>
+                        <div class="unit-info-block-1">
+                            <div class="font-size-1"><span class="font-size-2">{{ singleUnitInfo.name  }}</span> - {{ singleUnitInfo.description }}</div>
+                        </div>
+                        <div class="unit-info-block-1">
+                            <div> 444444444</div>
+                            <div class="font-size-1"> {{ helpTextMass }}: <span class="mass-text font-size-1">{{ singleUnitInfo.cost.metal }}</span></div>
+                            <div class="font-size-1"> {{ helpTextEnergy }}: <span class="energy-text font-size-1">{{ singleUnitInfo.energy  }}</span></div>
+                            <div class="font-size-1"> {{ helpTextBuildTime }}: <span class="build-time-text font-size-1">{{ singleUnitInfo.buildtime }}</span></div>
+
+                            <div class="font-size-1"> <span class="build-time-text font-size-1">{{ singleUnitInfo.hp }}</span></div>
+                            <div class="font-size-1"> <span class="build-time-text font-size-1">{{ singleUnitInfo.hp }}</span></div>
+
+                            <div class="weapon-list">
+                                <div data-for="weapon, i: singleUnitInfo.customParams">
+                                    <p>{{ weapon }} --</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
                </div>
 
           </div>
