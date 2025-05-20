@@ -6,7 +6,7 @@ local unitDef  =  {
     Category = "TANK SMALL NOTAIR NOTSUB",
     ObjectName = "tank_1.dae",
     --ObjectName = "SciFi_tank_1.s3o",
-
+    decloakOnFire = false, -- нужно, чтобы быть невидимым при стрельбе из инвиза
     name = "Невидимка",
     Side = "Vroomers",
     TEDClass = "Vech",
