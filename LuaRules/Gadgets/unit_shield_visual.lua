@@ -1,8 +1,8 @@
 function gadget:GetInfo()
   return {
-    name = "Simple Shield Visual",
+    name = "NG Simple Shield Visual",
     desc = "Draws a shield using a display list sphere",
-    author = "ChatGPT",
+    author = "nucleus genius",
     layer = 1000,
     enabled = true,
   }
