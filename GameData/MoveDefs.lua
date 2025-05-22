@@ -14,6 +14,18 @@ local moveDefs 	=	 {
     	maxWaterDepth =	20,
     	maxSlope =	40,
     },
+    {
+        name =	"size-2-4",
+        footprintX =	2.5,
+        footprintZ =	6,
+        maxWaterDepth =	20,
+        maxSlope =	40,
+
+        -- тепловая карта движения
+        heatMapping = true,
+        heatMod = 0.0042,
+        heatProduced = 30,
+    },
 	{
 		name =	"Large Vechicle",
 		footprintX =	3,

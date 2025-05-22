@@ -1,11 +1,10 @@
 local unitName  =  "hunter"
 
 local unitDef  =  {
---Внутренние настройки
+    --Внутренние настройки
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
     ObjectName = "tank_1.dae",
-    --ObjectName = "SciFi_tank_1.s3o",
 
     name = "Охотник 2",
     Side = "Vroomers",
@@ -13,7 +12,7 @@ local unitDef  =  {
     UnitName = "Охотник",
     script = "hunterscript.lua",
 	icontype = "raider",
---Ограничения и свойства блока
+    --Ограничения и свойства блока
     BuildTime = 1280,
     Description = "Быстрый юнит рейдер.",
     MaxDamage = 320,
@@ -23,31 +22,32 @@ local unitDef  =  {
     SightDistance = 560,
     SoundCategory = "TANK",
     Upright = 0,
-	explodeAs = [[SmallExplosion]],
-	selfDestructAs = [[SmallExplosion]],
+	explodeAs = [[SmallExplosion]], -- взрыв после смерти юнита
+	selfDestructAs = [[SmallExplosion]], -- взрыв после самоуничтожения
 	sfxtypes = {
 	    explosionGenerators = {
 	    [[custom:huntermuzzleflash]],
 	},
    },
    corpse = [[hunter_dead]],
---Энергетика и металлы
+    --Энергетика и металлы
     BuildCostEnergy = 75,
     BuildCostMetal = 75,
     BuildTime = 75,
---Поиск пути и связанные с ним
-    maxAcc = 0.35,
+    --Поиск пути и связанные с ним
+    maxAcc = 0.30, --ускорение
     BrakeRate = 0.1,
-    FootprintX = 2,
+    FootprintX = 2.5, --область выделения юнита
     FootprintZ = 2,
     MaxSlope = 45,
-    MaxVelocity = 3.2,
+    MaxVelocity = 2.5, --макс скорость движения
     MaxWaterDepth = 5,
-    MovementClass = "custom",
-    TurnRate = 2250,
-
-
---Способности
+    MovementClass = "size-2-4",
+    TurnRate = 900, --скорость поворота
+   -- pushResistant = true,
+--avoidMobilesOnPath = true,
+--mass=5000,
+    --Способности
     Builder = 0,
     CanAttack = 1,
     CanGuard = 1,
@@ -61,8 +61,8 @@ local unitDef  =  {
 
 
     --Hitbox
-    collisionVolumeOffsets    =  "0 -5 0",
-    collisionVolumeScales     =  "15.5 10 40",
+    collisionVolumeOffsets    =  "0 0 0",
+    collisionVolumeScales     =  "30 30 40",
     collisionVolumeType       =  "box",
 
 
@@ -70,28 +70,35 @@ local unitDef  =  {
     NoChaseCategory = "AIR",
 
     weapons = {
-        [1]={name = "MachineGun",
-               turret = true
+        [1]={
+            name = "MachineGun",
+            turret = true
         },
     },
     --для следов
-   tracktype = "huntertrack",
+    tracktype = "huntertrack",
     trackOffset            = 0,
-     trackStrength          = 8,
-     trackStretch           = 1,
-     trackWidth             = 30,
-     turnRate               = 1920,
+    trackStrength          = 8,
+    trackStretch           = 1,
+    trackWidth             = 30,
+   -- turnRate               = 1920,
+
 
     customParams = {
         techlevel = 2,
         modelradius = 20,
 
+        --для меню
+        mass = 75,
+        energy = 75,
+        buildtime = 75,
+
         --гусеницы
-         normaltex = "hunter_normal.png",
-         trackshader = 'trackShader',
-         tankvel = 1.0,
-         turnrate = 0.0,
-         trackwidth = 0.1 --процент от верха текстуры
+        normaltex = "hunter_normal.png",
+        trackshader = 'trackShader',
+        tankvel = 1.0,
+        turnrate = 0.0,
+        trackwidth = 0.1 --процент от верха текстуры
     }
 }
 
