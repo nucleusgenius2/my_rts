@@ -16,15 +16,26 @@ local moveDefs 	=	 {
     },
     {
         name =	"size-2-4",
-        footprintX =	2.5,
+        footprintX =	6,
         footprintZ =	6,
         maxWaterDepth =	20,
         maxSlope =	40,
 
+		crushstrength = 30,
+		depthmod = 0,
+		slopeMod = 18,
+
         -- тепловая карта движения
-        heatMapping = true,
-        heatMod = 0.0042,
-        heatProduced = 30,
+       -- heatMapping = true,
+        --heatMod = 0.0042,
+      -- heatProduced = 30,
+
+       --allowTerrainCollisions = false,
+       --avoidMobilesOnPath = true,
+      -- allowRawMovement = false,
+        -- allowUnitCollisionOverlap = true, -- ✅ разрешает наложение хитов
+       -- allowCrushingAlliedUnits = false,
+        -- allowPushingEnemyUnits = false,
     },
 	{
 		name =	"Large Vechicle",

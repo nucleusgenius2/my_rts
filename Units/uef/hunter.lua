@@ -35,17 +35,32 @@ local unitDef  =  {
     BuildCostMetal = 75,
     BuildTime = 75,
     --Поиск пути и связанные с ним
-    maxAcc = 0.30, --ускорение
-    BrakeRate = 0.1,
-    FootprintX = 2.5, --область выделения юнита
-    FootprintZ = 2,
-    MaxSlope = 45,
+    --maxAcc = 0.20, --ускорение
+    maxAcc = 0.03572, --ускорение
+    maxDec = 0.07144, -- макс торомжение
+    BrakeRate = 0.35,
+    FootprintX = 6, --область выделения юнита
+    FootprintZ = 6,
+    MaxSlope = 20, -- макс угол на который можно заехать
     MaxVelocity = 2.5, --макс скорость движения
     MaxWaterDepth = 5,
     MovementClass = "size-2-4",
-    TurnRate = 900, --скорость поворота
-   -- pushResistant = true,
---avoidMobilesOnPath = true,
+
+    TurnRate = 500, --скорость поворота
+
+    usePieceCollisionVolumes = true, -- коллизицию считать по модели
+
+      --  pushResistant = true,
+    --avoidMobilesOnPath = true,
+	--allowTerrainCollisions = false,
+	--allowDirectionalPathing = false,
+	--allowRawMovement = false,
+	--preferShortestPath = false,
+	--heatMapping = true,
+   -- flowMapping = true,
+
+    crushable = false, -- есть в баре
+    --useSmoothMesh = true,
 --mass=5000,
     --Способности
     Builder = 0,
@@ -61,8 +76,8 @@ local unitDef  =  {
 
 
     --Hitbox
-    collisionVolumeOffsets    =  "0 0 0",
-    collisionVolumeScales     =  "30 30 40",
+    collisionVolumeOffsets    =  "0 0 -2",
+    collisionvolumescales = "50 30 75", --2 значение ширина, последнее длинна
     collisionVolumeType       =  "box",
 
 
