@@ -21,7 +21,7 @@ local moveDefs 	=	 {
         maxWaterDepth =	20,
         maxSlope =	40,
 
-		crushstrength = 30,
+		crushstrength = 0,
 		depthmod = 0,
 		slopeMod = 18,
 
