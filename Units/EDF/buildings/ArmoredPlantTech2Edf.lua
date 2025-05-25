@@ -9,7 +9,7 @@ local unitDef  =  {
     Side = "Vroomers",
     TEDClass = "Building",
     UnitName = "Ground Factory",
-    script = "factoryscript2.lua",
+    script = "EDF/buildings/scriptArmoredPlantTech2Edf.lua",
 	corpse = [[groundfactory_dead]],
 	icontype = "buildinglandfactory",
     --Unit limitations and properties
@@ -26,7 +26,7 @@ local unitDef  =  {
         explosionGenerators = {
             [[custom:buildermuzzleflash]],
         },
-   },
+    },
     --Energy and metal related
     BuildCostEnergy = 750,
     BuildCostMetal = 750,
