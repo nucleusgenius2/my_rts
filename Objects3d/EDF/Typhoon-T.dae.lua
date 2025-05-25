@@ -1,8 +1,9 @@
 return {
-	radius = 55.0,
-	height = 32.0,
+	radius = 40.0,
+	height = 40.0,
     --tex1 = "Base_Color.png",
-    tex1 = "EDF/buildings/ArmoredPlantTech2Edf.dds",
+    tex1 = "EDF/Typhoon-T.dds",
 	--tex2 = "OpenGL.png",
 	midpos = {0,0,0},
+
 }

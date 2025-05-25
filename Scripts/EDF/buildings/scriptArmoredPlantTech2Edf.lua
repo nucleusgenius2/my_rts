@@ -8,6 +8,7 @@ local BuildSpot = piece "BuildSpot"
 aimSpeed = 3.0
 local buildermuzzleflash = SFX.CEG
 local isbuilding = true
+
 Spring.SetUnitNanoPieces(unitID, { Flare })
 
 local function Building()
@@ -35,14 +36,15 @@ function script.QueryNanoPiece()
     local nano = nanoPieces[nanoNum]
     return nano
 end
+
 function script.Activate()
-SetUnitValue(COB.INBUILDSTANCE, 1)
-return 1
+    SetUnitValue(COB.INBUILDSTANCE, 1)
+    return 1
 end
 
 function script.Deactivate()
-SetUnitValue(COB.INBUILDSTANCE, 0)
-return 0
+    SetUnitValue(COB.INBUILDSTANCE, 0)
+    return 0
 end
 
 function script.StartBuilding(heading, pitch)
@@ -51,7 +53,7 @@ function script.StartBuilding(heading, pitch)
 end
 
 function script.StopBuilding()
-isbuilding = false
+    isbuilding = false
 end
 
 

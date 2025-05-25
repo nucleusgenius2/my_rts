@@ -33,8 +33,8 @@ local unitDef  =  {
     Buildtime = 750, 
     --Size and Abilites
     MaxSlope = 33,
-    FootprintX = 8,
-    FootprintZ = 11,
+    FootprintX = 14,
+    FootprintZ = 12,
     canSelfDestruct = 1,
     repairable = 1,
     CanMove = 1,
@@ -65,7 +65,7 @@ local unitDef  =  {
 	},
 	--Hitbox
     collisionVolumeOffsets    =  "0 0 -7.5",
-    collisionVolumeScales     =  "120 98 175",
+    collisionVolumeScales     =  "170 98 175",
     collisionVolumeType       =  "box",
 	YardMap ="oooooooo oooooooo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo yyyyyyyy",
     --Weapons and related
