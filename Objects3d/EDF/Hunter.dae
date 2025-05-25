@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 4.2.1 LTS commit date:2024-08-19, commit time:11:21, hash:396f546c9d82</authoring_tool>
     </contributor>
-    <created>2025-05-09T23:09:55</created>
-    <modified>2025-05-09T23:09:55</modified>
+    <created>2025-05-25T21:26:00</created>
+    <modified>2025-05-25T21:26:00</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -222,7 +222,7 @@
               </bind_material>
             </instance_geometry>
             <node id="Flare" name="Flare" type="NODE">
-              <matrix sid="transform">1 0 0 -2.73188e-8 0 1 0 -39.32 0 0 1 0 0 0 0 1</matrix>
+              <matrix sid="transform">1 0 0 -2.73188e-8 0 7.54979e-8 -1 -39.32 0 1 7.54979e-8 0 0 0 0 1</matrix>
             </node>
           </node>
         </node>
