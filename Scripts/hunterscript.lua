@@ -33,19 +33,9 @@ function script.AimWeapon1(h, p)
 end
 
 function script.FireWeapon1()
-    EmitSfx(Flare, 1024)       -- замените ID, если нужно
+    EmitSfx(Flare, 1024)
 end
 
------------------------------------------------------------------------
---  Гусеницы: шлём команды в unsynced-гаджет
------------------------------------------------------------------------
-function script.StartMoving()
-    SendToUnsynced("hunter_track_start", unitID)
-end
-
-function script.StopMoving()
-    SendToUnsynced("hunter_track_stop", unitID)
-end
 
 -----------------------------------------------------------------------
 --  Гибель
