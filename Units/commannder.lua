@@ -79,6 +79,7 @@ buildoptions =
 	[[fusionreactor]],
 	[[storage]],
 	[[groundfactory]],
+	[[groundfactory2]],
 	[[hoverfactory]],
 	[[airfactory]],
 	[[navalfactory]],
