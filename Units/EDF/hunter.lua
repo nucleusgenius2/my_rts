@@ -4,7 +4,7 @@ local unitDef  =  {
     --Внутренние настройки
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
-    ObjectName = "tank_1.dae",
+    ObjectName = "EDF/Hunter.dae",
 
     name = "Охотник 2",
     Side = "Vroomers",
@@ -26,10 +26,10 @@ local unitDef  =  {
 	selfDestructAs = [[SmallExplosion]], -- взрыв после самоуничтожения
 	sfxtypes = {
 	    explosionGenerators = {
-	    [[custom:huntermuzzleflash]],
-	},
-   },
-   corpse = [[hunter_dead]],
+	        [[custom:huntermuzzleflash]],
+	    },
+    },
+    corpse = [[hunter_dead]],
     --Энергетика и металлы
     BuildCostEnergy = 75,
     BuildCostMetal = 75,
@@ -37,20 +37,20 @@ local unitDef  =  {
     --Поиск пути и связанные с ним
     --maxAcc = 0.20, --ускорение
     maxAcc = 0.03572, --ускорение
-    maxDec = 0.07144, -- макс торомжение
+    maxDec = 0.07144, -- макс торможение
     BrakeRate = 0.35,
     FootprintX = 6, --область выделения юнита
     FootprintZ = 6,
     MaxSlope = 20, -- макс угол на который можно заехать
-    MaxVelocity = 2.5, --макс скорость движения
+    MaxVelocity = 2.3, --макс скорость движения
     MaxWaterDepth = 5,
     MovementClass = "size-2-4",
-
+mass = 15000,
     TurnRate = 500, --скорость поворота
 
-    usePieceCollisionVolumes = true, -- коллизицию считать по модели
+   usePieceCollisionVolumes = true, -- коллизицию считать по модели
 
-      --  pushResistant = true,
+    -- pushResistant = true,
     --avoidMobilesOnPath = true,
 	--allowTerrainCollisions = false,
 	--allowDirectionalPathing = false,
@@ -77,7 +77,7 @@ local unitDef  =  {
 
     --Hitbox
     collisionVolumeOffsets    =  "0 0 -2",
-    collisionvolumescales = "50 30 75", --2 значение ширина, последнее длинна
+    collisionvolumescales = "40 20 75", --2 значение ширина, последнее длинна
     collisionVolumeType       =  "box",
 
 
@@ -86,7 +86,7 @@ local unitDef  =  {
 
     weapons = {
         [1]={
-            name = "MachineGun",
+            name = "HunterWeapons",
             turret = true
         },
     },
