@@ -4,7 +4,7 @@ local unitDef  =  {
 --Внутренние настройки
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
-    ObjectName = "tank_1.dae",
+    ObjectName = "EDF/Hunter.dae",
     --ObjectName = "SciFi_tank_1.s3o",
     decloakOnFire = false, -- нужно, чтобы быть невидимым при стрельбе из инвиза
     name = "Невидимка",
