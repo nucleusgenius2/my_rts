@@ -3,7 +3,8 @@ return {
 	height = 40.0,
     --tex1 = "Base_Color.png",
     tex1 = "EDF/Typhoon-T.dds",
+   -- tex2 = "EDF/Typhoon-T2.dds",
+
 	--tex2 = "OpenGL.png",
 	midpos = {0,0,0},
-
 }
