@@ -33,11 +33,16 @@ local unitDef  =  {
     Buildtime = 750, 
     --Size and Abilites
     MaxSlope = 33,
-    FootprintX = 14,
-    FootprintZ = 12,
+
+   -- FootprintX = 14,
+   -- FootprintZ = 12,
+
+    FootprintX = 8,
+   FootprintZ = 11,
+
     canSelfDestruct = 1,
     repairable = 1,
-    CanMove = 1,
+   -- CanMove = 1,
     CanPatrol = 0,
     --Building
     Builder = true,
@@ -67,7 +72,10 @@ local unitDef  =  {
     collisionVolumeOffsets    =  "0 0 -7.5",
     collisionVolumeScales     =  "170 98 175",
     collisionVolumeType       =  "box",
-	YardMap ="oooooooo oooooooo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo yyyyyyyy",
+	YardMap = "oooooooo oooooooo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo oyyyyyyo yyyyyyyy",
+   -- YardMap = "oooooooooooooo oooooooooooooo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo oyyyyyyyyyyyyo yyyyyyyyyyyyyy",
+
+
     --Weapons and related
 	explodeAs = [[FactoryExplosion]],
 	selfDestructAs = [[FactoryExplosion]],
