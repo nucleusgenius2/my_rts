@@ -93,6 +93,8 @@ local unitDef  =  {
         techlevel = 2,
         modelradius = 20,
 
+        minattackrange = 200,
+
         --для меню
         mass = 75,
         energy = 75,

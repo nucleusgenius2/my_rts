@@ -81,7 +81,6 @@ end
 
 
 function script.Create()
- Spring.Echo("2222")
     Spin(Van_1, z_axis, math.rad(16))
     Spin(Van_2, z_axis,  math.rad(16))
     Spin(Van_3, z_axis,  math.rad(16))

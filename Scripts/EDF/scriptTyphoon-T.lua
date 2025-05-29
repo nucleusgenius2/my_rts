@@ -76,6 +76,33 @@ function script.StopMoving()
 end
 
 
+local minRange = 200 -- минимальный ренж стрельбы по юнитам
+--рабочий мни ренж
+function script.BlockShot(weaponID, targetID, userTarget)
+    if not minRange then return false end
+
+    local distance
+
+    if targetID then
+        distance = Spring.GetUnitSeparation(unitID, targetID, true)
+    elseif userTarget then
+        local cmds = Spring.GetUnitCommands(unitID, 1)
+        local cmd = cmds[1]
+        if cmd and cmd.id == CMD.ATTACK and #cmd.params >= 3 then
+            local tx, ty, tz = unpack(cmd.params)
+            local ux, uy, uz = Spring.GetUnitPosition(unitID)
+            local dx, dy, dz = tx - ux, ty - uy, tz - uz
+            distance = math.sqrt(dx*dx + dy*dy + dz*dz)
+        end
+    end
+
+    if distance and distance < minRange then
+        return true -- блокировать выстрел
+    end
+
+    return false -- разрешить
+end
+
 -----------------------------------------------------------------------
 --  Гибель
 -----------------------------------------------------------------------
