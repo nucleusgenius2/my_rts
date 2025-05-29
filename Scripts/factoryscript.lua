@@ -11,10 +11,10 @@ local isbuilding = true
 Spring.SetUnitNanoPieces(unitID, { Flare })
 
 local function Building()
-while (isbuilding == true) do
-EmitSfx(Flare, buildermuzzleflash)
-Sleep(100)
-end
+    while (isbuilding == true) do
+        EmitSfx(Flare, buildermuzzleflash)
+        Sleep(100)
+    end
 end
 
 function script.Create()

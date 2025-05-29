@@ -76,8 +76,7 @@ local unitDef  =  {
 
     weapons = {
         [1]={
-              name = "HunterWeapons",
-           -- name = "Typhoon-TWeapon",
+          name = "Typhoon-TWeapon",
             turret = true
         },
     },

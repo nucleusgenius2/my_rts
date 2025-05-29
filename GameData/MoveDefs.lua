@@ -10,13 +10,13 @@ local moveDefs 	=	 {
 	{
     	name =	"custom",
     	footprintX =	2,
-    	footprintZ =	3.5,
+    	footprintZ =	6,
     	maxWaterDepth =	20,
     	maxSlope =	40,
     },
     {
         name =	"size-2-4",
-        footprintX =	6,
+        footprintX =	3,
         footprintZ =	6,
         maxWaterDepth =	20,
         maxSlope =	40,

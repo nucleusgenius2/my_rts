@@ -12,7 +12,7 @@ function gadget:GetInfo()
 		author    = "GoogleFrog", -- v1 CarReparier & GoogleFrog
 		date      = "2018-11-30", -- v1 2009-11-27
 		license   = "GNU GPL, v2 or later",
-		layer     = -1,
+		layer     = 1,
 		enabled   = true,
 	}
 end

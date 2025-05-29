@@ -7,45 +7,44 @@ local Turret      = piece "Turret"
 local TurretMGun  = piece "TurretMGun"
 local Flare       = piece "Flare_3"
 
-local AIM_SPEED     = 4.0      -- рад/с
+local Wheel_1     = piece "Wheel_1"
+local Wheel_2     = piece "Wheel_2"
+local Wheel_3     = piece "Wheel_3"
+local Wheel_4     = piece "Wheel_4"
+local Wheel_5     = piece "Wheel_5"
+local Wheel_6     = piece "Wheel_6"
+local Wheel_7     = piece "Wheel_7"
+local Wheel_8     = piece "Wheel_8"
+
+local wheels = {
+    Wheel_1, Wheel_2, Wheel_3, Wheel_4,
+    Wheel_5, Wheel_6, Wheel_7, Wheel_8
+}
+
+local AIM_SPEED     = 0.5      -- скорость поворота башни
 local RESTORE_DELAY = 2000     -- мс
 local SIG_AIM       = 1
+local SIG_TURN      = 2
 
 -----------------------------------------------------------------------
 --  Наведение и огонь
 -----------------------------------------------------------------------
+
 local function RestoreAfterDelay()
-    Spring.Echo("[Hunter] RestoreAfterDelay started")
     Sleep(RESTORE_DELAY)
-    Spring.Echo("[Hunter] Restoring turret angles")
     Turn(Turret,      y_axis, 0, AIM_SPEED)
     Turn(TurretMGun,  x_axis, 0, AIM_SPEED)
 end
 
 function script.AimFromWeapon1()
-    Spring.Echo("[Hunter] AimFromWeapon1 called")
     return Turret
 end
 
-function script.Create()
-    Spring.Echo("[Hunter] script.Create() called")
-    -- Лог всех объектов
-    Spring.Echo("[Hunter] Piece Check:")
-    Spring.Echo("  Base       =", tostring(Base))
-    Spring.Echo("  Body       =", tostring(Body))
-    Spring.Echo("  Turret     =", tostring(Turret))
-    Spring.Echo("  TurretMGun =", tostring(TurretMGun))
-    Spring.Echo("  Flare_3    =", tostring(Flare))
-end
-
-
 function script.QueryWeapon1()
-    Spring.Echo("[Hunter] QueryWeapon1 called")
     return Flare
 end
 
 function script.AimWeapon1(heading, pitch)
-    Spring.Echo(string.format("[Hunter] AimWeapon1: heading=%.2f pitch=%.2f", heading, pitch))
     Signal(SIG_AIM)
     SetSignalMask(SIG_AIM)
     Turn(Turret,     y_axis,  heading, AIM_SPEED)
@@ -56,15 +55,32 @@ function script.AimWeapon1(heading, pitch)
 end
 
 function script.FireWeapon1()
-    Spring.Echo("[Hunter] FireWeapon1 called")
     EmitSfx(Flare, 1024)
 end
+
+
+-----------------------------------------------------------------------
+--  Движение
+-----------------------------------------------------------------------
+
+function script.StartMoving()
+    for _, wheel in ipairs(wheels) do
+        Spin(wheel, x_axis, 10)
+    end
+end
+
+function script.StopMoving()
+    for _, wheel in ipairs(wheels) do
+        StopSpin(wheel, x_axis)
+    end
+end
+
 
 -----------------------------------------------------------------------
 --  Гибель
 -----------------------------------------------------------------------
+
 function script.Killed(dmg, maxHealth)
-    Spring.Echo(string.format("[Hunter] Killed: dmg=%.1f, max=%.1f", dmg, maxHealth))
     Explode(Body, SFX.SHATTER)
     return (dmg / maxHealth <= 0.33) and 1 or 2
 end

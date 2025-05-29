@@ -1,8 +1,8 @@
 local unitName  =  "commander"
 
 local unitDef  =  {
---Internal settings
-BuildPic = "filename.png",
+    --Internal settings
+    BuildPic = "filename.png",
     Category = "TANK SMALL NOTAIR NOTSUB HOVER",
     ObjectName = "Commander.s3o",
     name = "Commander",
@@ -11,7 +11,7 @@ BuildPic = "filename.png",
     UnitName = "Commander",
     script = "commanderscript.lua",
 	icontype = "commander",
---Unit limitations and properties
+    --Unit limitations and properties
     Description = "Commander, Make sure not to lose it!",
     MaxDamage = 3750,
     idleTime = 0,
@@ -23,17 +23,17 @@ BuildPic = "filename.png",
     Upright = 0,
 	corpse = [[commander_dead]],
 	sfxtypes             = {
-	explosionGenerators = {
-	[[custom:buildermuzzleflash]],
+	    explosionGenerators = {
+	    [[custom:buildermuzzleflash]],
 	},
    },
---Energy and metal related
+    --Energy and metal related
     BuildCostEnergy = 1000,
     BuildCostMetal = 1000,
     energyMake = 6,
 	metalMake = 2,
 	commander = true,
---Pathfinding and related
+    --Pathfinding and related
     maxAcc = 0.25,
     BrakeRate = 0.1,
     FootprintX = 4,
@@ -46,7 +46,7 @@ BuildPic = "filename.png",
 	waterline = 5,
 
     
---Abilities
+    --Abilities
     CanAttack = 1,
     CanGuard = 1,
     CanMove = 1,
@@ -79,7 +79,7 @@ buildoptions =
 	[[fusionreactor]],
 	[[storage]],
 	[[groundfactory]],
-	[[groundfactory2]],
+	[[armoredplantrech2edf]],
 	[[hoverfactory]],
 	[[airfactory]],
 	[[navalfactory]],

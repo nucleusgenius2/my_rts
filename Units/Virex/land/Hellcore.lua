@@ -1,20 +1,20 @@
-local unitName  =  "hunter"
+local unitName  =  "hellcore"
 
 local unitDef  =  {
     --Внутренние настройки
     BuildPic = "Hunter.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
-    ObjectName = "EDF/Hunter.dae",
+    ObjectName = "Virex/Hellcore.dae",
 
-    name = "Охотник 2",
+    name = "hellcore",
     Side = "Vroomers",
     TEDClass = "Vech",
-    UnitName = "Охотник",
+    UnitName = "арта",
     script = "hunterscript.lua",
 	icontype = "raider",
     --Ограничения и свойства блока
     BuildTime = 1280,
-    Description = "Быстрый юнит рейдер.",
+    Description = "арта",
     MaxDamage = 320,
     idleTime = 300,
     idleAutoHeal = 5,
@@ -108,12 +108,6 @@ local unitDef  =  {
         energy = 75,
         buildtime = 75,
 
-        --гусеницы
-        normaltex = "hunter_normal.png",
-        trackshader = 'trackShader',
-        tankvel = 1.0,
-        turnrate = 0.0,
-        trackwidth = 0.1 --процент от верха текстуры
     }
 }
 

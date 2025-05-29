@@ -6,8 +6,8 @@ local weaponDef={
     Accuracy=2000,
 
     --Physic/flight path
-
-    range=270,
+    trajectoryHeight = 1.2, --баллистическая траектория
+    range=800,
     reloadtime=3.25,
     weaponVelocity=400,
     startVelocity=150,

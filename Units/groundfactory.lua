@@ -2,7 +2,7 @@ local unitName  =  "groundfactory"
 
 local unitDef  =  {
 --Internal settings
-BuildPic = "Factory.png",
+    BuildPic = "Factory.png",
     Category = "TANK SMALL NOTAIR NOTSUB",
     ObjectName = "Factory.s3o",
     name = "Ground Factory",
@@ -12,7 +12,7 @@ BuildPic = "Factory.png",
     script = "factoryscript.lua",
 	corpse = [[groundfactory_dead]],
 	icontype = "buildinglandfactory",
---Unit limitations and properties
+    --Unit limitations and properties
     Description = "Makes ground units.",
     MaxDamage = 3500,
     idleTime = 0,
